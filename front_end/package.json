@@ -1,0 +1,32 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "proxy": "http://localhost:2000",
+  "private": true,
+  "dependencies": {
+    "@curi/react-dom": "^1.2.1",
+    "@curi/router": "^1.1.1",
+    "@hickory/browser": "^1.0.2",
+    "ajv": "^6.10.0",
+    "cross-fetch": "^3.0.2",
+    "http-proxy-middleware": "^0.19.1",
+    "react": "^16.8.6",
+    "react-bootstrap": "^0.32.4",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "^3.0.1",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "bootstrap": "^4.3.1"
+  }
+}

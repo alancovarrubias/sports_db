@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "route": "/nba",
+      "address": "http://localhost:3001"
+    },
+    {
+      "route": "/mlb",
+      "address": "http://localhost:3002"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+.container-fluid {
+  height: 100vh;
+}
+td {
+  cursor: pointer;
+}
+h1 {
+  text-align: center;
+}
+p {
+  margin: 0;
+  padding: 0;
+}

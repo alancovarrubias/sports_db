@@ -4,49 +4,48 @@ import { fetchGames, selectPeriod } from '../actions'
 import GamesIndex from '../components/games/Index'
 
 class Games extends Component {
-  constructor(props) {
-    super(props);
-    this.rowClick = this.rowClick.bind(this);
-  }
-
   componentDidMount() {
-    this.seasonId = this.props.response.params.seasonId;
-    this.props.dispatch(fetchGames(this.seasonId));
+    const { dispatch, match } = this.props;
+    this.season = match.params.season;
+    dispatch(fetchGames(this.season));
   }
   
   componentWillReceiveProps(props) {
-    const seasonId = props.response.params.seasonId;
-    if (this.seasonId !== seasonId) {
+    const season = props.match.params.season;
+    if (this.season !== season) {
       this.componentDidMount();
     }
   }
 
-  rowClick(game) {
-    const { router } = this.props;
-    router.navigate({ name: "Game", params: { seasonId: this.seasonId, gameId: game.id } });
+  rowClick = game => {
+    const { history } = this.props;
+    history.push(`/seasons/${this.season}/games/${game.id}`);
   }
   
 
   render() {
-    return <GamesIndex {...this.props} rowClick={this.rowClick} rangeChange={this.rangeChange} />;
+    return (
+      <GamesIndex {...this.props} rowClick={this.rowClick} rangeChange={this.rangeChange} />
+    );
   }
 }
 
-function mapStateToProps(state) {
-  const { season, games, period, range } = state;
+const mapStateToProps = state => {
+  const { season, games, period, range, sport } = state;
   return {
     season,
     games,
     period,
-    range
+    range,
+    sport,
   };
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
     dispatch,
     selectPeriod: (event) => dispatch(selectPeriod(event.target.value)),
-    changeRange: (event) => console.log(event.target.value)
+    changeRange: (event) => console.log(event.target.value),
   };
 }
 

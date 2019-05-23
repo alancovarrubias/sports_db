@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { fetchSeasons } from '../actions';
 import SeasonIndex from '../components/seasons/Index';
 
 class Seasons extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchSeasons());
+  }
+
   rowClick = season => {
-    const { router } = this.props;
-    router.navigate({ name: "Games", params: { seasonId: season.id } });
+    const { history } = this.props;
+    history.push(`/seasons/${season.id}/games`);
   }
 
   render() {
@@ -13,10 +19,11 @@ class Seasons extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { seasons } = state;
+const mapStateToProps = state => {
+  const { seasons, sport } = state;
   return {
-    seasons
+    seasons,
+    sport,
   };
 }
 

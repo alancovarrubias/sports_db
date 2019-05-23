@@ -4,9 +4,6 @@
   "proxy": "http://localhost:2000",
   "private": true,
   "dependencies": {
-    "@curi/react-dom": "^1.2.1",
-    "@curi/router": "^1.1.1",
-    "@hickory/browser": "^1.0.2",
     "ajv": "^6.10.0",
     "cross-fetch": "^3.0.2",
     "http-proxy-middleware": "^0.19.1",
@@ -28,5 +25,17 @@
   },
   "devDependencies": {
     "bootstrap": "^4.3.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

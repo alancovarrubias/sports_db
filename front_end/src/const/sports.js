@@ -1,2 +1,3 @@
-export const NBA = 'NBA';
-export const MLB = 'MLB';
+export const NBA = 'nba';
+export const MLB = 'mlb';
+export const SPORTS = [NBA, MLB];

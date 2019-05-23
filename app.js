@@ -19,5 +19,5 @@ for (route of routes) {
 }
 
 app.listen(2000, () => {
-      console.log('Proxy listening on port 2000');
+  console.log('Proxy listening on port 2000');
 });

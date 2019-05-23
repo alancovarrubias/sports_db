@@ -1,30 +1,30 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import Table from '../common/Table';
-import './Show.css';
-import { Link } from '@curi/react-dom';
-// import { PERIODS } from "../../const/periods";
+import { Link } from 'react-router-dom';
 
-const Show = ({ season, game, period }) => {
-  const away_team = game.away_team || { players: {} }
-  const home_team = game.home_team || { players: {} }
-  const away_players = away_team.players[period] || []
-  const home_players = home_team.players[period] || []
-  const seasonId = season.id || "1"
-  const headers = [
-    { width: "16%", text: "Name" },
-    "MP", "FGM", "FGA", "THPM", "THPA", "FTM", "FTA", "ORB", "DRB", "AST", "STL", "BLK", "TOV", "PF", "PTS", "ORTG", "DRTG"
-  ]
-  const keys = ["name", "mp", "fgm", "fga", "thpm", "thpa", "ftm", "fta", "orb", "drb", "ast", "stl", "blk", "tov", "pf", "pts", "ortg", "drtg"]
-  const away_table = <Table headers={headers} keys={keys} rows={away_players} maxHeight="300px"/>
-  const home_table = <Table headers={headers} keys={keys} rows={home_players} maxHeight="300px"/>
+// Stylesheet
+import './Show.css';
+
+// Components
+import Table from '../common/Table';
+
+// Constants
+import {HEADERS, KEYS} from '../../const/games/show';
+
+const Show = ({ season, game, period, sport, rowClick }) => {
+  const away_team = game.away_team || { players: {} };
+  const home_team = game.home_team || { players: {} };
+  const away_players = away_team.players[period] || [];
+  const home_players = home_team.players[period] || [];
+  const away_table = <Table headers={HEADERS} keys={KEYS} rows={away_players} maxHeight="300px" rowClick={rowClick} />
+  const home_table = <Table headers={HEADERS} keys={KEYS} rows={home_players} maxHeight="300px" rowClick={rowClick} />
   // const options = Object.keys(PERIODS).map(period => <option key={period} value={period}>{PERIODS[period]}</option>);
   return (
         <div className="game-show">
           <Row>
             <Col lg={12}>
               <div>
-                <Link to="Games" params={{ seasonId }}>{season.year} Games</Link>
+                <Link to={`/seasons/${season.id}/games`}>{season.year} {sport.toUpperCase()} Games</Link>
               </div>
               <h1>{away_team.name} @ {home_team.name}</h1>
             </Col>

@@ -4,10 +4,12 @@ import {
   RECEIVE_GAMES,
   RECEIVE_GAME,
   SELECT_SEASON,
-  SELECT_PERIOD
+  SELECT_PERIOD,
+  TOGGLE_SPORT,
 } from '../actions'
+import { NBA } from '../const';
 
-function seasons(state = [], action) {
+const seasons = (state = [], action) => {
   switch (action.type) {
     case RECEIVE_SEASONS:
       return action.seasons;
@@ -16,7 +18,7 @@ function seasons(state = [], action) {
   }
 }
 
-function season(state = {}, action) {
+const season = (state = {}, action) => {
   switch (action.type) {
     case SELECT_SEASON:
       return action.season;
@@ -25,7 +27,7 @@ function season(state = {}, action) {
   }
 }
 
-function games(state = {}, action) {
+const games = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_GAMES:
       return action.games;
@@ -34,7 +36,7 @@ function games(state = {}, action) {
   }
 }
 
-function period(state = 0, action) {
+const period = (state = 0, action) => {
   switch (action.type) {
     case SELECT_PERIOD:
       return action.period;
@@ -43,7 +45,7 @@ function period(state = 0, action) {
   }
 }
 
-function game(state = {}, action) {
+const game = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_GAME:
       return action.game;
@@ -52,7 +54,17 @@ function game(state = {}, action) {
   }
 }
 
+const sport = (state = NBA, action) => {
+  switch (action.type) {
+    case TOGGLE_SPORT:
+      return action.sport;
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
+  sport,
   seasons,
   games,
   season,
@@ -60,4 +72,4 @@ const rootReducer = combineReducers({
   period,
 })
 
-export default rootReducer
+export default rootReducer;

@@ -1,52 +1,55 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { selectPeriod } from '../actions'
-import NavbarComponent from '../components/navbar/Navbar'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { SPORTS } from '../const';
+import { toggleSport, selectPeriod } from '../actions';
+import NavbarComponent from '../components/navbar/Navbar';
 
 class Navbar extends Component {
-  constructor(props) {
-    super(props);
-    this.brandClick = this.brandClick.bind(this);
-    this.gameClick = this.gameClick.bind(this);
+  brandClick = () => {
+    const { history } = this.props;
+    history.push('/seasons');
   }
 
-  brandClick() {
-    const { router } = this.props;
-    router.navigate({ name: "Seasons" });
-  }
-
-  gameClick(season) {
-    const { router } = this.props;
-    router.navigate({ name: "Games", params: { seasonId: season.id } });
+  gamesClick = season => {
+    const { history } = this.props;
+    history.push(`/seasons/${season.id}/games`);
   }
 
   render() {
-    const links = this.props.seasons.map(season => {
-      const id = season.id;
-      const text = season.year;
-      const data = season;
-      return {
-        id,
-        text,
-        data
-      };
-    });
-    const dropdown = { title: "Games", links };
-    return (<NavbarComponent {...this.props} brand="NBA Database" dropdown={dropdown} brandClick={this.brandClick} gameClick={this.gameClick}/>);
+    return (
+      <NavbarComponent {...this.props} brandClick={this.brandClick} gamesClick={this.gamesClick}/>
+    );
   }
 }
 
-function mapStateToProps(state) {
-  const { seasons, period } = state;
+const mapStateToProps = state => {
+  const { seasons, period, sport } = state;
+  const gamesLinks = seasons.map(season => ({
+    id: season.id,
+    text: season.year,
+    data: season,
+  }));
+  const gamesDropdown = { title: "Seasons", links: gamesLinks };
+  const sportsLinks = SPORTS.map((sport, index) => ({
+    id: index,
+    text: sport.toUpperCase(),
+    data: sport,
+  }));
+  const sportsDropdown = { title: "Sports", links: sportsLinks };
   return {
     seasons,
-    period
+    period,
+    sport,
+    gamesDropdown,
+    sportsDropdown,
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
-    selectPeriod: (event) => dispatch(selectPeriod(event.target.value))
+    selectPeriod: event => dispatch(selectPeriod(event.target.value)),
+    sportsClick: sport => dispatch(toggleSport(sport)),
   };
 }
 

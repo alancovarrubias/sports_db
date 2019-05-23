@@ -1,23 +1,15 @@
-import React, { Component } from 'react'
-import { Provider } from 'react-redux'
-import { Router, Switch, Route } from 'react-router'
-import configureStore from '../configureStore'
-import { fetchSeasons } from '../actions'
+import React from 'react';
+import { Provider } from 'react-redux';
 
-import routes from '../routes'
-import Layout from './Layout';
+import Routes from '../Routes';
+import configureStore from '../configureStore';
 
 const store = configureStore();
 
-export default class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Router>
-          <Switch>
-          </Switch>
-        </Router>
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <Routes />
+  </Provider>
+);
+
+export default App;

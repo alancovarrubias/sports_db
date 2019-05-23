@@ -1,91 +1,85 @@
 import fetch from 'cross-fetch';
-
-export const RECEIVE_SEASONS = 'RECEIVE_SEASONS'
-export function receiveSeasons(seasons) {
+export const TOGGLE_SPORT = 'TOGGLE_SPORT';
+export const toggleSport = sport => {
   return {
-    type: RECEIVE_SEASONS,
-    seasons
+    type: TOGGLE_SPORT,
+    sport,
   };
 }
 
-export function fetchSeasons() {
-  return function(dispatch) {
-    return fetch('/nba/seasons').then(
-      async response => {
-        console.log(response)
-        return await response.json()
-      },
-      error => console.log(error)
-    ).then(
-      json => {
-        console.log(json)
-        return dispatch(receiveSeasons(json.seasons))
-      }
-    );
+export const RECEIVE_SEASONS = 'RECEIVE_SEASONS';
+export const receiveSeasons = seasons => {
+  return {
+    type: RECEIVE_SEASONS,
+    seasons,
+  };
+}
+
+export const fetchSeasons = () => {
+  return async (dispatch, getState) => {
+    const sport = getState().sport;
+    const response = await fetch(`/${sport}/seasons`);
+    const json = await response.json();
+    dispatch(receiveSeasons(json.seasons));
   }
 }
 
 export const RECEIVE_GAMES = 'RECEIVE_GAMES'
-export function receiveGames(games) {
+export const receiveGames = games => {
   return {
     type: RECEIVE_GAMES,
-    games: games
+    games,
   };
 }
 
-export function fetchGames(seasonId) {
-  return function(dispatch) {
-    return fetch(`/api/seasons/${seasonId}/games`).then(
-      async response => await response.json(),
-      error => console.log(error)
-    ).then(
-      json => {
-        dispatch(receiveGames(json.games))
-        dispatch(selectSeason(json.season))
-      }
-    );
+export const fetchGames = season => {
+  return async (dispatch, getState) => {
+    const sport = getState().sport;
+    const response = await fetch(`/${sport}/seasons/${season}/games`);
+    const json = await response.json();
+    dispatch(receiveGames(json.games));
+    dispatch(selectSeason(json.season));
   }
 }
 
 export const RECEIVE_GAME = 'RECEIVE_GAME'
-export function receiveGame(game) {
+export const receiveGame = (game) => {
   return {
     type: RECEIVE_GAME,
     game
   };
 }
 
-export function fetchGame(seasonId, gameId) {
-  return function(dispatch) {
-    return fetch(`/api/seasons/${seasonId}/games/${gameId}.json`).then(
-      async response => await response.json(),
-      error => console.log(error)
-    ).then(
-      json => {
-        dispatch(selectSeason(json.season))
-        dispatch(receiveGame(json.game))
-      }
-    );
+export const fetchGame = (season, game) => {
+  return async (dispatch, getState) => {
+    const sport = getState().sport;
+    const response = await fetch(`/${sport}/seasons/${season}/games/${game}`)
+    const json = await response.json();
+    dispatch(selectSeason(json.season))
+    dispatch(receiveGame(json.game))
   }
 }
 
 export const SELECT_SEASON = 'SELECT_SEASON'
-export function selectSeason(season) {
+export const selectSeason = season => {
   return {
     type: SELECT_SEASON,
-    season
+    season,
   };
 }
 
 export const SELECT_PERIOD = 'SELECT_PERIOD'
-export function selectPeriod(period) {
+export const selectPeriod = period => {
   return {
     type: SELECT_PERIOD,
-    period
+    period,
   };
 }
 
 export const NAVIGATE_GAME = 'NAVIGATE_GAME'
-export function navigateGame(game) {
-  return game;
+export const navigateGame = game => {
+  return {
+    type: NAVIGATE_GAME,
+    game,
+  };
 }

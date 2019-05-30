@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
+// const
+import { HEADERS, ROW_DATA } from '../../../const/games/index/bet_rows';
+
 const BetComponent = ({ bets, range, rangeChange, calculate }) => {
-  const headers = ["", "Wins", "Losses", "Win Percentage",  "Skipped Bets"];
-  const rowData = [{ text: "Spread", value: "spread" }, { text: "Total", value: "total" }];;
-  const rows = rowData.map((data, index) => {
+  const rows = ROW_DATA.map((data, index) => {
     const wins = bets[data.value].wins;
     const losses = bets[data.value].losses;
     const total = wins + losses;
@@ -38,7 +39,7 @@ const BetComponent = ({ bets, range, rangeChange, calculate }) => {
           <table className="table table-bordered table-condensed">
             <thead>
               <tr>
-                {headers.map((header, index) => <th key={index}>{header}</th>)}
+                {HEADERS.map((header, index) => <th key={index}>{header}</th>)}
               </tr>
             </thead>
             <tbody>

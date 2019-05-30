@@ -1,17 +1,18 @@
 class GamesController < ApiController
+  PERIODS = [0]
   before_action :set_game, only: [:show, :update, :destroy]
+  before_action :set_season
 
   # GET /games
   def index
     @season = Season.find(params[:season_id])
-    @games = @season.games.where("date < ?", Date.today)
-
-    render json: { games: @games, season: @season }
+    @games = @season.games.where("date < ?", Date.today).order(:date, :home_team_id).map(&:index_data)
+    render json: { season: @season, games: @games }
   end
 
   # GET /games/1
   def show
-    render json: @game
+    render json: { season: @season, game: @game.show_data }
   end
 
   # POST /games
@@ -43,6 +44,10 @@ class GamesController < ApiController
     # Use callbacks to share common setup or constraints between actions.
     def set_game
       @game = Game.find(params[:id])
+    end
+
+    def set_season
+      @season = Season.find(params[:season_id])
     end
 
     # Only allow a trusted parameter "white list" through.

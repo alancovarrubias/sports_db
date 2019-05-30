@@ -117,25 +117,35 @@ class Game < ApplicationRecord
     }
   end
 
-  def index_data(period)
-    hash = {}
-    hash[:id] = game.id
-    hash[:away_team] = game.away_team.name
-    hash[:home_team] = game.home_team.name
-    hash[:date] = game.date
-    bet = game.bets.find { |bet| period == bet.period && bet.desc == "old" }
-    if bet
-      hash[:away_pred] = bet.away_prediction ? bet.away_prediction.round(2) : "N/A"
-      hash[:home_pred] = bet.home_prediction ? bet.home_prediction.round(2) : "N/A"
-      hash[:away_score] = bet.away_score
-      hash[:home_score] = bet.home_score
+  def index_data
+    index_hash = {}
+    index_hash[:id] = game.id
+    index_hash[:away_team] = game.away_team.name
+    index_hash[:home_team] = game.home_team.name
+    index_hash[:date] = game.date
+    bets = {}
+    lines = {}
+    PERIODS.each do |period|
+      bet = game.bets.find { |bet| period == bet.period && bet.desc == "old" }
+      bets[period] = {}
+      if bet
+        period_bet = bets[period]
+        period_bet[:away_pred] = bet.away_prediction ? bet.away_prediction.round(2) : "N/A"
+        period_bet[:home_pred] = bet.home_prediction ? bet.home_prediction.round(2) : "N/A"
+        period_bet[:away_score] = bet.away_score
+        period_bet[:home_score] = bet.home_score
+      end
+      line = game.lines.find { |line| period == line.period }
+      lines[period] = {}
+      if line
+        period_line = lines[period]
+        period_line[:spread] = line.spread
+        period_line[:total] = line.total
+      end
     end
-    line = game.lines.find { |line| period == line.period }
-    if line
-      hash[:spread] = line.spread
-      hash[:total] = line.total
-    end
-    return hash
+    index_hash[:bets] = bets
+    index_hash[:lines] = lines
+    return index_hash
   end
 
   def url

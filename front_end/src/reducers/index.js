@@ -1,4 +1,5 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
+import { NBA, MLB } from '../const';
 import {
   RECEIVE_SEASONS,
   RECEIVE_GAMES,
@@ -6,8 +7,8 @@ import {
   SELECT_SEASON,
   SELECT_PERIOD,
   TOGGLE_SPORT,
-} from '../actions'
-import { NBA } from '../const';
+  CHANGE_RANGE,
+} from '../actions';
 
 const seasons = (state = [], action) => {
   switch (action.type) {
@@ -27,7 +28,7 @@ const season = (state = {}, action) => {
   }
 }
 
-const games = (state = {}, action) => {
+const games = (state = [], action) => {
   switch (action.type) {
     case RECEIVE_GAMES:
       return action.games;
@@ -54,10 +55,19 @@ const game = (state = {}, action) => {
   }
 }
 
-const sport = (state = NBA, action) => {
+const sport = (state = MLB, action) => {
   switch (action.type) {
     case TOGGLE_SPORT:
       return action.sport;
+    default:
+      return state;
+  }
+}
+
+const range = (state = 0, action) => {
+  switch (action.type) {
+    case CHANGE_RANGE:
+      return action.range;
     default:
       return state;
   }
@@ -70,6 +80,6 @@ const rootReducer = combineReducers({
   season,
   game,
   period,
-})
+});
 
 export default rootReducer;

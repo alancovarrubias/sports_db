@@ -1,7 +1,11 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { fetchGames, selectPeriod } from '../actions'
-import GamesIndex from '../components/games/Index'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  fetchGames,
+  selectPeriod,
+  changeRange,
+} from '../actions';
+import GamesIndex from '../components/games/Index';
 
 class Games extends Component {
   componentDidMount() {
@@ -32,9 +36,10 @@ class Games extends Component {
 
 const mapStateToProps = state => {
   const { season, games, period, range, sport } = state;
+  const rows = games.map(game => ({...game.bets[period], ...game.lines[period], ...game}));
   return {
     season,
-    games,
+    rows,
     period,
     range,
     sport,
@@ -45,7 +50,7 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatch,
     selectPeriod: (event) => dispatch(selectPeriod(event.target.value)),
-    changeRange: (event) => console.log(event.target.value),
+    changeRange: (event) => dispatch(changeRange(event.target.value)),
   };
 }
 

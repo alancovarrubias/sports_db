@@ -2,10 +2,12 @@ import React from 'react';
 import Dropdown from './Dropdown';
 import './Navbar.css'
 
+// const
 import { PERIODS } from '../../const/periods';
 
 const Navbar = ({ sport, brandClick, gamesDropdown, gamesClick, sportsDropdown, sportsClick, selectPeriod }) => {
-  const options = Object.keys(PERIODS).map(period => <option key={period} value={period}>{PERIODS[period]}</option>);
+  const periods = PERIODS[sport];
+  const options = Object.keys(periods).map(key => <option key={key} value={key}>{periods[key]}</option>);
   return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <a className="navbar-brand" onClick={brandClick}>{ sport.toUpperCase() } Database</a>

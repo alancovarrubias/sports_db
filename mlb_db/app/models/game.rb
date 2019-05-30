@@ -6,6 +6,8 @@ class Game < ApplicationRecord
   belongs_to :home_team, class_name: "Team", foreign_key: :home_team_id
   has_many :stats
 
+  PERIODS = [0]
+
   def date_id
     day = sprintf '%02d', date.day
     month = sprintf '%02d', date.month
@@ -24,10 +26,34 @@ class Game < ApplicationRecord
   end
 
   def pitcher_stats
-    stats.where(stat_type: "PITCHER")
+    stats.where(stat_type: 'PITCHER')
   end
 
-  def pitcher_stats
-    stats.where(stat_type: "PITCHER")
+  def batter_stats
+    stats.where(stat_type: 'BATTER')
+  end
+
+  def index_data
+    index_hash = {}
+    index_hash[:id] = self.id
+    index_hash[:away_team] = self.away_team.name
+    index_hash[:home_team] = self.home_team.name
+    index_hash[:date] = self.date
+    bets = {}
+    lines = {}
+    PERIODS.each do |period|
+      bets[period] = {}
+      lines[period] = {}
+    end
+    index_hash[:bets] = bets
+    index_hash[:lines] = lines
+    return index_hash
+  end
+
+  def show_data
+    return {
+      away_team: {},
+      home_team: {},
+    }
   end
 end

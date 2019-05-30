@@ -1,29 +1,15 @@
 class GamesController < ApiController
-  PERIODS = [0, 1, 2, 3, 4]
   before_action :set_game, only: [:show, :update, :destroy]
 
   # GET /games
   def index
     @season = Season.find(params[:season_id])
-    game_data = @season.games.where("date < ?", Date.today).preload(:bets, :lines).map do |game|
-      period_hash = {}
-      PERIODS.each do |period|
-        period_hash[period] = game.index_data(period)
-      end
-      period_hash
-    end
-    @games = {}
-    PERIODS.each do |period|
-      @games[period] = game_data.map { |data| data[period] }
-    end
-    @season = @season.as_json
-
+    @games = @season.games.where("date < ?", Date.today).preload(:bets, :lines).map(&:index_data)
     render json: { games: @games, season: @season }
   end
 
   # GET /games/1
   def show
-    game = Game.find(params[:id])
     render json: @game.show_data
   end
 

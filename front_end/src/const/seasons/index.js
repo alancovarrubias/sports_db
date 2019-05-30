@@ -1,2 +1,6 @@
-export const HEADERS = ["Year"];
-export const KEYS = ["year"];
+export const HEADERS = [
+  'Year',
+];
+export const KEYS = [
+  'year',
+];

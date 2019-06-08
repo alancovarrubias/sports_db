@@ -24,8 +24,9 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => {
-  const { seasons, period, sport } = state;
-  const gamesLinks = seasons.map(season => ({
+  const { sport } = state;
+  const { seasons, period } = state[sport];
+  const gamesLinks = seasons.order.map(id => seasons[id]).map(season => ({
     id: season.id,
     text: season.year,
     data: season,

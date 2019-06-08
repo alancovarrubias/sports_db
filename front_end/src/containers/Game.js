@@ -24,6 +24,8 @@ class Game extends Component {
 
 const mapStateToProps = state => {
   const { season, game, period, sport } = state;
+  const away_team = game.away_team;
+  const home_team = game.home_team;
   return {
     season,
     game,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSeasons } from '../actions';
+import { fetchSeasons, selectSeason } from '../actions';
 import SeasonIndex from '../components/seasons/Index';
 
 class Seasons extends Component {
@@ -20,9 +20,10 @@ class Seasons extends Component {
 }
 
 const mapStateToProps = state => {
-  const { seasons, sport } = state;
+  const { sport } = state;
+  const { seasons } = state[sport];
   return {
-    seasons,
+    seasons: seasons.order.map(id => seasons[id]),
     sport,
   };
 }

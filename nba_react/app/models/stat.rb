@@ -104,8 +104,8 @@ class Stat < ApplicationRecord
   end
 
   def method_missing(method, *args, &block)
-    @stat_proxy ||= Stats::Player.new(self, team_stat, opp_stat) if model_type == "Player"
-    @stat_proxy ||= Stats::Team.new(self, opp_stat) if model_type == "Team"
+    @stat_proxy ||= Stats::Player.new(self, team_stat, opp_stat) if model_type == 'Player'
+    @stat_proxy ||= Stats::Team.new(self, opp_stat) if model_type == 'Team'
     return @stat_proxy.send(method, *args)
   end
 end

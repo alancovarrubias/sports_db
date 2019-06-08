@@ -1,7 +1,8 @@
 class Season < ApplicationRecord
   validates :year, presence: true, uniqueness: true
 
-  has_many :teams
-  has_many :players
-  has_many :games
+  has_many :teams, -> { order(:name) }, dependent: :destroy
+  has_many :games, -> { includes(:season, :away_team, :home_team).order(:date) }, dependent: :destroy
+  has_many :players, -> { includes(:team).order(:name) }, dependent: :destroy
+  has_many :stats, dependent: :destroy
 end

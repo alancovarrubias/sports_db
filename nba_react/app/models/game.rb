@@ -1,22 +1,22 @@
 class Game < ApplicationRecord
   belongs_to :season
-  belongs_to :home_team, class_name: "Team"
-  belongs_to :away_team, class_name: "Team"
+  belongs_to :home_team, class_name: 'Team'
+  belongs_to :away_team, class_name: 'Team'
   has_many :stats, -> { includes(:player, :team).order(sp: :desc) }, dependent: :destroy
   has_many :bets
   has_many :lines
 
-  FIELDS = ["away", "home"]
-  MODELS = ["player", "team"]
+  FIELDS = ['away', 'home']
+  MODELS = ['player', 'team']
   PERIODS = [0, 1, 2, 3, 4]
-  TYPES = ["game", "season"]
+  TYPES = ['game', 'season']
 
   def teams
     return [self.away_team, self.home_team]
   end
   
   def prev_games
-    return Game.where(season: season).where("date < ?", self.date).order(date: :desc)
+    return Game.where(season: season).where('date < ?', self.date).order(date: :desc)
   end
 
   FIELDS.each do |field|
@@ -39,7 +39,7 @@ class Game < ApplicationRecord
   def latest_team_season_stats
     teams = season.teams
     return Hash[teams.map do |team|
-      stat = Stat.season_stats().where("game_id < ?", game.id).order("game_id DESC").first
+      stat = Stat.season_stats().where('game_id < ?', game.id).order('game_id DESC').first
       [team, stat]
     end]
   end
@@ -47,73 +47,64 @@ class Game < ApplicationRecord
   def latest_team_prev_stats(games_back)
     teams = season.teams
     return Hash[teams.map do |team|
-      stat = Stat.prev_stats(games_back).where("game_id < ?", game.id).order("game_id DESC").first
+      stat = Stat.prev_stats(games_back).where('game_id < ?', game.id).order('game_id DESC').first
       [team, stat]
     end]
   end
 
-  def period_stats(period=0)
-    stats.where(period: period)
+  def period_stats(period=nil)
+    period != nil ? stats.where(period: period) : stats
   end
 
-  def game_stats(period=0)
+  def game_stats(period=nil)
     period_stats(period).where(games_back: nil, season_stat: false)
   end
 
-  def season_stats(period=0)
+  def season_stats(period=nil)
     period_stats(period).where(season_stat: true)
   end
 
-  def prev_stats(num, period=0)
+  def prev_stats(num, period=nil)
     period_stats(period).where(season_stat: false, games_back: num)
   end
 
   MODELS.each do |model|
     query = { model_type: model.capitalize }
     TYPES.each do |type|
-      define_method("#{type}_#{model}_stats") do |period=0|
+      define_method("#{type}_#{model}_stats") do |period=nil|
         return self.send("#{type}_stats", period).where(query)
       end
-      define_method("prev_#{model}_stats") do |num, period=0|
-        return self.send("prev_stats", num, period).where(query)
+      define_method("prev_#{model}_stats") do |num, period=nil|
+        return self.send('prev_stats', num, period).where(query)
       end
       FIELDS.each do |field|
-        stat = model == "player" ? "stats" : "stat"
-        define_method("#{type}_#{field}_#{model}_#{stat}") do |period=0|
+        stat = model == 'player' ? 'stats' : 'stat'
+        define_method("#{type}_#{field}_#{model}_#{stat}") do |period=nil|
           stats = self.send("#{type}_#{model}_stats", period)
           team = self.send("#{field}_team_id")
-          return model == "player" ? stats.where(players: { team: team }) : stats.find_by(team: team)
+          return model == 'player' ? stats.where(players: { team: team }) : stats.find_by(team: team)
         end
-        define_method("prev_#{field}_#{model}_#{stat}") do |num, period=0|
+        define_method("prev_#{field}_#{model}_#{stat}") do |num, period=nil|
           stats = self.send("prev_#{model}_stats", num, period)
           team = self.send("#{field}_team")
-          return model == "player" ? stats.where(players: { team: team }) : stats.find_by(team: team)
+          return model == 'player' ? stats.where(players: { team: team }) : stats.find_by(team: team)
         end
       end
     end
   end
 
   def show_data
-    away_team_name = self.away_team.name
-    home_team_name = self.home_team.name
-    away_players = {}
-    home_players = {}
-    PERIODS.each do |period|
-      away_players[period] = self.game_away_player_stats(period).map(&:stat_hash)
-      home_players[period] = self.game_home_player_stats(period).map(&:stat_hash)
-    end
     return {
       season: { id: season.id, year: season.year },
       game: {
-          away_team: {
-          name: away_team_name,
-          players: away_players
-        },
-        home_team: {
-          name: home_team_name,
-          players: home_players
-        }
-      }
+        id: self.id,
+        away_team: self.away_team,
+        away_players: self.away_team.players,
+        away_stats: self.game_away_player_stats,
+        home_team: self.home_team,
+        home_players: self.home_team.players,
+        home_stats: self.game_home_player_stats,
+      },
     }
   end
 
@@ -126,12 +117,12 @@ class Game < ApplicationRecord
     bets = {}
     lines = {}
     PERIODS.each do |period|
-      bet = game.bets.find { |bet| period == bet.period && bet.desc == "old" }
+      bet = game.bets.find { |bet| period == bet.period && bet.desc == 'old' }
       bets[period] = {}
       if bet
         period_bet = bets[period]
-        period_bet[:away_pred] = bet.away_prediction ? bet.away_prediction.round(2) : "N/A"
-        period_bet[:home_pred] = bet.home_prediction ? bet.home_prediction.round(2) : "N/A"
+        period_bet[:away_pred] = bet.away_prediction ? bet.away_prediction.round(2) : 'N/A'
+        period_bet[:home_pred] = bet.home_prediction ? bet.home_prediction.round(2) : 'N/A'
         period_bet[:away_score] = bet.away_score
         period_bet[:home_score] = bet.home_score
       end

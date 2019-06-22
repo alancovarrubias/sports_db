@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { SPORTS } from '../const';
-import { toggleSport, selectPeriod } from '../actions';
+import { toggleSport, selectPeriod, fetchData } from '../actions';
 import NavbarComponent from '../components/navbar/Navbar';
 
 class Navbar extends Component {
+  componentDidMount() {
+    this.props.fetchData();
+  }
   brandClick = () => {
     const { history } = this.props;
     history.push('/seasons');
@@ -50,7 +53,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     selectPeriod: event => dispatch(selectPeriod(event.target.value)),
-    sportsClick: sport => dispatch(toggleSport(sport)),
+    selectSport: sport => dispatch(toggleSport(sport)),
+    fetchData: () => dispatch(fetchData()),
   };
 }
 

@@ -1,11 +1,14 @@
 import fetch from 'cross-fetch';
 import { normalize, schema } from 'normalizr';
+
 import { NBA, MLB } from '../const/sports';
 import {
-  receiveNbaSeasons,
-} from './'
+  receiveSeasons,
+  receiveGames,
+  selectSeason,
+} from './';
 
-export const fetchSeasons = () => async (dispatch, getState) => {
+const fetchSeasons = () => async (dispatch, getState) => {
   const sport = getState().sport;
   const response = await fetch(`/${sport}/seasons`);
   const json = await response.json();
@@ -15,18 +18,10 @@ export const fetchSeasons = () => async (dispatch, getState) => {
   });
   const normalizedData = normalize(json, request).entities;
   const seasons = normalizedData.seasons;
-  const order = normalizedData.request[NBA].seasons
-  switch (sport) {
-    case NBA:
-      dispatch(receiveNbaSeasons({ order, ...seasons }));
-      break;
-    case MLB:
-      console.log('mlb');
-      break;
-  }
+  const order = normalizedData.request[sport].seasons
+  dispatch(receiveSeasons({ order, ...seasons }));
 };
 
-/*
 export const fetchGames = season => async (dispatch, getState) => {
   const sport = getState().sport;
   const response = await fetch(`/${sport}/seasons/${season}/games`);
@@ -35,6 +30,7 @@ export const fetchGames = season => async (dispatch, getState) => {
   dispatch(selectSeason(json.season));
 }
 
+/*
 export const fetchGame = (season, game) => async (dispatch, getState) => {
   const sport = getState().sport;
   const response = await fetch(`/${sport}/seasons/${season}/games/${game}`)
@@ -55,3 +51,8 @@ export const fetchGame = (season, game) => async (dispatch, getState) => {
   dispatch(receiveGame(json.game))
 };
 */
+
+export const fetchData = () => async (dispatch, getState) => {
+  dispatch(fetchSeasons());
+  dispatch(fetchGames());
+};

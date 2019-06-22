@@ -1,12 +1,12 @@
-export const RECEIVE_NBA_SEASONS = 'RECEIVE_NBA_SEASONS';
-export const receiveNbaSeasons = seasons => ({
-  type: RECEIVE_NBA_SEASONS,
+export const RECEIVE_SEASONS = 'RECEIVE_SEASONS';
+export const receiveSeasons = seasons => ({
+  type: RECEIVE_SEASONS,
   seasons,
 });
 
-export const SELECT_NBA_SEASON = 'SELECT_NBA_SEASON';
+export const SELECT_SEASON = 'SELECT_SEASON';
 export const selectNbaSeason = selectedSeason => ({
-  type: SELECT_NBA_SEASON,
+  type: SELECT_SEASON,
   selectedSeason,
 });
 

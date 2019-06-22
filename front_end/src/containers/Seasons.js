@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSeasons, selectSeason } from '../actions';
+import { selectSeason } from '../actions';
 import SeasonIndex from '../components/seasons/Index';
 
 class Seasons extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchSeasons());
-  }
-
   rowClick = season => {
     const { history } = this.props;
     history.push(`/seasons/${season.id}/games`);

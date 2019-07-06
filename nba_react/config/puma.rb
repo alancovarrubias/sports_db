@@ -4,7 +4,7 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum, this matches the default thread size of Active Record.
 #
-threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i
+threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests, default is 3000.
@@ -37,8 +37,6 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # process is booted this block will be run, if you are using `preload_app!`
 # option you will want to use this block to reconnect to any threads
 # or connections that may have been created at application boot, Ruby
-require 'erb'
-# cannot share connections between processes.
 #
 # on_worker_boot do
 #   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
@@ -46,32 +44,3 @@ require 'erb'
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
-# Change to match your CPU core count
-workers 2
-
-# Min and Max threads per worker
-threads 1, 6
-
-app_dir = File.expand_path("../..", __FILE__)
-shared_dir = "#{app_dir}/shared"
-
-# Default to production
-rails_env = ENV['RAILS_ENV'] || "production"
-environment rails_env
-
-# Set up socket location
-bind "unix://#{shared_dir}/sockets/puma.sock"
-
-# Logging
-stdout_redirect "#{shared_dir}/log/puma.stdout.log", "#{shared_dir}/log/puma.stderr.log", true
-
-# Set master PID and state locations
-pidfile "#{shared_dir}/pids/puma.pid"
-state_path "#{shared_dir}/pids/puma.state"
-activate_control_app
-
-on_worker_boot do
-  require "active_record"
-  ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
-  ActiveRecord::Base.establish_connection(YAML.load( ERB.new( File.read( "#{app_dir}/config/database.yml" )).result)[rails_env])
-end

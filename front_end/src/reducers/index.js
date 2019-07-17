@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import nbaReducer from './nba';
-import mlbReducer from './mlb';
+import databaseReducer from './database';
+import { namespaceReducerFactory } from '../helpers/namespace-module';
 import { NBA, MLB } from '../const/sports';
 import { TOGGLE_SPORT } from '../actions';
 
@@ -12,6 +12,9 @@ const sport = (state = NBA, action) => {
       return state;
   }
 }
+
+const mlbReducer = namespaceReducerFactory(MLB)(databaseReducer);
+const nbaReducer = namespaceReducerFactory(NBA)(databaseReducer);
 
 const rootReducer = combineReducers({
   [NBA]: nbaReducer,

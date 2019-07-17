@@ -6,6 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 #
-builder = Database::Builder.new(2016)
-builder.run(stats: true)
+builder = Database::Builder.new(2018)
+builder.run
 

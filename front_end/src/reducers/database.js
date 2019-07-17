@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import {
-  RECEIVE_NBA_SEASONS,
-  SELECT_NBA_SEASON,
+  RECEIVE_SEASONS,
+  RECEIVE_GAMES,
+  RECEIVE_GAME,
   SELECT_SEASON,
   SELECT_PERIOD,
   TOGGLE_SPORT,
@@ -10,32 +11,30 @@ import {
 
 const seasons = (state = { order: [] }, action) => {
   switch (action.type) {
-    case RECEIVE_NBA_SEASONS:
+    case RECEIVE_SEASONS:
       return action.seasons;
     default:
       return state;
   }
 }
 
-const selectedSeason = (state = null, action) => {
+const season = (state = {}, action) => {
   switch (action.type) {
-    case SELECT_NBA_SEASON:
-      return action.selectedSeason;
+    case SELECT_SEASON:
+      return action.season;
     default:
       return state;
   }
 }
 
-/*
-const games = (state = {}, action) => {
+const games = (state = [], action) => {
   switch (action.type) {
-    case RECEIVE_NBA_GAMES:
+    case RECEIVE_GAMES:
       return action.games;
     default:
       return state;
   }
 }
-*/
 
 const period = (state = 0, action) => {
   switch (action.type) {
@@ -46,6 +45,16 @@ const period = (state = 0, action) => {
   }
 }
 
+const game = (state = {}, action) => {
+  switch (action.type) {
+    case RECEIVE_GAME:
+      return action.game;
+    default:
+      return state;
+  }
+}
+
+
 const range = (state = 0, action) => {
   switch (action.type) {
     case CHANGE_RANGE:
@@ -55,10 +64,12 @@ const range = (state = 0, action) => {
   }
 }
 
-const nbaReducer = combineReducers({
+const databaseReducer = combineReducers({
   seasons,
-  selectedSeason,
+  games,
+  season,
+  game,
   period,
 });
 
-export default nbaReducer;
+export default databaseReducer;

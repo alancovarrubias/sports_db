@@ -1,6 +1,5 @@
 export * from './async';
-export * from './mlb';
-export * from './nba';
+export * from './database';
 
 export const TOGGLE_SPORT = 'TOGGLE_SPORT';
 export const toggleSport = sport => ({

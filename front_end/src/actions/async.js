@@ -4,8 +4,9 @@ import { normalize, schema } from 'normalizr';
 import { NBA, MLB } from '../const/sports';
 import {
   receiveSeasons,
-  receiveGames,
   selectSeason,
+  receiveGame,
+  receiveGames,
 } from './';
 
 const fetchSeasons = () => async (dispatch, getState) => {
@@ -30,7 +31,6 @@ export const fetchGames = season => async (dispatch, getState) => {
   dispatch(selectSeason(json.season));
 }
 
-/*
 export const fetchGame = (season, game) => async (dispatch, getState) => {
   const sport = getState().sport;
   const response = await fetch(`/${sport}/seasons/${season}/games/${game}`)
@@ -50,9 +50,8 @@ export const fetchGame = (season, game) => async (dispatch, getState) => {
   dispatch(selectSeason(json.season))
   dispatch(receiveGame(json.game))
 };
-*/
 
 export const fetchData = () => async (dispatch, getState) => {
   dispatch(fetchSeasons());
-  dispatch(fetchGames());
+  // dispatch(fetchGames());
 };

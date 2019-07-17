@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import {namespaceActions} from '../helpers/namespace-module';
 import { SPORTS } from '../const';
 import { toggleSport, selectPeriod, fetchData } from '../actions';
 import NavbarComponent from '../components/navbar/Navbar';
@@ -9,6 +10,7 @@ class Navbar extends Component {
   componentDidMount() {
     this.props.fetchData();
   }
+
   brandClick = () => {
     const { history } = this.props;
     history.push('/seasons');

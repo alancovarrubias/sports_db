@@ -18,15 +18,15 @@ default: &default
   adapter: postgresql
   host: localhost
   encoding: unicode
-  username: <%= ENV['NBA_REACT_DATABASE_USER'] %>
-  password: <%= ENV['NBA_REACT_DATABASE_PASSWORD'] %>
+  username: <%= ENV['NBA_DB_DATABASE_USER'] %>
+  password: <%= ENV['NBA_DB_DATABASE_PASSWORD'] %>
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 30
 
 development:
   <<: *default
-  database: nba_react_development
+  database: nba_db_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -59,7 +59,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: nba_react_test
+  database: nba_db_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -82,4 +82,4 @@ test:
 #
 production:
   <<: *default
-  database: nba_react_production
+  database: nba_db_production

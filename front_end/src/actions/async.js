@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
 import { normalize, schema } from 'normalizr';
+import { namespaceActionFactory } from '../helpers/namespace-module';
 
 // import { NBA, MLB } from '../const/sports';
 import {
@@ -20,7 +21,8 @@ const fetchSeasons = () => async (dispatch, getState) => {
   const normalizedData = normalize(json, request).entities;
   const seasons = normalizedData.seasons;
   const order = normalizedData.request[sport].seasons
-  dispatch(receiveSeasons({ order, ...seasons }));
+  const namespacedReceiveSeasons = namespaceActionFactory(sport)(receiveSeasons);
+  dispatch(namespacedReceiveSeasons({ order, ...seasons }));
 };
 
 export const fetchGames = season => async (dispatch, getState) => {

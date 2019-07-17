@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import databaseReducer from './database';
 import { namespaceReducerFactory } from '../helpers/namespace-module';
-import { NBA, MLB } from '../const/sports';
+import { NBA, MLB, DEFAULT_SPORT } from '../const/sports';
 import { TOGGLE_SPORT } from '../actions';
 
-const sport = (state = NBA, action) => {
+const sport = (state = DEFAULT_SPORT, action) => {
   switch (action.type) {
     case TOGGLE_SPORT:
       return action.sport;

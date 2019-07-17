@@ -57,6 +57,7 @@ const mapDispatchToProps = dispatch => {
     selectPeriod: event => dispatch(selectPeriod(event.target.value)),
     selectSport: sport => dispatch(toggleSport(sport)),
     fetchData: () => dispatch(fetchData()),
+    sportsClick: sport => dispatch(toggleSport(sport)),
   };
 }
 

@@ -5,8 +5,8 @@ import {
   RECEIVE_GAME,
   SELECT_SEASON,
   SELECT_PERIOD,
-  TOGGLE_SPORT,
-  CHANGE_RANGE,
+  // TOGGLE_SPORT,
+  // CHANGE_RANGE,
 } from '../actions';
 
 const seasons = (state = { order: [] }, action) => {
@@ -55,6 +55,7 @@ const game = (state = {}, action) => {
 }
 
 
+/*
 const range = (state = 0, action) => {
   switch (action.type) {
     case CHANGE_RANGE:
@@ -63,6 +64,7 @@ const range = (state = 0, action) => {
       return state;
   }
 }
+*/
 
 const databaseReducer = combineReducers({
   seasons,

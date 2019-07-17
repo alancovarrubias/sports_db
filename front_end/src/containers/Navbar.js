@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import {namespaceActions} from '../helpers/namespace-module';
+// import { namespaceActions } from '../helpers/namespace-module';
 import { SPORTS } from '../const';
 import { toggleSport, selectPeriod, fetchData } from '../actions';
 import NavbarComponent from '../components/navbar/Navbar';

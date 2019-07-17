@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { normalize, schema } from 'normalizr';
 
-import { NBA, MLB } from '../const/sports';
+// import { NBA, MLB } from '../const/sports';
 import {
   receiveSeasons,
   selectSeason,
@@ -48,7 +48,7 @@ export const fetchGame = (season, game) => async (dispatch, getState) => {
   });
   const normalizedGame = normalize(json.game, gameSchema);
   dispatch(selectSeason(json.season))
-  dispatch(receiveGame(json.game))
+  dispatch(receiveGame(normalizedGame))
 };
 
 export const fetchData = () => async (dispatch, getState) => {

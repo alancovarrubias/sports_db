@@ -31,6 +31,8 @@ const mapStateToProps = state => {
     game,
     period,
     sport,
+    away_team,
+    home_team,
   };
 }
 

@@ -10,7 +10,7 @@ const Navbar = ({ sport, brandClick, gamesDropdown, gamesClick, sportsDropdown, 
   const options = Object.keys(periods).map(key => <option key={key} value={key}>{periods[key]}</option>);
   return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <a className="navbar-brand" onClick={brandClick}>{ sport.toUpperCase() } Database</a>
+          <button className="navbar-brand" onClick={brandClick}>{ sport.toUpperCase() } Database</button>
           <ul className="navbar-nav">
             <Dropdown title={sportsDropdown.title} links={sportsDropdown.links} onClick={sportsClick} />
           </ul>

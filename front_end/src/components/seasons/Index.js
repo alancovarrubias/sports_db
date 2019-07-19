@@ -1,8 +1,8 @@
-import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import React from 'react'
+import { Row, Col } from 'react-bootstrap'
 
-import { HEADERS, KEYS } from '../../const/seasons';
-import Table from '../common/Table';
+import { HEADERS, KEYS } from '../../const/seasons'
+import Table from '../common/Table'
 
 const Index = ({ sport, seasons, rowClick }) => (
   <Row>
@@ -13,7 +13,7 @@ const Index = ({ sport, seasons, rowClick }) => (
       <Table headers={HEADERS} keys={KEYS} rows={seasons} rowClick={rowClick} />
     </Col>
   </Row>
-);
+)
 
 
-export default Index;
+export default Index

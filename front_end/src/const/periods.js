@@ -1,4 +1,4 @@
-import { NBA, MLB } from './sports';
+import { NBA, MLB } from './sports'
 export const PERIODS = {
   [NBA]: {
     0: 'Full Game',
@@ -10,4 +10,4 @@ export const PERIODS = {
   [MLB]: {
     0: 'Full Game',
   },
-};
+}

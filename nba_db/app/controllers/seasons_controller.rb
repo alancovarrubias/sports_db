@@ -5,7 +5,7 @@ class SeasonsController < ApiController
   def index
     @seasons = Season.all.order(year: :desc)
 
-    render json: { id: 'nba', seasons: @seasons }
+    render json: { seasons: @seasons }
   end
 
   # GET /seasons/1

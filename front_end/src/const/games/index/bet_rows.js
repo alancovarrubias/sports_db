@@ -4,8 +4,8 @@ export const HEADERS = [
   'Losses',
   'Win Percentage',
   'Skipped Bets',
-];
+]
 export const ROW_DATA = [
   { text: 'Spread', value: 'spread' },
   { text: 'Total', value: 'total' },
-];
+]

@@ -8,5 +8,5 @@ import { unregister } from './registerServiceWorker'
 render(
   <App />,
   document.getElementById('root')
-);
-unregister();
+)
+unregister()

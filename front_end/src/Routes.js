@@ -1,15 +1,15 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from 'react-router-dom';
+} from 'react-router-dom'
 
-import Navbar from './containers/Navbar';
-import Seasons from './containers/Seasons';
-import Games from './containers/Games';
-import Game from './containers/Game';
+import Navbar from './containers/Navbar'
+import Seasons from './containers/Seasons'
+import Games from './containers/Games'
+import Game from './containers/Game'
 
 const Routes = () => (
   <Router>
@@ -21,6 +21,6 @@ const Routes = () => (
       <Route path="/seasons/:season/games/:game" component={Game} exact />
     </Switch>
   </Router>
-);
+)
 
-export default Routes;
+export default Routes

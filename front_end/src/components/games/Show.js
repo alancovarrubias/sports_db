@@ -1,23 +1,23 @@
-import React from 'react';
-import { Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Row, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 // Stylesheet
-import './Show.css';
+import './Show.css'
 
 // Components
-import Table from '../common/Table';
+import Table from '../common/Table'
 
 // Constants
-import { HEADERS, KEYS } from '../../const/games/show';
+import { HEADERS, KEYS } from '../../const/games/show'
 
 const Show = ({ season, game, period, sport, rowClick }) => {
-  const away_team = game.away_team || { players: {} };
-  const home_team = game.home_team || { players: {} };
-  const away_players = away_team.players[period] || [];
-  const home_players = home_team.players[period] || [];
-  const away_table = <Table headers={HEADERS[sport]} keys={KEYS[sport]} rows={away_players} maxHeight="300px" rowClick={rowClick} />;
-  const home_table = <Table headers={HEADERS[sport]} keys={KEYS[sport]} rows={home_players} maxHeight="300px" rowClick={rowClick} />;
+  const away_team = game.away_team || { players: {} }
+  const home_team = game.home_team || { players: {} }
+  const away_players = away_team.players[period] || []
+  const home_players = home_team.players[period] || []
+  const away_table = <Table headers={HEADERS[sport]} keys={KEYS[sport]} rows={away_players} maxHeight="300px" rowClick={rowClick} />
+  const home_table = <Table headers={HEADERS[sport]} keys={KEYS[sport]} rows={home_players} maxHeight="300px" rowClick={rowClick} />
   return (
         <div className="game-show">
           <Row>
@@ -41,7 +41,7 @@ const Show = ({ season, game, period, sport, rowClick }) => {
             </Col>
           </Row>
         </div>
-      );
-};
+      )
+}
 
-export default Show;
+export default Show

@@ -8,7 +8,7 @@ export const HEADERS = [
   'Home Score',
   'Spread',
   'Total',
-];
+]
 export const KEYS = [
   'date',
   'away_team',
@@ -19,4 +19,4 @@ export const KEYS = [
   'home_score',
   'spread',
   'total',
-];
+]

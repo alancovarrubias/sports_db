@@ -1,14 +1,14 @@
-import React from 'react';
-import { Row, Col } from 'react-bootstrap';
-import './Index.css';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Row, Col } from 'react-bootstrap'
+import './Index.css'
+import { Link } from 'react-router-dom'
 
 // Components
-import Table from '../common/Table';
-import BetRows from './index/BetRows';
+import Table from '../common/Table'
+import BetRows from './index/BetRows'
 
 // Constants
-import { HEADERS, KEYS } from '../../const/games';
+import { HEADERS, KEYS } from '../../const/games'
 
 const Index = ({ season, rows, period, range, sport, rowClick, onChange, selectPeriod }) => {
   return (
@@ -28,8 +28,8 @@ const Index = ({ season, rows, period, range, sport, rowClick, onChange, selectP
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
-export default Index;
+export default Index
 

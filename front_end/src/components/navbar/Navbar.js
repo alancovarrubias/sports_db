@@ -1,21 +1,39 @@
-import React from 'react';
-import Dropdown from './Dropdown';
+import React from 'react'
+import Dropdown from './Dropdown'
 import './Navbar.css'
 
 // const
-import { PERIODS } from '../../const/periods';
+import { SPORTS } from '../../const'
+import { PERIODS } from '../../const/periods'
 
-const Navbar = ({ sport, brandClick, gamesDropdown, gamesClick, sportsDropdown, sportsClick, selectPeriod }) => {
-  const periods = PERIODS[sport];
-  const options = Object.keys(periods).map(key => <option key={key} value={key}>{periods[key]}</option>);
+const Navbar = ({ sport, seasons, brandClick, seasonGamesClick, toggleSport, selectPeriod }) => {
+  const uppercaseSport = sport.toUpperCase()
+  const seasonGamesDropdown = {
+    title: "Seasons",
+    links: seasons.map(season => ({
+      id: season.id,
+      text: season.year,
+      data: season,
+    }))
+  }
+  const sportsDropdown = {
+    title: "Sports",
+    links: SPORTS.map((sport, index) => ({
+      id: index,
+      text: uppercaseSport,
+      data: sport,
+    }))
+  }
+  const periods = PERIODS[sport]
+  const options = Object.keys(periods).map(key => <option key={key} value={key}>{periods[key]}</option>)
   return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <button className="navbar-brand" onClick={brandClick}>{ sport.toUpperCase() } Database</button>
+          <button className="navbar-brand" onClick={brandClick}>{ uppercaseSport } Database</button>
           <ul className="navbar-nav">
-            <Dropdown title={sportsDropdown.title} links={sportsDropdown.links} onClick={sportsClick} />
+            <Dropdown dropdown={sportsDropdown} onClick={toggleSport} />
           </ul>
           <ul className="navbar-nav">
-            <Dropdown title={gamesDropdown.title} links={gamesDropdown.links} onClick={gamesClick} />
+            <Dropdown dropdown={seasonGamesDropdown} onClick={seasonGamesClick} />
           </ul>
           <form className="navbar-search ml-auto mr-5">
             <div>
@@ -26,7 +44,7 @@ const Navbar = ({ sport, brandClick, gamesDropdown, gamesClick, sportsDropdown, 
             </div>
           </form>
         </nav>
-      );
-};
+      )
+}
 
-export default Navbar;
+export default Navbar

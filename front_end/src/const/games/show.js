@@ -1,4 +1,4 @@
-import {NBA, MLB} from '../sports';
+import {NBA, MLB} from '../sports'
 
 export const HEADERS = {
   [NBA]: [
@@ -24,7 +24,7 @@ export const HEADERS = {
   [MLB]: [
     'Name',
   ],
-};
+}
 export const KEYS = {
   [NBA]: [
     'name',
@@ -49,4 +49,4 @@ export const KEYS = {
   [MLB]: [
     'name',
   ],
-};
+}

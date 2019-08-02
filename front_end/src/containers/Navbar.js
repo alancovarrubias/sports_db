@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 // import { namespaceActions } from '../helpers/namespace-module'
-import { toggleSport, selectPeriod, fetchData } from '../actions'
+import { selectSeasons } from '../selectors'
+import { toggleSport, selectPeriod } from '../actions'
 import NavbarComponent from '../components/navbar/Navbar'
+import withDatabase from '../hoc/withDatabase'
 
 class Navbar extends Component {
   brandClick = () => {
@@ -23,23 +25,18 @@ class Navbar extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { sport } = state
-  const { entities, indices, period } = state[sport]
-  const seasons = indices.seasons.index.map(i => entities.seasons[i])
+const mapStateToProps = (state, ownProps) => {
+  const seasons = selectSeasons(state)
   return {
     seasons,
-    period,
-    sport,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     selectPeriod: event => dispatch(selectPeriod(event.target.value)),
-    toggleSport: sport => dispatch(toggleSport(sport)) && dispatch(fetchData()),
-    fetchData: () => dispatch(fetchData()),
+    toggleSport: sport => dispatch(toggleSport(sport)),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(withDatabase(Navbar))

@@ -1,32 +1,26 @@
 import { combineReducers } from 'redux'
 import { TOGGLE_SPORT } from '../actions'
-import { NBA, MLB, DEFAULT_SPORT } from '../const/sports'
+import { NBA, MLB } from '../const/sports'
 import { namespaceReducerFactory } from '../helpers/namespaceModule'
+import ormReducer from './ormReducer'
 
-import entitiesReducer from './entities'
-import indicesReducer from './indices'
-
-const sport = (state = DEFAULT_SPORT, action) => {
+const sport = (state = '', action) => {
   switch (action.type) {
     case TOGGLE_SPORT:
+      console.log(action)
       return action.sport
     default:
       return state
   }
 }
 
-const databaseReducer = combineReducers({
-  entities: entitiesReducer,
-  indices: indicesReducer,
-})
-
-const mlbReducer = namespaceReducerFactory(MLB)(databaseReducer)
-const nbaReducer = namespaceReducerFactory(NBA)(databaseReducer)
+const nbaDatabase = namespaceReducerFactory(NBA)(ormReducer)
+const mlbDatabase = namespaceReducerFactory(MLB)(ormReducer)
 
 const rootReducer = combineReducers({
-  [NBA]: nbaReducer,
-  [MLB]: mlbReducer,
   sport,
+  nbaDatabase,
+  mlbDatabase,
 })
 
 export default rootReducer

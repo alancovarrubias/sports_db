@@ -1,8 +1,7 @@
 import fetch from 'cross-fetch'
 import { normalize, schema } from 'normalizr'
 import { namespaceActionFactory } from '../helpers/namespaceModule'
-
-// import { NBA, MLB } from '../const/sports'
+import { selectSeasons, selectSport } from '../selectors'
 import {
   receiveSeasons,
   selectSeason,
@@ -13,15 +12,12 @@ import {
 const fetchSeasons = sport => async (dispatch, getState) => {
   const response = await fetch(`/${sport}/seasons`)
   const json = await response.json()
-  const season = new schema.Entity('seasons')
-  const mySchema = { seasons: [season] }
-  const normalizedData = normalize(json, mySchema)
-  console.log(normalizedData)
-  const seasons = normalizedData.entities.seasons
-  const seasonIndex = normalizedData.result.seasons
-  console.log(seasonIndex)
-  //const namespacedReceiveSeasons = namespaceActionFactory(sport)(receiveSeasons)
-  // dispatch(namespacedReceiveSeasons({ order, ...seasons }))
+  const seasons = json.seasons
+  // const season = new schema.Entity('seasons')
+  // const mySchema = { seasons: [season] }
+  // const normalizedData = normalize(json, mySchema)
+  const namespacedReceiveSeasons = namespaceActionFactory(sport)(receiveSeasons)
+  dispatch(namespacedReceiveSeasons(seasons))
 }
 
 export const fetchGames = season => async (dispatch, getState) => {
@@ -52,9 +48,16 @@ export const fetchGame = (season, game) => async (dispatch, getState) => {
   dispatch(receiveGame(normalizedGame))
 }
 
-export const fetchData = ({ match, database, sport }) => async (dispatch, getState) => {
+const needSeason = (state) => {
+  const seasons = selectSeasons(state)
+  return seasons.length === 0
+}
+
+export const fetchData = (match) => async (dispatch, getState) => {
+  const state = getState()
+  const sport = selectSport(state)
   const { path } = match
-  if (path === '/seasons') {
+  if (path === '/seasons' && needSeason(state)) {
     dispatch(fetchSeasons(sport))
   } else if (path === '/seasons/:season/games') {
     // dispatch(fetchGames())

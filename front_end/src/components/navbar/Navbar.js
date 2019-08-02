@@ -14,15 +14,17 @@ const Navbar = ({ sport, seasons, brandClick, seasonGamesClick, toggleSport, sel
       id: season.id,
       text: season.year,
       data: season,
-    }))
+    })),
+    onClick: seasonGamesClick,
   }
   const sportsDropdown = {
     title: "Sports",
     links: SPORTS.map((sport, index) => ({
       id: index,
-      text: uppercaseSport,
+      text: sport.toUpperCase(),
       data: sport,
-    }))
+    })),
+    onClick: toggleSport,
   }
   const periods = PERIODS[sport]
   const options = Object.keys(periods).map(key => <option key={key} value={key}>{periods[key]}</option>)

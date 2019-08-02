@@ -2,26 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withDatabase from '../hoc/withDatabase'
 import {
-  fetchGames,
   selectPeriod,
   changeRange,
 } from '../actions'
 import GamesIndex from '../components/games/Index'
 
 class Games extends Component {
-  componentDidMount() {
-    const { dispatch, match } = this.props
-    this.season = match.params.season
-    dispatch(fetchGames(this.season))
-  }
-  
-  componentWillReceiveProps(props) {
-    const season = props.match.params.season
-    if (this.season !== season) {
-      this.componentDidMount()
-    }
-  }
-
   rowClick = game => {
     const { history } = this.props
     history.push(`/seasons/${this.season}/games/${game.id}`)

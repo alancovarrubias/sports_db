@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 // import { selectSeason } from '../actions'
 import withDatabase from '../hoc/withDatabase'
 import SeasonIndex from '../components/seasons/Index'
+import { selectSeasons } from '../selectors'
 
 class Seasons extends Component {
   rowClick = season => {
@@ -16,12 +17,9 @@ class Seasons extends Component {
 }
 
 const mapStateToProps = state => {
-  const { sport } = state
-  const database = state[sport]
-  const { seasons } = database
+  const seasons = selectSeasons(state)
   return {
-    seasons: seasons.order.map(id => seasons[id]),
-    sport,
+    seasons,
   }
 }
 

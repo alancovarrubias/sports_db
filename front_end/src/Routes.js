@@ -13,7 +13,7 @@ import Game from './containers/Game'
 
 const Routes = () => (
   <Router>
-    <Route path="/" component={Navbar} />
+    <Route path="/" component={Navbar} whoo="hi" />
     <Switch>
       <Redirect from="/" to="/seasons" exact />
       <Route path="/seasons" component={Seasons} exact />

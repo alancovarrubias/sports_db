@@ -13,7 +13,6 @@ const seasons = (state = {}, action) => {
   }
 }
 
-
 const games = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_GAMES:

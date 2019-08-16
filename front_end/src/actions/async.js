@@ -3,7 +3,7 @@ import { normalize, schema } from 'normalizr'
 import { namespaceActionFactory } from '../helpers/namespaceModule'
 import { selectSeasons, selectSport } from '../selectors'
 import {
-  receiveSeasons,
+  createSeason,
   selectSeason,
   receiveGame,
   receiveGames,
@@ -16,8 +16,8 @@ const fetchSeasons = sport => async (dispatch, getState) => {
   // const season = new schema.Entity('seasons')
   // const mySchema = { seasons: [season] }
   // const normalizedData = normalize(json, mySchema)
-  const namespacedReceiveSeasons = namespaceActionFactory(sport)(receiveSeasons)
-  dispatch(namespacedReceiveSeasons(seasons))
+  const namespacedCreateSeason = namespaceActionFactory(sport)(createSeason)
+  seasons.forEach(season => dispatch(namespacedCreateSeason(season)))
 }
 
 export const fetchGames = season => async (dispatch, getState) => {

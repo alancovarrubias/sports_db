@@ -1,3 +1,9 @@
+export const CREATE_SEASON = 'CREATE_SEASON'
+export const createSeason = season => ({
+  type: CREATE_SEASON,
+  payload: season,
+})
+
 export const RECEIVE_SEASONS = 'RECEIVE_SEASONS'
 export const receiveSeasons = seasons => ({
   type: RECEIVE_SEASONS,

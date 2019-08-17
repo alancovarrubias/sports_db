@@ -1,3 +1,6 @@
 .navbar-brand, .dropdown {
   cursor: pointer;
 }
+select.form-control {
+  width: 122px;
+}

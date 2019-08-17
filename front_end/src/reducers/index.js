@@ -2,9 +2,9 @@ import { combineReducers } from 'redux'
 import { createReducer } from 'redux-orm'
 import { TOGGLE_SPORT } from '../actions'
 import { NBA, MLB } from '../const/sports'
-import orm from '../models/orm';
 import { namespaceReducerFactory } from '../helpers/namespaceModule'
-import ormReducer from './ormReducer'
+import orm from '../models/orm'
+import metaReducer from './metaReducer'
 
 const sport = (state = '', action) => {
   switch (action.type) {
@@ -17,11 +17,15 @@ const sport = (state = '', action) => {
 
 const nbaDatabase = namespaceReducerFactory(NBA)(createReducer(orm))
 const mlbDatabase = namespaceReducerFactory(MLB)(createReducer(orm))
+const nbaMeta = namespaceReducerFactory(NBA)(metaReducer)
+const mlbMeta = namespaceReducerFactory(MLB)(metaReducer)
 
 const rootReducer = combineReducers({
   sport,
   nbaDatabase,
   mlbDatabase,
+  nbaMeta,
+  mlbMeta,
 })
 
 export default rootReducer

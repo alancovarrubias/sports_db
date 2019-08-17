@@ -6,8 +6,9 @@ export default class Season extends Model {
     const { payload, type } = action
     switch (type) {
       case CREATE_SEASON:
-        console.log(payload)
         Season.create(payload)
+        break
+      default:
         break
     }
   }

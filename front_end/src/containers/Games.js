@@ -6,6 +6,11 @@ import {
   changeRange,
 } from '../actions'
 import GamesIndex from '../components/games/Index'
+import {
+  selectSport,
+  selectGames,
+  // selectSeason,
+} from '../selectors'
 
 class Games extends Component {
   rowClick = game => {
@@ -22,17 +27,14 @@ class Games extends Component {
 }
 
 const mapStateToProps = state => {
-  const { sport } = state
-  const database = state[sport]
-  const { season, games, period, range } = database
+  const sport = selectSport(state)
+  const games = selectGames(state)
+  // const season = selectSeason(state)
+  const season = {}
+  const period = 0
+  const range = 0
   const rows = games.map(game => ({...game.bets[period], ...game.lines[period], ...game}))
-  return {
-    season,
-    rows,
-    period,
-    range,
-    sport,
-  }
+  return { season, rows, period, range, sport }
 }
 
 const mapDispatchToProps = dispatch => {

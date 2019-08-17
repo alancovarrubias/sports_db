@@ -24,7 +24,17 @@ export const selectDatabase = createSelector(
     return orm.session(database)
   }
 )
+
 export const selectSeasons = createSelector(
   selectDatabase,
   database => database.Season.all().toModelArray()
+)
+
+export const selectSeason = createSelector(
+  state => state
+)
+
+export const selectGames = createSelector(
+  selectDatabase,
+  database => database.Game.all().toModelArray()
 )

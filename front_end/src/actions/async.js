@@ -1,30 +1,25 @@
 import fetch from 'cross-fetch'
-import { normalize, schema } from 'normalizr'
 import { namespaceActionFactory } from '../helpers/namespaceModule'
 import { selectSeasons, selectSport } from '../selectors'
 import {
   createSeason,
   selectSeason,
-  receiveGame,
-  receiveGames,
+  createGames,
 } from './'
 
 const fetchSeasons = sport => async (dispatch, getState) => {
   const response = await fetch(`/${sport}/seasons`)
   const json = await response.json()
   const seasons = json.seasons
-  // const season = new schema.Entity('seasons')
-  // const mySchema = { seasons: [season] }
-  // const normalizedData = normalize(json, mySchema)
   const namespacedCreateSeason = namespaceActionFactory(sport)(createSeason)
   seasons.forEach(season => dispatch(namespacedCreateSeason(season)))
 }
 
-export const fetchGames = season => async (dispatch, getState) => {
-  const sport = getState().sport
+export const fetchGames = (sport, season) => async (dispatch, getState) => {
   const response = await fetch(`/${sport}/seasons/${season}/games`)
   const json = await response.json()
-  dispatch(receiveGames(json.games))
+  const namespacedCreateGames = namespaceActionFactory(sport)(createGames)
+  dispatch(namespacedCreateGames(json.games))
   dispatch(selectSeason(json.season))
 }
 
@@ -32,20 +27,8 @@ export const fetchGame = (season, game) => async (dispatch, getState) => {
   const sport = getState().sport
   const response = await fetch(`/${sport}/seasons/${season}/games/${game}`)
   const json = await response.json()
-  const teams = new schema.Entity('teams')
-  const players = new schema.Entity('players')
-  const stats = new schema.Entity('stats')
-  const gameSchema = new schema.Entity('game', {
-    away_team: teams,
-    home_team: teams,
-    away_players: [players],
-    home_players: [players],
-    away_stats: [stats],
-    home_stats: [stats],
-  })
-  const normalizedGame = normalize(json.game, gameSchema)
   dispatch(selectSeason(json.season))
-  dispatch(receiveGame(normalizedGame))
+  // dispatch(receiveGame(normalizedGame))
 }
 
 const needSeason = (state) => {
@@ -56,10 +39,10 @@ const needSeason = (state) => {
 export const fetchData = (match) => async (dispatch, getState) => {
   const state = getState()
   const sport = selectSport(state)
-  const { path } = match
+  const { path, params: { season } } = match
   if (path === '/seasons' && needSeason(state)) {
     dispatch(fetchSeasons(sport))
   } else if (path === '/seasons/:season/games') {
-    // dispatch(fetchGames())
+    dispatch(fetchGames(sport, season))
   }
 }

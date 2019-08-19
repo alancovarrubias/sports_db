@@ -28,8 +28,8 @@ class Games extends Component {
 
 const mapStateToProps = state => {
   const sport = selectSport(state)
-  const games = selectGames(state)
   const season = selectSeason(state)
+  const games = selectGames(state)
   const period = 0
   const range = 0
   const rows = games.map(game => ({...game.bets[period], ...game.lines[period], ...game}))

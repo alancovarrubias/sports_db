@@ -20,7 +20,7 @@ export default class Game extends Model {
 Game.modelName = 'Game'
 Game.fields = {
   id: attr(),
-  season: fk('Season'),
+  season_id: fk('Season', 'games'),
   away_team: attr(),
   home_team: attr(),
 }

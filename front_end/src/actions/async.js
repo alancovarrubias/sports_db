@@ -22,9 +22,7 @@ const fetchSeasons = (sport) => async (dispatch, getState) => {
   const response = await fetch(`/${sport}/seasons`)
   const json = await response.json()
   const seasons = json.seasons
-  const namespacedSeasonsFetch = namespaceActionFactory(sport)(seasonsFetch)
   const namespacedCreateSeasons = namespaceActionFactory(sport)(createSeasons)
-  dispatch(namespacedSeasonsFetch(seasons))
   dispatch(namespacedCreateSeasons(seasons))
 }
 
@@ -34,17 +32,13 @@ export const gamesFetch = seasonId => ({
   payload: seasonId,
 })
 
-const fetchGames = (sport, season) => async (dispatch, getState) => {
-  const response = await fetch(`/${sport}/seasons/${season}/games`)
+const fetchGames = (sport, seasonId) => async (dispatch, getState) => {
+  const response = await fetch(`/${sport}/seasons/${seasonId}/games`)
   const json = await response.json()
-  const namespacedGamesFetch = namespaceActionFactory(sport)(gamesFetch)
   const namespacedCreateGames = namespaceActionFactory(sport)(createGames)
   const namespacedCreateSeason = namespaceActionFactory(sport)(createSeason)
-  const namespacedChooseSeason = namespaceActionFactory(sport)(chooseSeason)
-  dispatch(namespacedGamesFetch(json.season.id))
   dispatch(namespacedCreateSeason(json.season))
   dispatch(namespacedCreateGames(json.games))
-  dispatch(namespacedChooseSeason(json.season.id))
 }
 
 /*
@@ -55,15 +49,24 @@ const fetchGame = (sport, season, game) => async (dispatch, getState) => {
 }
 */
 
-export const fetchData = (match) => async (dispatch, getState) => {
+export const fetchData = match => async (dispatch, getState) => {
   const state = getState()
   const sport = selectSport(state)
-  const seasonsFetch = selectSeasonsFetch(state)
-  const gamesFetch = selectGamesFetch(state)
-  const { path, params: { season } } = match
-  if (!seasonsFetch && path === '/seasons') {
+  const shouldFetchSeasons = selectSeasonsFetch(state)
+  const shouldFetchGames = selectGamesFetch(state)
+  let { path, params: { seasonId } } = match
+  seasonId = parseInt(seasonId)
+  if (!shouldFetchSeasons && path === '/seasons') {
+    const namespacedSeasonsFetch = namespaceActionFactory(sport)(seasonsFetch)
+    dispatch(namespacedSeasonsFetch())
     dispatch(fetchSeasons(sport))
-  } else if (!gamesFetch.includes(parseInt(season)) && path === '/seasons/:season/games') {
-    dispatch(fetchGames(sport, season))
+  } else if (path === '/seasons/:seasonId/games') {
+    const namespacedChooseSeason = namespaceActionFactory(sport)(chooseSeason)
+    const namespacedGamesFetch = namespaceActionFactory(sport)(gamesFetch)
+    if (!shouldFetchGames.includes(seasonId)) {
+      dispatch(namespacedGamesFetch(seasonId))
+      dispatch(fetchGames(sport, seasonId))
+    }
+    dispatch(namespacedChooseSeason(seasonId))
   }
 }

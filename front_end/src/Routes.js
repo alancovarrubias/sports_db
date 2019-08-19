@@ -13,12 +13,12 @@ import Game from './containers/Game'
 
 const Routes = () => (
   <Router>
-    <Route path="/" component={Navbar} whoo="hi" />
+    <Route path="/" component={Navbar} />
     <Switch>
       <Redirect from="/" to="/seasons" exact />
       <Route path="/seasons" component={Seasons} exact />
-      <Route path="/seasons/:season/games" component={Games} exact />
-      <Route path="/seasons/:season/games/:game" component={Game} exact />
+      <Route path="/seasons/:seasonId/games" component={Games} exact />
+      <Route path="/seasons/:seasonId/games/:gameId" component={Game} exact />
     </Switch>
   </Router>
 )

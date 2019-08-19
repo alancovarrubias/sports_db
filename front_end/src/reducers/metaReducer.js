@@ -5,7 +5,7 @@ import {
   GAMES_FETCH,
 } from '../actions'
 
-const season = (state = null, action) => {
+const seasonId = (state = null, action) => {
   const { payload, type } = action
   switch (type) {
     case CHOOSE_SEASON:
@@ -29,7 +29,6 @@ const gamesFetch = (state = [], action) => {
   const { payload, type } = action
   switch (type) {
     case GAMES_FETCH:
-      console.log(action)
       return [payload, ...state]
     default:
       return state
@@ -37,7 +36,7 @@ const gamesFetch = (state = [], action) => {
 }
 
 export default combineReducers({
-  season,
+  seasonId,
   seasonsFetch,
   gamesFetch,
 })

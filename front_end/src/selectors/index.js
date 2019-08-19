@@ -46,7 +46,7 @@ export const selectMeta = createSelector(
 export const selectSeason = createSelector(
   selectDatabase,
   selectMeta,
-  (database, meta) => meta.season ? database.Season.withId(meta.season) : {}
+  (database, meta) => database.Season.withId(meta.seasonId) ? database.Season.withId(meta.seasonId) : {}
 )
 
 export const selectSeasons = createSelector(
@@ -61,7 +61,8 @@ export const selectSeasonsFetch = createSelector(
 
 export const selectGames = createSelector(
   selectDatabase,
-  database => database.Game.all().toModelArray()
+  selectSeason,
+  (database, season) => season.id ? season.games.toModelArray() : []
 )
 
 export const selectGamesFetch = createSelector(

@@ -4,6 +4,12 @@ export const createSeason = season => ({
   payload: season,
 })
 
+export const CREATE_SEASONS = 'CREATE_SEASONS'
+export const createSeasons = seasons => ({
+  type: CREATE_SEASONS,
+  payload: seasons,
+})
+
 export const CREATE_GAME = 'CREATE_GAME'
 export const createGame = game => ({
   type: CREATE_GAME,
@@ -16,8 +22,8 @@ export const createGames = games => ({
   payload: games,
 })
 
-export const SELECT_SEASON = 'SELECT_SEASON'
-export const selectSeason = selectedSeason => ({
-  type: SELECT_SEASON,
-  selectedSeason,
+export const CHOOSE_SEASON = 'CHOOSE_SEASON'
+export const chooseSeason = season => ({
+  type: CHOOSE_SEASON,
+  payload: season,
 })

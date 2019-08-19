@@ -1,16 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchGame, selectPeriod } from '../actions'
+import { selectPeriod } from '../actions'
 import GamesShow from '../components/games/Show'
 
 class Game extends Component {
-  componentDidMount() {
-    const { dispatch, match } = this.props
-    const season = match.params.season
-    const game = match.params.game
-    dispatch(fetchGame(season, game))
-  }
-
   rowClick = row => {
     console.log(row)
   }

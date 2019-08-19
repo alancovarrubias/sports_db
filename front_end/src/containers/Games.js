@@ -9,7 +9,7 @@ import GamesIndex from '../components/games/Index'
 import {
   selectSport,
   selectGames,
-  // selectSeason,
+  selectSeason,
 } from '../selectors'
 
 class Games extends Component {
@@ -29,8 +29,7 @@ class Games extends Component {
 const mapStateToProps = state => {
   const sport = selectSport(state)
   const games = selectGames(state)
-  // const season = selectSeason(state)
-  const season = {}
+  const season = selectSeason(state)
   const period = 0
   const range = 0
   const rows = games.map(game => ({...game.bets[period], ...game.lines[period], ...game}))

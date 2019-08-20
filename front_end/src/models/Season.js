@@ -6,19 +6,13 @@ export default class Season extends Model {
     const { payload, type } = action
     switch (type) {
       case CREATE_SEASON:
-        this.createSeason(Season, payload)
+        Season.upsert(payload)
         break
       case CREATE_SEASONS:
-        payload.forEach(season => this.createSeason(Season, season))
+        payload.forEach(season => Season.upsert(season))
         break
       default:
         break
-    }
-  }
-
-  static createSeason(Season, season) {
-    if(!Season.idExists(season.id)) {
-      Season.create(season)
     }
   }
 }

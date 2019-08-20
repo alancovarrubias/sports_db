@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import * as _ from 'lodash'
 import { NBA, MLB } from '../const'
 import orm from '../models/orm'
 
@@ -51,7 +52,7 @@ export const selectSeason = createSelector(
 
 export const selectSeasons = createSelector(
   selectDatabase,
-  database => database.Season.all().toModelArray()
+  database => _.sortBy(database.Season.all().toRefArray(), ['year']).reverse()
 )
 
 export const selectSeasonsFetch = createSelector(
@@ -62,7 +63,7 @@ export const selectSeasonsFetch = createSelector(
 export const selectGames = createSelector(
   selectDatabase,
   selectSeason,
-  (database, season) => season.id ? season.games.toModelArray() : []
+  (database, season) => season.id ? season.games.toRefArray() : []
 )
 
 export const selectGamesFetch = createSelector(

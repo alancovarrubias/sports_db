@@ -111,9 +111,9 @@ class Game < ApplicationRecord
   def index_data
     index_hash = {}
     index_hash[:id] = game.id
-    index_hash[:season_id] = game.season_id
-    index_hash[:away_team] = game.away_team.name
-    index_hash[:home_team] = game.home_team.name
+    index_hash[:season] = game.season_id
+    index_hash[:away_team] = game.away_team_id
+    index_hash[:home_team] = game.home_team_id
     index_hash[:date] = game.date
     bets = {}
     lines = {}

@@ -20,8 +20,20 @@ export default class Game extends Model {
 Game.modelName = 'Game'
 Game.fields = {
   id: attr(),
-  season_id: fk('Season', 'games'),
-  away_team: attr(),
-  home_team: attr(),
+  season_id: fk({
+    to: 'Season',
+    as: 'season',
+    relatedName: 'games',
+  }),
+  away_team_id: fk({
+    to: 'Team',
+    as: 'away_team',
+    relatedName: 'away_games'
+  }),
+  home_team_id: fk({
+    to: 'Team',
+    as: 'home_team',
+    relatedName: 'home_games'
+  }),
 }
 

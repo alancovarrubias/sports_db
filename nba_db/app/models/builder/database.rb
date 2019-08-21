@@ -8,7 +8,7 @@ module Builder
       if @season
         @teams = @season.teams
         @players = @season.players
-        @games = @season.games.where("date < ?", Date.yesterday)
+        @games = @season.games.where("date < ?", Date.yesterday).where("id >= 570")
       end
     end
 
@@ -18,8 +18,8 @@ module Builder
       build_teams
       build_players
       build_games
-      build_game_stats
 =end
+      build_game_stats
       build_quarter_stats
       build_ratings
       build_bets

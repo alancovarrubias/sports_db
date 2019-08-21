@@ -10,6 +10,18 @@ export const createSeasons = seasons => ({
   payload: seasons,
 })
 
+export const CREATE_TEAM = 'CREATE_TEAM'
+export const createTeam = team => ({
+  type: CREATE_TEAM,
+  payload: team,
+})
+
+export const CREATE_TEAMS = 'CREATE_TEAMS'
+export const createTeams = teams => ({
+  type: CREATE_TEAMS,
+  payload: teams,
+})
+
 export const CREATE_GAME = 'CREATE_GAME'
 export const createGame = game => ({
   type: CREATE_GAME,
@@ -20,6 +32,24 @@ export const CREATE_GAMES = 'CREATE_GAMES'
 export const createGames = games => ({
   type: CREATE_GAMES,
   payload: games,
+})
+
+export const CREATE_PLAYER = 'CREATE_PLAYER'
+export const createPlayer = player => ({
+  type: CREATE_PLAYER,
+  payload: player,
+})
+
+export const CREATE_PLAYERS = 'CREATE_PLAYERS'
+export const createPlayers = players => ({
+  type: CREATE_PLAYERS,
+  payload: players,
+})
+
+export const CREATE_STAT = 'CREATE_STAT'
+export const createStat = stat => ({
+  type: CREATE_STAT,
+  payload: stat,
 })
 
 export const CHOOSE_SEASON = 'CHOOSE_SEASON'

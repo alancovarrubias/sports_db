@@ -10,7 +10,7 @@ import BetRows from './index/BetRows'
 // Constants
 import { HEADERS, KEYS } from '../../const/games'
 
-const Index = ({ season, rows, period, range, sport, rowClick, onChange, selectPeriod }) => {
+const Index = ({ season, games, period, range, sport, gameClick, onChange, selectPeriod }) => {
   return (
     <div className="game-index">
       <Row>
@@ -21,10 +21,10 @@ const Index = ({ season, rows, period, range, sport, rowClick, onChange, selectP
           <h1>{season.year} {sport.toUpperCase()} Games </h1>
         </Col>
       </Row>
-      <BetRows games={rows} />
+      <BetRows games={games} />
       <Row>
         <Col lg={12}>
-          <Table headers={HEADERS} keys={KEYS} rows={rows} rowClick={rowClick} /> 
+          <Table headers={HEADERS} keys={KEYS} rows={games} rowClick={gameClick} /> 
         </Col>
       </Row>
     </div>

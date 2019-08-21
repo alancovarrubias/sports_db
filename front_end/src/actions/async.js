@@ -9,8 +9,13 @@ import {
 import {
   createSeasons,
   createSeason,
+  createTeams,
   createGames,
+  createGame,
+  createPlayers,
+  // createStats,
   chooseSeason,
+  chooseGame,
 } from './'
 
 export const SEASONS_FETCH = 'SEASONS_FETCH'
@@ -36,9 +41,12 @@ export const gamesFetch = seasonId => ({
 const fetchGames = (sport, seasonId) => async (dispatch, getState) => {
   const response = await fetch(`/${sport}/seasons/${seasonId}/games`)
   const json = await response.json()
-  const namespacedCreateGames = namespaceActionFactory(sport)(createGames)
+  console.log(json)
   const namespacedCreateSeason = namespaceActionFactory(sport)(createSeason)
+  const namespacedCreateTeams = namespaceActionFactory(sport)(createTeams)
+  const namespacedCreateGames = namespaceActionFactory(sport)(createGames)
   dispatch(namespacedCreateSeason(json.season))
+  dispatch(namespacedCreateTeams(json.teams))
   dispatch(namespacedCreateGames(json.games))
 }
 
@@ -51,36 +59,44 @@ export const gameFetch = gameId => ({
 const fetchGame = (sport, seasonId, gameId) => async (dispatch, getState) => {
   const response = await fetch(`/${sport}/seasons/${seasonId}/games/${gameId}`)
   const json = await response.json()
-  dispatch(chooseSeason(json.season))
+  console.log(json)
+  /*
+  const namespacedCreatePlayers = namespaceActionFactory(sport)(createPlayers)
+  const namespacedCreateStats = namespaceActionFactory(sport)(createStats)
+  dispatch(namespacedCreatePlayers(json.away_players))
+  dispatch(namespacedCreatePlayers(json.home_players))
+  dispatch(namespacedCreateStats(json.away_stats))
+  dispatch(namespacedCreateStats(json.home_stats))
+  */
 }
 
 export const fetchData = match => async (dispatch, getState) => {
-  console.log(match)
   const state = getState()
   const sport = selectSport(state)
-  const shouldFetchSeasons = selectSeasonsFetch(state)
-  const shouldFetchGames = selectGamesFetch(state)
-  const shouldFetchGame = selectGameFetch(state)
-  let { path, params: { seasonId, gameId } } = match
-  seasonId = parseInt(seasonId)
-  if (!shouldFetchSeasons && path === '/seasons') {
+  const shouldSeasonsFetch = selectSeasonsFetch(state)
+  const shouldGamesFetch = selectGamesFetch(state)
+  const shouldGameFetch = selectGameFetch(state)
+  const namespacedChooseSeason = namespaceActionFactory(sport)(chooseSeason)
+  const namespacedChooseGame = namespaceActionFactory(sport)(chooseGame)
+  const { path, params: { seasonId, gameId } } = match
+  if (!shouldSeasonsFetch && path === '/seasons') {
     const namespacedSeasonsFetch = namespaceActionFactory(sport)(seasonsFetch)
     dispatch(namespacedSeasonsFetch())
     dispatch(fetchSeasons(sport))
   } else if (path === '/seasons/:seasonId/games') {
-    const namespacedChooseSeason = namespaceActionFactory(sport)(chooseSeason)
     const namespacedGamesFetch = namespaceActionFactory(sport)(gamesFetch)
-    if (!shouldFetchGames.includes(seasonId)) {
+    if (!shouldGamesFetch.includes(seasonId)) {
       dispatch(namespacedGamesFetch(seasonId))
       dispatch(fetchGames(sport, seasonId))
     }
     dispatch(namespacedChooseSeason(seasonId))
   } else if (path === '/seasons/:seasonId/games/:gameId') {
     const namespacedGameFetch = namespaceActionFactory(sport)(gameFetch)
-    if (!shouldFetchGame.includes(gameId)) {
-      console.log(gameId)
+    if (!shouldGameFetch.includes(gameId)) {
       dispatch(namespacedGameFetch(gameId))
       dispatch(fetchGame(sport, seasonId, gameId))
     }
+    dispatch(namespacedChooseSeason(seasonId))
+    dispatch(namespacedChooseGame(gameId))
   }
 }

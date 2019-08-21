@@ -8,20 +8,19 @@ import {
 import GamesIndex from '../components/games/Index'
 import {
   selectSport,
-  selectGames,
   selectSeason,
+  selectGames,
 } from '../selectors'
 
 class Games extends Component {
-  rowClick = game => {
+  gameClick = game => {
     const { history, season } = this.props
     history.push(`/seasons/${season.id}/games/${game.id}`)
   }
-  
 
   render() {
     return (
-      <GamesIndex {...this.props} rowClick={this.rowClick} rangeChange={this.rangeChange} />
+      <GamesIndex {...this.props} gameClick={this.gameClick} rangeChange={this.rangeChange} />
     )
   }
 }
@@ -32,8 +31,7 @@ const mapStateToProps = state => {
   const games = selectGames(state)
   const period = 0
   const range = 0
-  const rows = games.map(game => ({...game.bets[period], ...game.lines[period], ...game}))
-  return { season, rows, period, range, sport }
+  return { season, games, period, range, sport }
 }
 
 const mapDispatchToProps = dispatch => {

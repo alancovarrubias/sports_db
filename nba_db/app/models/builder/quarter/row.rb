@@ -12,6 +12,8 @@ module Builder
         play = size == 2 ? row[1] : (row[1].text.length > 1 ? row[1] : row[5])
         @play = Play.new(play)
         @player1, @player2 = find_players(play)
+        puts @player1
+        puts @player2
       end
 
       def parse_time(element)

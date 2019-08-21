@@ -62,7 +62,11 @@ export const selectSeasonsFetch = createSelector(
 export const selectGames = createSelector(
   selectDatabase,
   selectSeason,
-  (database, season) => season.id ? season.games.toRefArray() : []
+  (database, season) => season.id ? season.games.toModelArray().map(game => ({
+    ...game.ref,
+    away_team: game.away_team.ref,
+    home_team: game.home_team.ref,
+  })): []
 )
 
 export const selectGamesFetch = createSelector(
@@ -80,3 +84,10 @@ export const selectGameFetch = createSelector(
   selectMeta,
   meta => meta.gameFetch
 )
+
+export const selectTeams = createSelector(
+  selectDatabase,
+  selectSeason,
+  (database, season) => season.teams ? season.teams.toModelArray() : []
+)
+

@@ -1,5 +1,6 @@
 import React from 'react'
 import './Table.css'
+import * as _ from 'lodash'
 
 const Table = ({ headers, keys, rows, rowClick }) => {
   const headerCells = headers.map((data, index) => {
@@ -8,7 +9,7 @@ const Table = ({ headers, keys, rows, rowClick }) => {
   const rowCells = rows.map((row, index) => {
     return (
       <tr key={index} onClick={() => rowClick(row)}>
-        {keys.map((key, index) => <td width={headers[index].width} key={index}>{row[key]}</td>)}
+        {keys.map((key, index) => <td width={headers[index].width} key={index}>{_.get(row, key)}</td>)}
       </tr>
     )
   })

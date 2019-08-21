@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { selectPeriod } from '../actions'
 import GamesShow from '../components/games/Show'
+import withDatabase from '../hoc/withDatabase'
+import {
+  selectSport,
+  selectSeason,
+  selectGame,
+} from '../selectors'
 
 class Game extends Component {
   rowClick = row => {
@@ -16,16 +22,13 @@ class Game extends Component {
 }
 
 const mapStateToProps = state => {
-  const { season, game, period, sport } = state
-  const away_team = game.away_team
-  const home_team = game.home_team
+  const sport = selectSport(state)
+  const season = selectSeason(state)
+  const game = selectGame(state)
   return {
+    sport,
     season,
     game,
-    period,
-    sport,
-    away_team,
-    home_team,
   }
 }
 
@@ -36,4 +39,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game)
+export default connect(mapStateToProps, mapDispatchToProps)(withDatabase(Game))

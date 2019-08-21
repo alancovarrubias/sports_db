@@ -14,8 +14,8 @@ import {
 
 class Games extends Component {
   rowClick = game => {
-    const { history } = this.props
-    history.push(`/seasons/${this.season}/games/${game.id}`)
+    const { history, season } = this.props
+    history.push(`/seasons/${season.id}/games/${game.id}`)
   }
   
 

@@ -13,17 +13,17 @@ module Builder
     end
 
     def build
+=begin
       build_seasons
       build_teams
       build_players
       build_games
       build_game_stats
+=end
       build_quarter_stats
-=begin
       build_ratings
       build_bets
       build_lines
-=end
     end
 
     def daily_update

@@ -2,7 +2,6 @@ import { createSelector } from 'reselect'
 import * as _ from 'lodash'
 import { NBA, MLB } from '../const'
 import orm from '../models/orm'
-
 export const selectSport = state => state.sport
 export const selectNbaDatabase = state => state.nbaDatabase
 export const selectMlbDatabase = state => state.mlbDatabase
@@ -69,4 +68,15 @@ export const selectGames = createSelector(
 export const selectGamesFetch = createSelector(
   selectMeta,
   meta => meta.gamesFetch
+)
+
+export const selectGame = createSelector(
+  selectDatabase,
+  selectMeta,
+  (database, meta) => database.Game.withId(meta.gameId) ? database.Game.withId(meta.gameId) : {}
+)
+
+export const selectGameFetch = createSelector(
+  selectMeta,
+  meta => meta.gameFetch
 )

@@ -23,7 +23,13 @@ export const createGames = games => ({
 })
 
 export const CHOOSE_SEASON = 'CHOOSE_SEASON'
-export const chooseSeason = season => ({
+export const chooseSeason = seasonId => ({
   type: CHOOSE_SEASON,
-  payload: season,
+  payload: seasonId,
+})
+
+export const CHOOSE_GAME = 'CHOOSE_GAME'
+export const chooseGame = gameId => ({
+  type: CHOOSE_GAME,
+  payload: gameId,
 })

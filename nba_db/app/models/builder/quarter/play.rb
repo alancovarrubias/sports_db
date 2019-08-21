@@ -9,7 +9,7 @@ module Builder
       end
 
       def parse_play(text)
-        case text
+        case text.scrub('')
         when /defensive rebound/i
           def_reb
         when /offensive rebound/i

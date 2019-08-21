@@ -32,7 +32,8 @@ module Builder
       def parse_rows(data)
         last = data.last
         until data.empty?
-          data.shift(1) if data[1].text.match(/\d:\d\d\.\d/)
+          text = data[1].text.scrub('')
+          data.shift(1) if text.match(/\d:\d\d\.\d/)
           row = Quarter::Row.new(data, @game.away_team, @game.home_team)
           case row.play.type
           when /qs/

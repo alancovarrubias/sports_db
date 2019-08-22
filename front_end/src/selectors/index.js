@@ -51,13 +51,9 @@ export const selectSeason = createSelector(
 
 export const selectSeasons = createSelector(
   selectDatabase,
-  database => _.sortBy(database.Season.all().toRefArray(), ['year']).reverse()
+  database => _.sortBy(database.Season.all().toModelArray(), ['year']).reverse()
 )
 
-export const selectSeasonsFetch = createSelector(
-  selectMeta,
-  meta => meta.seasonsFetch
-)
 
 export const selectGames = createSelector(
   selectDatabase,
@@ -66,12 +62,7 @@ export const selectGames = createSelector(
     ...game.ref,
     away_team: game.away_team.ref,
     home_team: game.home_team.ref,
-  })): []
-)
-
-export const selectGamesFetch = createSelector(
-  selectMeta,
-  meta => meta.gamesFetch
+  })) : []
 )
 
 export const selectGame = createSelector(
@@ -80,9 +71,19 @@ export const selectGame = createSelector(
   (database, meta) => database.Game.withId(meta.gameId) ? database.Game.withId(meta.gameId) : {}
 )
 
-export const selectGameFetch = createSelector(
+export const selectSeasonsFetched = createSelector(
   selectMeta,
-  meta => meta.gameFetch
+  meta => meta.seasonsFetched
+)
+
+export const selectGamesFetched = createSelector(
+  selectMeta,
+  meta => meta.gamesFetched
+)
+
+export const selectStatsFetched = createSelector(
+  selectMeta,
+  meta => meta.statsFetched
 )
 
 export const selectTeams = createSelector(

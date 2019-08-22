@@ -1,32 +1,28 @@
 import { combineReducers } from 'redux'
-import {
-  CHOOSE_SEASON,
-  CHOOSE_GAME,
-  SEASONS_FETCH,
-  GAMES_FETCH,
-  GAME_FETCH,
-} from '../actions'
+import { handleActions } from 'redux-actions'
+import actions from '../actions'
 
-const seasonId = (state = null, action) => {
-  const { payload, type } = action
-  switch (type) {
-    case CHOOSE_SEASON:
-      return payload
-    default:
-      return state
-  }
-}
+const seasonId = handleActions({
+  [actions.seasonId]: (_, { payload: { seasonId } }) => seasonId,
+}, null)
 
-const gameId = (state = null, action) => {
-  const { payload, type } = action
-  switch (type) {
-    case CHOOSE_GAME:
-      return payload
-    default:
-      return state
-  }
-}
+const gameId = handleActions({
+  [actions.gameId]: (_, { payload: { gameId } }) => gameId,
+}, null)
 
+const seasonsFetched = handleActions({
+  [actions.seasonsFetched]: () => true,
+}, false)
+
+const gamesFetched = handleActions({
+  [actions.gamesFetched]: (state, { payload: { seasonId } }) => [seasonId, ...state],
+}, [])
+
+const statsFetched = handleActions({
+  [actions.statsFetched]: (state, { payload: { gameId } }) => [gameId, ...state],
+}, [])
+
+/*
 const seasonsFetch = (state = false, action) => {
   const { payload, type } = action
   switch (type) {
@@ -56,12 +52,13 @@ const gameFetch = (state = [], action) => {
       return state
   }
 }
+*/
 
 export default combineReducers({
   seasonId,
   gameId,
-  seasonsFetch,
-  gamesFetch,
-  gameFetch,
+  seasonsFetched,
+  gamesFetched,
+  statsFetched,
 })
 

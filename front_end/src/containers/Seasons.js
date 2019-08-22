@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import { selectSeason } from '../actions'
 import withDatabase from '../hoc/withDatabase'
 import SeasonIndex from '../components/seasons/Index'
 import { selectSeasons } from '../selectors'

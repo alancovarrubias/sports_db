@@ -1,16 +1,11 @@
+import databaseActions from './database'
 export * from './async'
-export * from './database'
+export default databaseActions
 
 export const TOGGLE_SPORT = 'TOGGLE_SPORT'
 export const toggleSport = sport => ({
   type: TOGGLE_SPORT,
   sport,
-})
-
-export const SELECT_SEASON = 'SELECT_SEASON'
-export const selectSeason = season => ({
-  type: SELECT_SEASON,
-  season,
 })
 
 export const SELECT_PERIOD = 'SELECT_PERIOD'

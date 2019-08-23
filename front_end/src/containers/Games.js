@@ -5,8 +5,10 @@ import {
   selectPeriod,
   changeRange,
 } from '../actions'
-import GamesIndex from '../components/games/Index'
+import GamesComponent from '../components/Games'
 import {
+  selectGameHeaders,
+  selectGameKeys,
   selectSport,
   selectSeason,
   selectGames,
@@ -20,18 +22,21 @@ class Games extends Component {
 
   render() {
     return (
-      <GamesIndex {...this.props} gameClick={this.gameClick} rangeChange={this.rangeChange} />
+      <GamesComponent {...this.props} gameClick={this.gameClick} rangeChange={this.rangeChange} />
     )
   }
 }
 
 const mapStateToProps = state => {
-  const sport = selectSport(state)
-  const season = selectSeason(state)
-  const games = selectGames(state)
-  const period = 0
-  const range = 0
-  return { season, games, period, range, sport }
+  return {
+    headers: selectGameHeaders(state),
+    keys: selectGameKeys(state),
+    sport: selectSport(state),
+    season: selectSeason(state),
+    games: selectGames(state),
+    period: 0,
+    range: 0,
+  }
 }
 
 const mapDispatchToProps = dispatch => {

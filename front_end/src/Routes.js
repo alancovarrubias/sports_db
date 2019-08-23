@@ -9,7 +9,7 @@ import {
 import Navbar from './containers/Navbar'
 import Seasons from './containers/Seasons'
 import Games from './containers/Games'
-import Game from './containers/Game'
+import Stats from './containers/Stats'
 
 const Routes = () => (
   <Router>
@@ -18,7 +18,7 @@ const Routes = () => (
       <Redirect from="/" to="/seasons" exact />
       <Route path="/seasons" component={Seasons} exact />
       <Route path="/seasons/:seasonId/games" component={Games} exact />
-      <Route path="/seasons/:seasonId/games/:gameId" component={Game} exact />
+      <Route path="/seasons/:seasonId/games/:gameId" component={Stats} exact />
     </Switch>
   </Router>
 )

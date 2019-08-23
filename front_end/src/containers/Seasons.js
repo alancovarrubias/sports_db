@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withDatabase from '../hoc/withDatabase'
-import SeasonIndex from '../components/seasons/Index'
-import { selectSeasons } from '../selectors'
+import SeasonsComponent from '../components/Seasons'
+import {
+  selectSeasons,
+  selectSeasonHeaders,
+  selectSeasonKeys,
+} from '../selectors'
 
 class Seasons extends Component {
   rowClick = season => {
@@ -11,14 +15,15 @@ class Seasons extends Component {
   }
 
   render() {
-    return <SeasonIndex {...this.props} rowClick={this.rowClick} />
+    return <SeasonsComponent {...this.props} rowClick={this.rowClick} />
   }
 }
 
 const mapStateToProps = state => {
-  const seasons = selectSeasons(state)
   return {
-    seasons,
+    seasons: selectSeasons(state),
+    headers: selectSeasonHeaders(state),
+    keys: selectSeasonKeys(state),
   }
 }
 

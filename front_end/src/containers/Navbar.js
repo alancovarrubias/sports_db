@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-// import { namespaceActions } from '../helpers/namespace-module'
 import { selectSeasons } from '../selectors'
 import { toggleSport, selectPeriod } from '../actions'
-import NavbarComponent from '../components/navbar/Navbar'
 import withDatabase from '../hoc/withDatabase'
+import NavbarComponent from '../components/Navbar'
 
 class Navbar extends Component {
   brandClick = () => {

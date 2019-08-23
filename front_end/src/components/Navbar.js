@@ -1,12 +1,10 @@
 import React from 'react'
-import Dropdown from './Dropdown'
+import Dropdown from './common/Dropdown'
+import { SPORTS, PERIODS } from '../const'
+
 import './Navbar.css'
 
-// const
-import { SPORTS } from '../../const'
-import { PERIODS } from '../../const/periods'
-
-const Navbar = ({ sport, seasons, brandClick, seasonGamesClick, toggleSport, selectPeriod }) => {
+const NavbarComponent = ({ sport, seasons, brandClick, seasonGamesClick, toggleSport, selectPeriod }) => {
   const uppercaseSport = sport.toUpperCase()
   const seasonGamesDropdown = {
     title: "Seasons",
@@ -49,4 +47,4 @@ const Navbar = ({ sport, seasons, brandClick, seasonGamesClick, toggleSport, sel
       )
 }
 
-export default Navbar
+export default NavbarComponent

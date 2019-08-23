@@ -1,16 +1,12 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
-import './Index.css'
 import { Link } from 'react-router-dom'
 
-// Components
-import Table from '../common/Table'
-import BetRows from './index/BetRows'
+import './Games.css'
+import Table from './common/Table'
+import BetRows from './common/BetRows'
 
-// Constants
-import { HEADERS, KEYS } from '../../const/games'
-
-const Index = ({ season, games, period, range, sport, gameClick, onChange, selectPeriod }) => {
+const GamesComponent = ({ headers, keys, season, games, period, range, sport, gameClick, onChange, selectPeriod }) => {
   return (
     <div className="game-index">
       <Row>
@@ -24,12 +20,12 @@ const Index = ({ season, games, period, range, sport, gameClick, onChange, selec
       <BetRows games={games} />
       <Row>
         <Col lg={12}>
-          <Table headers={HEADERS} keys={KEYS} rows={games} rowClick={gameClick} /> 
+          <Table headers={headers} keys={keys} rows={games} rowClick={gameClick} /> 
         </Col>
       </Row>
     </div>
   )
 }
 
-export default Index
+export default GamesComponent
 

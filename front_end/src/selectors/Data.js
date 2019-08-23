@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { NBA, MLB } from '../../const'
-import orm from '../../models/orm'
+import { NBA, MLB } from '../const'
+import orm from '../models/orm'
 
 export const selectSport = state => state.sport
 export const selectNbaDatabase = state => state.nbaDatabase
@@ -42,5 +42,4 @@ export const selectMeta = createSelector(
     }
   }
 )
-
 

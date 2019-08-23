@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import * as _ from 'lodash'
-import { selectDatabase, selectMeta } from '../Data'
+import { selectDatabase, selectMeta } from './Data'
+import { SEASON_KEYS, SEASON_HEADERS } from '../const'
 
 export const selectSeason = createSelector(
   selectDatabase,
@@ -23,3 +24,10 @@ export const selectSeasonId = createSelector(
   (meta) => meta.seasonId
 )
 
+export const selectSeasonHeaders = createSelector(
+  () => SEASON_HEADERS
+)
+
+export const selectSeasonKeys = createSelector(
+  () => SEASON_KEYS
+)

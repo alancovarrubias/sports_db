@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { createReducer } from 'redux-orm'
 import { TOGGLE_SPORT } from '../actions'
-import { NBA, MLB } from '../const/sports'
+import { NBA, MLB } from '../const'
 import { namespaceReducerFactory } from '../helpers/namespaceModule'
 import orm from '../models/orm'
 import metaReducer from './metaReducer'

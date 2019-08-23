@@ -7,7 +7,7 @@ import Stat from './Stat'
 import Bet from './Bet'
 import Line from './Line'
 
-const orm = new ORM()
-orm.register(Season, Team, Player, Game, Stat, Bet, Line)
-export default orm
+const Orm = new ORM()
+Orm.register(Season, Team, Player, Game, Stat, Bet, Line)
+export default Orm
 

@@ -2,14 +2,6 @@ import { combineReducers } from 'redux'
 import { handleActions } from 'redux-actions'
 import actions from '../actions'
 
-const period = handleActions({
-  [actions.selectPeriod]: (_, { payload: { period } }) => period,
-}, 0)
-
-const range = handleActions({
-  [actions.selectRange]: (_, { payload: { range } }) => range,
-}, 0)
-
 const seasonId = handleActions({
   [actions.selectSeasonId]: (_, { payload: { seasonId } }) => seasonId,
 }, null)
@@ -31,8 +23,6 @@ const statsFetched = handleActions({
 }, [])
 
 export default combineReducers({
-  period,
-  range,
   seasonId,
   gameId,
   seasonsFetched,

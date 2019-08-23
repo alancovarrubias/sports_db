@@ -14,7 +14,13 @@ class GamesController < ApiController
     @season = Season.find(params[:season_id])
     @teams = @game.teams
     @players = @teams.map(&:players).flatten
-    @stats = [@game.game_away_player_stats, @game.game_home_player_stats].flatten
+    @stats = [@game.game_away_player_stats, @game.game_home_player_stats].flatten.map do |stat|
+      attributes = stat.attributes
+      attributes[:mp] = stat.mp.round(2)
+      attributes[:ortg] = stat.ortg.round(2)
+      attributes[:drtg] = stat.drtg.round(2)
+      attributes
+    end
     render json: { season: @season, game: @game, teams: @teams, players: @players, stats: @stats }
   end
 

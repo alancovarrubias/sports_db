@@ -3,6 +3,9 @@ import { NBA, MLB } from '../const'
 import orm from '../models/orm'
 
 export const selectSport = state => state.sport
+export const selectPeriod = state => state.period
+export const selectRange = state => state.range
+
 export const selectNbaDatabase = state => state.nbaDatabase
 export const selectMlbDatabase = state => state.mlbDatabase
 export const selectNbaMeta = state => state.nbaMeta
@@ -43,12 +46,3 @@ export const selectMeta = createSelector(
   }
 )
 
-export const selectPeriod = createSelector(
-  selectMeta,
-  meta => meta.period
-)
-
-export const selectRange = createSelector(
-  selectMeta,
-  meta => meta.range
-)

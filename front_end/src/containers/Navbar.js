@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import actions from '../actions'
 import { selectSeasons } from '../selectors'
-import { toggleSport, selectPeriod } from '../actions'
 import withDatabase from '../hoc/withDatabase'
 import NavbarComponent from '../components/Navbar'
 
@@ -32,8 +32,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    selectPeriod: event => dispatch(selectPeriod(event.target.value)),
-    toggleSport: sport => dispatch(toggleSport(sport)),
+    selectPeriod: event => dispatch(actions.selectPeriod(event.target.value)),
+    toggleSport: sport => dispatch(actions.toggleSport(sport)),
   }
 }
 

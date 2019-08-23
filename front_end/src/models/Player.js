@@ -15,6 +15,10 @@ export default class Player extends Model {
 Player.modelName = 'Player'
 Player.fields = {
   id: attr(),
-  season: fk('Season', 'models')
+  team_id: fk({
+    to: 'Team',
+    as: 'team',
+    relatedName: 'players',
+  })
 }
 

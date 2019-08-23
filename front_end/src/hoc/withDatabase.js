@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { selectSport, selectDatabase } from '../selectors'
-import { fetchData } from '../actions'
+import { fetchData } from '../actions/async'
 
 export default function withDatabase(WrappedComponent) {
   class With extends React.Component {

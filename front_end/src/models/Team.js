@@ -20,7 +20,5 @@ Team.fields = {
     as: 'season',
     relatedName: 'teams',
   }),
-  name: attr(),
-  abbr: attr(),
 }
 

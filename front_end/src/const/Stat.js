@@ -27,8 +27,8 @@ export const STAT_HEADERS = {
 }
 export const STAT_KEYS = {
   [NBA]: [
-    'name',
-    'mp',
+    'player.name',
+    'sp',
     'fgm',
     'fga',
     'thpm',
@@ -47,6 +47,6 @@ export const STAT_KEYS = {
     'drtg',
   ],
   [MLB]: [
-    'name',
+    'player.name',
   ],
 }

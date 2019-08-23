@@ -43,3 +43,12 @@ export const selectMeta = createSelector(
   }
 )
 
+export const selectPeriod = createSelector(
+  selectMeta,
+  meta => meta.period
+)
+
+export const selectRange = createSelector(
+  selectMeta,
+  meta => meta.range
+)

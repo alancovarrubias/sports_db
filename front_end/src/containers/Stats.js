@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { selectPeriod } from '../actions'
+import actions from '../actions'
 import withDatabase from '../hoc/withDatabase'
 import StatsComponent from '../components/Stats'
 import {
@@ -15,13 +15,9 @@ import {
 } from '../selectors'
 
 class Stats extends Component {
-  rowClick = row => {
-    console.log(row)
-  }
-
   render() {
     return (
-      <StatsComponent {...this.props} rowClick={this.rowClick} />
+      <StatsComponent {...this.props} />
     )
   }
 }
@@ -42,7 +38,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    selectPeriod: (event) => dispatch(selectPeriod(event.target.value))
+    selectPeriod: (event) => dispatch(actions.selectPeriod(event.target.value))
   }
 }
 

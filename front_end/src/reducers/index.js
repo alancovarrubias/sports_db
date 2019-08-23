@@ -1,20 +1,15 @@
 import { combineReducers } from 'redux'
 import { createReducer } from 'redux-orm'
-import { TOGGLE_SPORT } from '../actions'
+import { handleActions } from 'redux-actions'
+import actions from '../actions'
 import { NBA, MLB } from '../const'
 import { namespaceReducerFactory } from '../helpers/namespaceModule'
 import orm from '../models/orm'
 import metaReducer from './metaReducer'
 
-const sport = (state = '', action) => {
-  switch (action.type) {
-    case TOGGLE_SPORT:
-      return action.sport
-    default:
-      return state
-  }
-}
-
+const sport = handleActions({
+  [actions.toggleSport]: (_, { payload: { sport } }) => sport
+}, MLB)
 const nbaDatabase = namespaceReducerFactory(NBA)(createReducer(orm))
 const mlbDatabase = namespaceReducerFactory(MLB)(createReducer(orm))
 const nbaMeta = namespaceReducerFactory(NBA)(metaReducer)

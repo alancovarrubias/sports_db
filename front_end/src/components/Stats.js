@@ -18,13 +18,13 @@ const Show = ({ headers, keys, sport, season, awayTeam, homeTeam, awayStats, hom
           <Row>
             <Col className="away-table" lg={12}>
               <p>{awayTeam.name} Player Stats</p>
-              <Table headers={headers} keys={keys} rows={awayStats} rowClick={rowClick} maxHeight="300px" />
+              <Table headers={headers} keys={keys} rows={awayStats} maxHeight="300px" />
             </Col>
           </Row>
           <Row>
             <Col className="home-table" lg={12}>
               <p>{homeTeam.name} Player Stats</p>
-              <Table headers={headers} keys={keys} rows={homeStats} rowClick={rowClick} maxHeight="300px" />
+              <Table headers={headers} keys={keys} rows={homeStats} maxHeight="300px" />
             </Col>
           </Row>
         </div>

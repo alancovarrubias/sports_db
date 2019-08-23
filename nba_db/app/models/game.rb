@@ -93,53 +93,6 @@ class Game < ApplicationRecord
     end
   end
 
-  def show_data
-    return {
-      season: { id: season.id, year: season.year },
-      game: {
-        id: self.id,
-        away_team: self.away_team,
-        away_players: self.away_team.players,
-        away_stats: self.game_away_player_stats,
-        home_team: self.home_team,
-        home_players: self.home_team.players,
-        home_stats: self.game_home_player_stats,
-      },
-    }
-  end
-
-  def index_data
-    index_hash = {}
-    index_hash[:id] = game.id
-    index_hash[:season] = game.season_id
-    index_hash[:away_team] = game.away_team_id
-    index_hash[:home_team] = game.home_team_id
-    index_hash[:date] = game.date
-    bets = {}
-    lines = {}
-    PERIODS.each do |period|
-      bet = game.bets.find { |bet| period == bet.period && bet.desc == 'old' }
-      bets[period] = {}
-      if bet
-        period_bet = bets[period]
-        period_bet[:away_pred] = bet.away_prediction ? bet.away_prediction.round(2) : 'N/A'
-        period_bet[:home_pred] = bet.home_prediction ? bet.home_prediction.round(2) : 'N/A'
-        period_bet[:away_score] = bet.away_score
-        period_bet[:home_score] = bet.home_score
-      end
-      line = game.lines.find { |line| period == line.period }
-      lines[period] = {}
-      if line
-        period_line = lines[period]
-        period_line[:spread] = line.spread
-        period_line[:total] = line.total
-      end
-    end
-    index_hash[:bets] = bets
-    index_hash[:lines] = lines
-    return index_hash
-  end
-
   def url
     "%d%02d%02d0#{home_team.abbr}" % [date.year, date.month, date.day]
   end

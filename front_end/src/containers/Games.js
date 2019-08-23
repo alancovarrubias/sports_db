@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withDatabase from '../hoc/withDatabase'
-import {
-  selectPeriod,
-  changeRange,
-} from '../actions'
 import GamesComponent from '../components/Games'
+import actions from '../actions'
 import {
   selectGameHeaders,
   selectGameKeys,
@@ -42,8 +39,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    selectPeriod: event => dispatch(selectPeriod(event.target.value)),
-    changeRange: event => dispatch(changeRange(event.target.value)),
+    selectPeriod: event => dispatch(actions.selectPeriod(event.target.value)),
+    changeRange: event => dispatch(actions.selectRange(event.target.value)),
   }
 }
 

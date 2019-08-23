@@ -1,5 +1,5 @@
 import api from '../api'
-import actions from './database'
+import actions from './index'
 import {
   selectSport,
   selectSeasonsFetched,
@@ -20,14 +20,14 @@ export const fetchData = (match) => async (dispatch, getState) => {
     dispatch(fetchSeasons(namespacedActions))
     dispatch(namespacedActions.seasonsFetched())
   } else if (path === '/seasons/:seasonId/games') {
-    dispatch(namespacedActions.seasonId(seasonId))
+    dispatch(namespacedActions.selectSeasonId(seasonId))
     if (shouldGamesFetch) {
       dispatch(fetchGames(namespacedActions))
       dispatch(namespacedActions.gamesFetched(seasonId))
     }
   } else if (path === '/seasons/:seasonId/games/:gameId') {
-    dispatch(namespacedActions.seasonId(seasonId))
-    dispatch(namespacedActions.gameId(gameId))
+    dispatch(namespacedActions.selectSeasonId(seasonId))
+    dispatch(namespacedActions.selectGameId(gameId))
     if (shouldStatsFetch) {
       dispatch(fetchStats(namespacedActions))
       dispatch(namespacedActions.statsFetched(gameId))

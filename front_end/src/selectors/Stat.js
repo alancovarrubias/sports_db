@@ -1,19 +1,28 @@
 import { createSelector } from 'reselect'
 import { STAT_HEADERS, STAT_KEYS } from '../const'
-import { selectMeta, selectSport } from './Data'
+import { selectMeta, selectSport, selectPeriod } from './Data'
 import { selectGame } from './Game'
 import { selectAwayTeam, selectHomeTeam } from './Team'
+
+const selectTeamStats = (game, team, period) => game.stats ? game.stats.toModelArray().filter(
+  stat => stat.player.team_id === team.id && stat.period === period
+).map(stat => ({
+  ...stat.ref,
+  player: stat.player.ref,
+})) : []
 
 export const selectAwayStats = createSelector(
   selectGame,
   selectAwayTeam,
-  (game, away_team) => []
+  selectPeriod,
+  selectTeamStats
 )
 
 export const selectHomeStats = createSelector(
   selectGame,
   selectHomeTeam,
-  (game, away_team) => []
+  selectPeriod,
+  selectTeamStats
 )
 
 export const selectStatHeaders = createSelector(

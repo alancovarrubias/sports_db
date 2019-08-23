@@ -11,7 +11,11 @@ class GamesController < ApiController
 
   # GET /games/1
   def show
-    render json: @game.show_data
+    @season = Season.find(params[:season_id])
+    @teams = @game.teams
+    @players = @teams.map(&:players).flatten
+    @stats = [@game.game_away_player_stats, @game.game_home_player_stats].flatten
+    render json: { season: @season, game: @game, teams: @teams, players: @players, stats: @stats }
   end
 
   # POST /games

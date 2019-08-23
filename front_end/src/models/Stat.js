@@ -1,4 +1,4 @@
-import { Model, attr } from 'redux-orm'
+import { Model, attr, fk } from 'redux-orm'
 import { handleActions } from 'redux-actions'
 import actions from '../actions'
 
@@ -15,6 +15,15 @@ export default class Stat extends Model {
 Stat.modelName = 'Stat'
 Stat.fields = {
   id: attr(),
-  year: attr(),
+  game_id: fk({
+    to: 'Game',
+    as: 'game',
+    relatedName: 'stats',
+  }),
+  model_id: fk({
+    to: 'Player',
+    as: 'player',
+    relatedName: 'stats',
+  })
 }
 

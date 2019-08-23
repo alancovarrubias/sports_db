@@ -35,5 +35,9 @@ const Table = ({ headers, keys, rows, rowClick }) => {
     )
 }
 
+Table.defaultProps = {
+  rowClick: () => {},
+}
+
 export default Table
 

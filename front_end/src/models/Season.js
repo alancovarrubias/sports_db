@@ -4,14 +4,10 @@ import actions from '../actions'
 
 const { createSeason, createSeasons } = actions
 export default class Season extends Model {
-  static reducer = (action = {}, Season, session) => {
+  static reducer(action, Season, session) {
     handleActions({
-      [createSeason]: (_, { payload: { season } }) => {
-        Season.upsert(season)
-      },
-      [createSeasons]: (_, { payload: { seasons } }) => {
-        seasons.forEach(season => Season.upsert(season))
-      },
+      [createSeason]: (_, { payload: { season } }) => Season.upsert(season),
+      [createSeasons]: (_, { payload: { seasons } }) => seasons.forEach(season => Season.upsert(season)),
     }, {})(null, action)
   }
 }

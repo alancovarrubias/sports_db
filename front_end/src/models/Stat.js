@@ -1,21 +1,14 @@
 import { Model, attr } from 'redux-orm'
-// import { CREATE_STAT, CREATE_STATS } from '../actions'
+import { handleActions } from 'redux-actions'
+import actions from '../actions'
 
+const { createStat, createStats } = actions
 export default class Stat extends Model {
   static reducer(action, Stat, session) {
-    const { payload, type } = action
-    switch (type) {
-        /*
-      case CREATE_STAT:
-        Stat.upsert(payload)
-        break
-      case CREATE_STATS:
-        payload.forEach(player => Stat.upsert(player))
-        break
-        */
-      default:
-        break
-    }
+    handleActions({
+      [createStat]: (_, { payload: { stat } }) => Stat.upsert(stat),
+      [createStats]: (_, { payload: { stats } }) => stats.forEach(stat => Stat.upsert(stat)),
+    }, {})(null, action)
   }
 }
 

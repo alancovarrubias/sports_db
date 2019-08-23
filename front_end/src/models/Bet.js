@@ -1,21 +1,14 @@
 import { Model, attr, fk } from 'redux-orm'
-// import { CREATE_BET, CREATE_BETS } from '../actions'
+import { handleActions } from 'redux-actions'
+import actions from '../actions'
 
+const { createBet, createBets } = actions
 export default class Bet extends Model {
   static reducer(action, Bet, session) {
-    const { payload, type } = action
-    switch (type) {
-        /*
-      case CREATE_BET:
-        Bet.create(payload)
-        break
-      case CREATE_BETS:
-        payload.forEach(game => Bet.create(game))
-        break
-        */
-      default:
-        break
-    }
+    handleActions({
+      [createBet]: (_, { payload: { bet } }) => Bet.upsert(bet),
+      [createBets]: (_, { payload: { bets } }) => bets.forEach(bet => Bet.upsert(bet)),
+    }, {})(null, action)
   }
 }
 

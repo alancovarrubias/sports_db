@@ -4,16 +4,10 @@ import actions from '../actions'
 
 const { createGame, createGames } = actions
 export default class Game extends Model {
-  static reducer = (action = {}, Game, session) => {
+  static reducer(action, Game, session) {
     handleActions({
-      [createGame]: (_, { payload: { game } }) => {
-        Game.upsert(game)
-      },
-      [createGames]: (_, { payload: { games } }) => {
-        games.forEach(game => {
-          Game.upsert(game)
-        })
-      },
+      [createGame]: (_, { payload: { game } }) => Game.upsert(game),
+      [createGames]: (_, { payload: { games } }) => games.forEach(game => Game.upsert(game)),
     }, {})(null, action)
   }
 }

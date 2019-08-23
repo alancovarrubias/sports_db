@@ -4,14 +4,10 @@ import actions from '../actions'
 
 const { createPlayer, createPlayers } = actions
 export default class Player extends Model {
-  static reducer = (action = {}, Player, session) => {
+  static reducer(action, Player, session) {
     handleActions({
-      [createPlayer]: (_, { payload: { player } }) => {
-        Player.upsert(player)
-      },
-      [createPlayers]: (_, { payload: { players } }) => {
-        players.forEach(player => Player.upsert(player))
-      },
+      [createPlayer]: (_, { payload: { player } }) => Player.upsert(player),
+      [createPlayers]: (_, { payload: { players } }) => players.forEach(player => Player.upsert(player)),
     }, {})(null, action)
   }
 }

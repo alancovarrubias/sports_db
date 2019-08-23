@@ -1,21 +1,14 @@
 import { Model, attr, fk } from 'redux-orm'
-// import { CREATE_LINE, CREATE_LINES } from '../actions'
+import { handleActions } from 'redux-actions'
+import actions from '../actions'
 
+const { createLine, createLines } = actions
 export default class Line extends Model {
   static reducer(action, Line, session) {
-    const { payload, type } = action
-    switch (type) {
-        /*
-      case CREATE_LINE:
-        Line.create(payload)
-        break
-      case CREATE_LINES:
-        payload.forEach(game => Line.create(game))
-        break
-        */
-      default:
-        break
-    }
+    handleActions({
+      [createLine]: (_, { payload: { line } }) => Line.upsert(line),
+      [createLines]: (_, { payload: { lines } }) => lines.forEach(line => Line.upsert(line)),
+    }, {})(null, action)
   }
 }
 

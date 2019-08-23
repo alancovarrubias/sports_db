@@ -4,14 +4,10 @@ import actions from '../actions'
 
 const { createTeam, createTeams } = actions
 export default class Team extends Model {
-  static reducer = (action = {}, Team, session) => {
+  static reducer(action = {}, Team, session) {
     handleActions({
-      [createTeam]: (_, { payload: { team } }) => {
-        Team.upsert(team)
-      },
-      [createTeams]: (_, { payload: { teams } }) => {
-        teams.forEach(team => Team.upsert(team))
-      },
+      [createTeam]: (_, { payload: { team } }) => Team.upsert(team),
+      [createTeams]: (_, { payload: { teams } }) => teams.forEach(team => Team.upsert(team)),
     }, {})(null, action)
   }
 }

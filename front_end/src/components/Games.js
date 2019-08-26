@@ -6,15 +6,15 @@ import './Games.css'
 import Table from './common/Table'
 import BetRows from './common/BetRows'
 
-const GamesComponent = ({ headers, keys, season, games, period, range, sport, gameClick, onChange, selectPeriod }) => {
+const GamesComponent = ({ headers, keys, season, games, period, range, sport, gameClick, onChange, seasonLink }) => {
   return (
     <div className="game-index">
       <Row>
         <Col lg={12}>
           <div>
-            <Link to="/seasons">Seasons</Link>
+            <Link to={seasonLink}>Seasons</Link>
           </div>
-          <h1>{season.year} {sport.toUpperCase()} Games </h1>
+          <h1>{season.year} {sport} Games </h1>
         </Col>
       </Row>
       <BetRows games={games} />

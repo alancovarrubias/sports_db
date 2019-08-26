@@ -10,7 +10,7 @@ const Show = ({ headers, keys, sport, season, awayTeam, homeTeam, awayStats, hom
           <Row>
             <Col lg={12}>
               <div>
-                <Link to={`/seasons/${season.id}/games`}>{season.year} {sport.toUpperCase()} Games</Link>
+                <Link to={`/seasons/${season.id}/games`}>{season.year} {sport} Games</Link>
               </div>
               <h1>{awayTeam.name} @ {homeTeam.name}</h1>
             </Col>

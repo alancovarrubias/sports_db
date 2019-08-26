@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import actions from '../actions'
 import withDatabase from '../hoc/withDatabase'
 import StatsComponent from '../components/Stats'
 import {
@@ -14,13 +13,9 @@ import {
   selectHomeStats,
 } from '../selectors'
 
-class Stats extends Component {
-  render() {
-    return (
-      <StatsComponent {...this.props} />
-    )
-  }
-}
+const Stats = props => (
+  <StatsComponent {...props} />
+)
 
 const mapStateToProps = state => {
   return {
@@ -35,11 +30,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatch,
-    selectPeriod: (event) => dispatch(actions.selectPeriod(event.target.value))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withDatabase(Stats))
+export default connect(mapStateToProps)(withDatabase(Stats))

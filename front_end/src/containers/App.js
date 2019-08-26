@@ -3,9 +3,8 @@ import { Provider } from 'react-redux'
 
 import Routes from '../Routes'
 import configureStore from '../configureStore'
-import defaultState from '../defaultState'
 
-const store = configureStore(defaultState)
+const store = configureStore()
 
 const App = () => (
   <Provider store={store}>

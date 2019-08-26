@@ -13,8 +13,11 @@ import {
 
 class Games extends Component {
   gameClick = game => {
-    const { history, season } = this.props
-    history.push(`/seasons/${season.id}/games/${game.id}`)
+    const { history, season, queryParams: { sport } } = this.props
+    history.push({
+      pathname: `/seasons/${season.id}/games/${game.id}`,
+      search: `?sport=${sport}`,
+    })
   }
 
   render() {
@@ -25,14 +28,16 @@ class Games extends Component {
 }
 
 const mapStateToProps = state => {
+  const sport = selectSport(state)
   return {
+    sport,
     headers: selectGameHeaders(state),
     keys: selectGameKeys(state),
-    sport: selectSport(state),
     season: selectSeason(state),
     games: selectGames(state),
     period: 0,
     range: 0,
+    seasonLink: `/seasons?sport=${sport}`,
   }
 }
 

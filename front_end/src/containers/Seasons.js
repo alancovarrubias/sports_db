@@ -10,8 +10,11 @@ import {
 
 class Seasons extends Component {
   rowClick = season => {
-    const { history } = this.props
-    history.push(`/seasons/${season.id}/games`)
+    const { history, queryParams: { sport } } = this.props
+    history.push({
+      pathname: `/seasons/${season.id}/games`,
+      search: `?sport=${sport}`
+    })
   }
 
   render() {

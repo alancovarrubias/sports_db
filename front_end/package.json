@@ -9,6 +9,7 @@
     "http-proxy-middleware": "^0.19.1",
     "lodash": "^4.17.15",
     "normalizr": "^3.4.0",
+    "query-string": "^6.8.2",
     "react": "^16.8.6",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.8.6",

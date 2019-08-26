@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { createReducer } from 'redux-orm'
 import { handleActions } from 'redux-actions'
 import actions from '../actions'
-import { NBA, MLB } from '../const'
+import { NBA, MLB, DEFAULT_SPORT } from '../const'
 import { namespaceReducerFactory } from '../helpers/namespaceModule'
 import orm from '../models/orm'
 import metaReducer from './metaReducer'
@@ -13,8 +13,8 @@ const nbaMeta = namespaceReducerFactory(NBA)(metaReducer)
 const mlbMeta = namespaceReducerFactory(MLB)(metaReducer)
 
 const sport = handleActions({
-  [actions.toggleSport]: (_, { payload: { sport } }) => sport
-}, MLB)
+  [actions.toggleSport]: (_, { payload: { sport, history } }) => sport,
+}, DEFAULT_SPORT)
 
 const period = handleActions({
   [actions.selectPeriod]: (_, { payload: { period } }) => Number(period),

@@ -30,10 +30,10 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     selectPeriod: event => dispatch(actions.selectPeriod(event.target.value)),
-    toggleSport: sport => dispatch(actions.toggleSport(sport)),
+    toggleSport: sport => dispatch(actions.toggleSport(sport)) && ownProps.history.push({ pathname: '/seasons', search: `?sport=${sport}` }),
   }
 }
 

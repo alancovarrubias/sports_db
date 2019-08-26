@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import * as _ from 'lodash'
 import { selectDatabase, selectMeta } from './Data'
 import { selectSeason } from './Season'
 import { GAME_HEADERS, GAME_KEYS } from '../const'
@@ -12,11 +13,11 @@ export const selectGame = createSelector(
 export const selectGames = createSelector(
   selectDatabase,
   selectSeason,
-  (database, season) => season.id ? season.games.toModelArray().map(game => ({
+  (database, season) => season.id ? _.sortBy(season.games.toModelArray().map(game => ({
     ...game.ref,
     away_team: game.away_team.ref,
     home_team: game.home_team.ref,
-  })) : []
+  })), ['date']) : []
 )
 
 export const selectGameHeaders = createSelector(

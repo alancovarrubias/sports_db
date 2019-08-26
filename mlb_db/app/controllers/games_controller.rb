@@ -5,7 +5,6 @@ class GamesController < ApiController
 
   # GET /games
   def index
-    @season = Season.find(params[:season_id])
     @games = @season.games.where("date < ?", Date.today)
     @teams = @season.teams
     render json: { season: @season, teams: @teams, games: @games }
@@ -13,7 +12,10 @@ class GamesController < ApiController
 
   # GET /games/1
   def show
-    render json: { season: @season, game: @game.show_data }
+    @teams = @game.teams
+    @players = @teams.map(&:players).flatten
+    @stats = [@game.pitcher_stats, @game.batter_stats].flatten
+    render json: { season: @season, game: @game, teams: @teams, players: @players, stats: @stats }
   end
 
   # POST /games

@@ -8,6 +8,10 @@ class Game < ApplicationRecord
 
   PERIODS = [0]
 
+  def teams
+    return [self.away_team, self.home_team]
+  end
+
   def date_id
     day = sprintf '%02d', date.day
     month = sprintf '%02d', date.month
@@ -31,32 +35,5 @@ class Game < ApplicationRecord
 
   def batter_stats
     stats.where(stat_type: 'BATTER')
-  end
-
-  def index_data
-    index_hash = {}
-    index_hash[:id] = self.id
-    index_hash[:season_id] = self.season_id
-    index_hash[:away_team] = self.away_team.name
-    index_hash[:home_team] = self.home_team.name
-    index_hash[:date] = self.date
-    bets = {}
-    lines = {}
-    PERIODS.each do |period|
-      bets[period] = {}
-      lines[period] = {}
-    end
-    index_hash[:bets] = bets
-    index_hash[:lines] = lines
-    return index_hash
-  end
-
-  def show_data
-    away_team_name = self.away_team.name
-    home_team_name = self.home_team.name
-    return {
-      away_team: {},
-      home_team: {},
-    }
   end
 end

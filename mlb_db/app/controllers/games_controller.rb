@@ -6,8 +6,9 @@ class GamesController < ApiController
   # GET /games
   def index
     @season = Season.find(params[:season_id])
-    @games = @season.games.where("date < ?", Date.today).order(:date, :home_team_id).map(&:index_data)
-    render json: { season: @season, games: @games }
+    @games = @season.games.where("date < ?", Date.today)
+    @teams = @season.teams
+    render json: { season: @season, teams: @teams, games: @games }
   end
 
   # GET /games/1

@@ -1,32 +1,43 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../actions'
-import { selectSeasons } from '../selectors'
+import { selectSeasons, selectSport } from '../selectors'
 import withDatabase from '../hoc/withDatabase'
 import NavbarComponent from '../components/Navbar'
+import { SPORTS, PERIODS } from '../const'
 
 class Navbar extends Component {
   brandClick = () => {
-    const { history } = this.props
-    history.push('/seasons')
-  }
-
-  seasonGamesClick = season => {
-    const { history } = this.props
-    history.push(`/seasons/${season.id}/games`)
+    const { history, queryParams: { sport } } = this.props
+    history.push({
+      pathname: '/seasons',
+      search: `?sport=${sport}`,
+    })
   }
 
   render() {
     return (
-      <NavbarComponent {...this.props} brandClick={this.brandClick} seasonGamesClick={this.seasonGamesClick} />
+      <NavbarComponent {...this.props} brandClick={this.brandClick} />
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   const seasons = selectSeasons(state)
+  const sportsDropdown = {
+    title: "Sports",
+    links: SPORTS.map((sport, index) => ({
+      id: index,
+      text: sport,
+      data: sport,
+    })),
+  }
+  const sport = selectSport(state)
+  const periods = PERIODS[sport]
   return {
     seasons,
+    sportsDropdown,
+    periods,
   }
 }
 
@@ -38,3 +49,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withDatabase(Navbar))
+
+  /*
+  seasonGamesClick = season => {
+    const { history } = this.props
+    history.push(`/seasons/${season.id}/games`)
+  }
+  */

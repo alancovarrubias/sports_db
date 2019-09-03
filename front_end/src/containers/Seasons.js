@@ -13,7 +13,7 @@ class Seasons extends Component {
     const { history, queryParams: { sport } } = this.props
     history.push({
       pathname: `/seasons/${season.id}/games`,
-      search: `?sport=${sport}`
+      search: `?sport=${sport}`,
     })
   }
 

@@ -1,10 +1,28 @@
 import React from 'react'
 import Dropdown from './common/Dropdown'
-import { SPORTS, PERIODS } from '../const'
 
+import { SPORTS, PERIODS } from '../const'
 import './Navbar.css'
 
-const NavbarComponent = ({ sport, seasons, brandClick, seasonGamesClick, toggleSport, selectPeriod }) => {
+const NavbarComponent = ({ sport, brandClick, sportsDropdown, toggleSport, selectPeriod, periods }) => {
+  return (
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <button className="navbar-brand" onClick={brandClick}>{ sport } Database</button>
+          <Dropdown dropdown={sportsDropdown} onClick={toggleSport} />
+          <form className="navbar-search ml-auto mr-5">
+            <div>
+              Period:
+              <select className="form-control" onChange={selectPeriod}>
+                {Object.keys(periods).map(key => <option key={key} value={key}>{periods[key]}</option>)}
+              </select>
+            </div>
+          </form>
+        </nav>
+      )
+}
+
+export default NavbarComponent
+/*
   const seasonGamesDropdown = {
     title: "Seasons",
     links: seasons.map(season => ({
@@ -14,36 +32,5 @@ const NavbarComponent = ({ sport, seasons, brandClick, seasonGamesClick, toggleS
     })),
     onClick: seasonGamesClick,
   }
-  const sportsDropdown = {
-    title: "Sports",
-    links: SPORTS.map((sport, index) => ({
-      id: index,
-      text: sport,
-      data: sport,
-    })),
-    onClick: toggleSport,
-  }
-  const periods = PERIODS[sport]
-  const options = Object.keys(periods).map(key => <option key={key} value={key}>{periods[key]}</option>)
-  return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <button className="navbar-brand" onClick={brandClick}>{ sport } Database</button>
-          <ul className="navbar-nav">
-            <Dropdown dropdown={sportsDropdown} onClick={toggleSport} />
-          </ul>
-          <ul className="navbar-nav">
-            <Dropdown dropdown={seasonGamesDropdown} onClick={seasonGamesClick} />
-          </ul>
-          <form className="navbar-search ml-auto mr-5">
-            <div>
-              Period:
-              <select className="form-control" onChange={selectPeriod}>
-                {options}
-              </select>
-            </div>
-          </form>
-        </nav>
-      )
-}
-
-export default NavbarComponent
+  <Dropdown dropdown={seasonGamesDropdown} onClick={seasonGamesClick} />
+ */

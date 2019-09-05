@@ -1,21 +1,21 @@
 module Builder
   module Quarter
     class Play
-      attr_reader :type, :stat1, :stat2, :text
-      def initialize(play)
-        @type = "score"
-        @text = play.text
-        parse_play(@text)
+      attr_reader :type, :stat1, :stat2, :same_team
+      def initialize(play, player2)
+        @type = :score
+        @player2 = player2
+        parse_play(play)
       end
 
-      def parse_play(text)
-        case text.scrub('')
+      def parse_play(play)
+        case play.scrub('')
         when /defensive rebound/i
           def_reb
         when /offensive rebound/i
           off_reb
         when /free throw/
-          text.include?("miss") ? miss_free : make_free 
+          play.include?("miss") ? miss_free : make_free
         when /misses 2-pt/
           miss_two
         when /misses 3-pt/
@@ -31,9 +31,9 @@ module Builder
         when /personal|shooting|charge|loose ball|offensive|away from play|flagrant|clear path|inbound/i
           personal_foul
         when /enters the game/
-          substitution
+          sub
         when /quarter|overtime/
-          new_quarter(text)
+          new_quarter(play)
         when /jump/i
           jump
         when /tech foul|technical foul/i
@@ -64,64 +64,72 @@ module Builder
       def miss_two
         @stat1 = { fga: 1 }
         @stat2 = { blk: 1 } if @player2
+        @same_team = false
       end
 
       def make_two
         @stat1 = { fga: 1, fgm: 1, pts: 2 }
         @stat2 = { ast: 1 } if @player2
+        @same_team = true
       end
 
       def miss_three
         @stat1 = { fga: 1, thpa: 1 }
         @stat2 = { blk: 1 } if @player2
+        @same_team = false
       end
 
       def make_three
         @stat1 = { fga: 1, fgm: 1, thpa: 1, thpm: 1, pts: 3 }
         @stat2 = { ast: 1 } if @player2
+        @same_team = true
       end
 
       def turnover
         @stat1 = { tov: 1 }
         @stat2 = { stl: 1 } if @player2
+        @same_team = false
       end
 
       def double_foul
         @stat1 = { pf: 1 }
         @stat2 = { pf: 1 }
+        @same_team = false
       end
 
       def personal_foul
         @stat1 = { pf: 1 }
-      end
-      
-      def new_quarter(text)
-        case text
-        when /Start of/
-          @type = "qs"
-        when /End of/
-          @type = "qe"
-        end
-      end
-
-      def substitution
-        @type = "sub"
-      end
-
-      def jump
-        @type = "jump"
+        @type = :foul
       end
 
       def tech_foul
-        @type = "tech"
+        @type = :tech
       end
 
       def violation
-        @type = "viol"
+        @type = :viol
       end
 
       def ejected
-        @type = "ejected"
+        @type = :ejected
+      end
+      
+      def sub
+        @type = :sub
+        @same_team = true
+      end
+      
+      def jump
+        @type = :jump
+      end
+
+      def new_quarter(play)
+        case play
+        when /Start of/
+          @type = :qs
+        when /End of/
+          @type = :qe
+        end
       end
     end
   end

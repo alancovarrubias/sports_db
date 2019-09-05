@@ -1,7 +1,6 @@
 import React from 'react'
 import Dropdown from './common/Dropdown'
 
-import { SPORTS, PERIODS } from '../const'
 import './Navbar.css'
 
 const NavbarComponent = ({ sport, brandClick, sportsDropdown, toggleSport, selectPeriod, periods }) => {

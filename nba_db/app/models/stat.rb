@@ -21,7 +21,7 @@ class Stat < ApplicationRecord
 
   def self.build_model(stats)
     model_type = stats.first.model_type
-    return Stat.new(sum_stats(stats.map(&:stat_container)).merge({ model_type: model_type }))
+    return self.new(sum_stats(stats.map(&:stat_container)).merge({ model_type: model_type }))
   end
 
   def self.sum_stats(stats)
@@ -29,15 +29,27 @@ class Stat < ApplicationRecord
   end
 
   def self.game_stats(query={})
-    return Stat.where(games_back: nil, season_stat: false).where(query)
+    return self.where(season_stat: false, games_back: nil).where(query)
   end
 
   def self.season_stats(query={})
-    return Stat.where(season_stat: true).where(query)
+    return self.where(season_stat: true).where(query)
   end
 
   def self.prev_stats(games_back, query={})
-    return Stat.where(games_back: games_back, season_stat: false).where(query)
+    return self.where(season_stat: false, games_back: games_back).where(query)
+  end
+
+  def self.game_find_or_create_by(attributes)
+    self.find_or_create_by(attributes.merge(season_stat: false))
+  end
+
+  def self.season_find_or_create_by(attributes)
+    self.find_or_create_by(attributes.merge(season_stat: true))
+  end
+
+  def self.prev_find_or_create_by(games_back, attributes)
+    self.find_or_create_by(attributes.merge(season_stat: false, games_back: games_back))
   end
 
   def stats
@@ -47,27 +59,27 @@ class Stat < ApplicationRecord
   end
 
   def game_stats
-    stats.where(game: game)
+    return stats.where(game: game)
   end
 
   def model_stats
-    stats.where(model: model)
+    return stats.where(model: model)
   end
 
   def prev_stats
-    model_stats.where("game_id < #{game_id}").order(game_id: :desc)
+    return model_stats.where("game_id < #{game_id}").order(game_id: :desc)
   end
 
   def prev_ranged_stats(poss_percent, range)
-    prev_stats.where("poss_percent < #{poss_percent + range} AND poss_percent > #{poss_percent - range}")
+    return prev_stats.where("poss_percent < #{poss_percent + range} AND poss_percent > #{poss_percent - range}")
   end
 
   def name
-    model.name
+    return model.name
   end
 
   def opp
-    opp ||= (team == game.away_team) ? game.home_team : game.away_team if self.game
+    return opp ||= (team == game.away_team) ? game.home_team : game.away_team if self.game
   end
 
   def team_stat

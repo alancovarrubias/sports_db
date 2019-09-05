@@ -1,31 +1,39 @@
 module Builder
   module Quarter
     class Row
-      attr_reader :time, :play, :player1, :player2, :team1, :team2
-      def initialize(data, away_team, home_team)
-        size = data[2].nil? || data[2].text.include?(":") ? 2 : 6
-        row = data.shift(size)
-        @time = parse_time(row[0])
-        @team1 = row[1].text.length > 1 ? home_team : away_team
-        @team2 = row[1].text.length > 1 ? away_team : home_team
-
-        play = size == 2 ? row[1] : (row[1].text.length > 1 ? row[1] : row[5])
-        @play = Play.new(play)
-        @player1, @player2 = find_players(play)
-        puts @player1
-        puts @player2
+      attr_reader :time, :text, :play_type, :player1, :player2, :stat1, :stat2, :is_home, :is_away, :same_team
+      def initialize(row)
+        @time = text_to_time(row[0].text)
+        if row.length == 2
+          play = row[1]
+        elsif row.length == 6
+          @is_away = away_text_exists?(row)
+          @is_home = !@is_away
+          play = @is_away ? row[1] : row[5]
+          @player1, @player2 = parse_players(play)
+        end
+        @text = play.text
+        play = Play.new(@text, @player2)
+        @stat1 = play.stat1
+        @stat2 = play.stat2
+        @play_type = play.type
+        @same_team = play.same_team
       end
 
-      def parse_time(element)
-        text = element.text
-        minutes, seconds = text.split(":").map(&:to_i)
-        return minutes*60 + seconds
-      end
+      private
+        def text_to_time(text)
+          minutes, seconds = text.split(':').map(&:to_i)
+          return minutes*60 + seconds
+        end
 
-      def find_players(play)
-        player_hrefs = play.children.select { |child| child.class == Nokogiri::XML::Element }.map {|player| player.attributes['href'].value }
-        return player_hrefs.map { |string| string[string.rindex('/')+1...string.index('.')] }
-      end
+        def away_text_exists?(row)
+          row[1].text.scrub('').gsub(/\A\p{Space}*/, '').length != 0
+        end
+
+        def parse_players(play)
+          player_hrefs = play.children.select { |child| child.class == Nokogiri::XML::Element }.map {|player| player.attributes['href'].value }
+          return player_hrefs.map { |string| string[string.rindex('/')+1...string.index('.')] }
+        end
     end
   end
 end

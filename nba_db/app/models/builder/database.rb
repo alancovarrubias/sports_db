@@ -8,17 +8,15 @@ module Builder
       if @season
         @teams = @season.teams
         @players = @season.players
-        @games = @season.games.where("date < ?", Date.yesterday).where("id >= 570")
+        @games = @season.games.where("date < ?", Date.yesterday)
       end
     end
 
     def build
-=begin
       build_seasons
       build_teams
       build_players
       build_games
-=end
       build_game_stats
       build_quarter_stats
       build_ratings
@@ -57,12 +55,12 @@ module Builder
 
     def build_game_stats(games=nil)
       games = games ? games : @games
-      Builder::Game::Stats.build(@season, games.select { |game| game.period_stats.size == 0 })
+      Builder::Game::Stats.build(@season, games)
     end
 
     def build_quarter_stats(games=nil)
       games = games ? games : @games
-      Builder::Quarter::Stats.build(@season, games.select { |game| game.period_stats(4).size == 0 })
+      Builder::Quarter::Builder.build(@season, games)
     end
 
     def build_ratings

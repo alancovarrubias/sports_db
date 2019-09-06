@@ -27,15 +27,15 @@ export const selectHomeStats = createSelector(
 
 export const selectStatHeaders = createSelector(
   selectSport,
-  (sport) => STAT_HEADERS[sport]
+  sport => STAT_HEADERS[sport]
 )
 
 export const selectStatKeys = createSelector(
   selectSport,
-  (sport) => STAT_KEYS[sport]
+  sport => STAT_KEYS[sport]
 )
 
 export const selectStatsFetched = createSelector(
   selectMeta,
-  (meta) => meta.statsFetched
+  meta => meta.statsFetched
 )

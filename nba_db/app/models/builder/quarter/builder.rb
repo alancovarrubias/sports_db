@@ -25,7 +25,7 @@ module Builder
           [:away_stats, :home_stats].each do |stat_type|
             stats.send(stat_type).each do |idstr, player_stat|
               player = season.players.find_by_idstr(idstr)
-              stat = Stat.game_find_or_create_by(season: season, game: game, player: player, period: stats.quarter)
+              stat = Stat.game_find_or_create_by(season: season, game: game, model: player, period: stats.quarter)
               stat.update(player_stat.attributes)
             end
           end
@@ -47,7 +47,10 @@ module Builder
 
       def split_rows_to_quarter(rows)
         end_index = rows.find_index { |row| row.play_type == :qe }
-        return rows[1...end_index], rows[end_index+1..-1]
+        # some games there is no row stating the end of quarter so we get the rest of the rows
+        quarter_rows = end_index ? rows[1...end_index] : rows[1..-1]
+        rest_rows = end_index ? rows[end_index+1..-1] : []
+        return quarter_rows, rest_rows
       end
     end
   end

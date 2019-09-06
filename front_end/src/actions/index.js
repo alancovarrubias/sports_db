@@ -22,7 +22,7 @@ const actions = createActions({
   SELECT_GAME_ID: gameId => ({ gameId }),
   SELECT_PERIOD: period => ({ period }),
   SELECT_RANGE: range => ({ range }),
-  TOGGLE_SPORT: sport => ({ sport }),
+  SELECT_SPORT: sport => ({ sport }),
 })
 export default actions
 

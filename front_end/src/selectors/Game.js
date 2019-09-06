@@ -30,11 +30,11 @@ export const selectGameKeys = createSelector(
 
 export const selectGamesFetched = createSelector(
   selectMeta,
-  (meta) => meta.gamesFetched
+  meta => meta.gamesFetched
 )
 
 export const selectGameId = createSelector(
   selectMeta,
-  (meta) => meta.gameId
+  meta => meta.gameId
 )
 

@@ -15,7 +15,6 @@ module BasketballReference
 
   def basketball_data(path, css)
     doc = basketball_reference(path)
-    puts doc.css("#roster td")
     return doc.css(css) if doc
   end
 

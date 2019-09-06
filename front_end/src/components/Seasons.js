@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 import Table from './common/Table'
 
-const SeasonsComponent = ({ sport, seasons, headers, keys, rowClick }) => (
+const SeasonsComponent = ({ sport, seasons, headers, keys, rowClick, push}) => (
   <Row>
     <Col lg={12}>
       <h1>{sport} Seasons</h1>

@@ -64,7 +64,7 @@ module Builder
               row.same_team ? stats[row.player2].add(row.stat2) : opp_stats[row.player2].add(row.stat2) if row.stat2 # player2 may or may not have a stat
             elsif row.play_type == :foul
               stat = stats[row.player1] ? stats[row.player1] : opp_stats[row.player1]
-              stat.add(row.stat1)
+              stat.add(row.stat1) if stat # the conditional is needed in case data is missing like in 201812160DEN offensive foul
             elsif row.play_type == :sub
               stat1 = stats[row.player1]
               stat2 = stats[row.player2]

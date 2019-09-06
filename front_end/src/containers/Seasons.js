@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'connected-react-router'
 import withDatabase from '../hoc/withDatabase'
 import SeasonsComponent from '../components/Seasons'
 import {
@@ -8,21 +8,7 @@ import {
   selectSeasonKeys,
 } from '../selectors'
 
-class Seasons extends Component {
-  rowClick = season => {
-    const { history, queryParams: { sport } } = this.props
-    history.push({
-      pathname: `/seasons/${season.id}/games`,
-      search: `?sport=${sport}`,
-    })
-  }
-
-  render() {
-    return <SeasonsComponent {...this.props} rowClick={this.rowClick} />
-  }
-}
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     seasons: selectSeasons(state),
     headers: selectSeasonHeaders(state),
@@ -30,4 +16,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(withDatabase(Seasons))
+const mapDispatchToProps = (dispatch) => {
+  return {
+    rowClick: season => dispatch(push(`/seasons/${season.id}/games`)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withDatabase(SeasonsComponent))

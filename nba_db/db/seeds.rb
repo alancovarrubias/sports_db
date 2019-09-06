@@ -1,3 +1,3 @@
-year = 2019
+year = 2017
 builder = Builder::Database.new(year)
-builder.build_quarter_stats
+builder.build

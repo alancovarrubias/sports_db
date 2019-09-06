@@ -1,5 +1,5 @@
-import React from 'react'
 import { connect } from 'react-redux'
+import { push } from 'connected-react-router'
 import withDatabase from '../hoc/withDatabase'
 import StatsComponent from '../components/Stats'
 import {
@@ -13,11 +13,7 @@ import {
   selectHomeStats,
 } from '../selectors'
 
-const Stats = props => (
-  <StatsComponent {...props} />
-)
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     headers: selectStatHeaders(state),
     keys: selectStatKeys(state),
@@ -30,4 +26,11 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(withDatabase(Stats))
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { match: { params: { seasonId } } } = ownProps
+  return {
+    backClick: () => dispatch(push(`/seasons/${seasonId}/games`))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withDatabase(StatsComponent))

@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'connected-react-router'
 import withDatabase from '../hoc/withDatabase'
 import GamesComponent from '../components/Games'
 import actions from '../actions'
@@ -11,42 +11,26 @@ import {
   selectGames,
 } from '../selectors'
 
-class Games extends Component {
-  gameClick = game => {
-    const { history, season, queryParams: { sport } } = this.props
-    history.push({
-      pathname: `/seasons/${season.id}/games/${game.id}`,
-      search: `?sport=${sport}`,
-    })
-  }
-
-  render() {
-    return (
-      <GamesComponent {...this.props} gameClick={this.gameClick} rangeChange={this.rangeChange} />
-    )
-  }
-}
-
 const mapStateToProps = state => {
-  const sport = selectSport(state)
   return {
-    sport,
+    sport: selectSport(state),
     headers: selectGameHeaders(state),
     keys: selectGameKeys(state),
     season: selectSeason(state),
     games: selectGames(state),
     period: 0,
     range: 0,
-    seasonLink: `/seasons?sport=${sport}`,
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { match: { params: { seasonId } } } = ownProps
   return {
-    dispatch,
     selectPeriod: event => dispatch(actions.selectPeriod(event.target.value)),
     changeRange: event => dispatch(actions.selectRange(event.target.value)),
+    gameClick: game => dispatch(push(`/seasons/${seasonId}/games/${game.id}`)),
+    backClick: () => dispatch(push(`/seasons`)),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withDatabase(Games))
+export default connect(mapStateToProps, mapDispatchToProps)(withDatabase(GamesComponent))

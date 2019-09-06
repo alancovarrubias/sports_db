@@ -12,3 +12,5 @@ export const PERIODS = {
     0: 'Full Game',
   },
 }
+
+export const DEFAULT_PERIOD = 0

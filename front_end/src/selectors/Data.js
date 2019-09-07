@@ -1,10 +1,22 @@
 import { createSelector } from 'reselect'
-import { NBA, MLB } from '../const'
+import { NBA, MLB, SPORTS, PERIODS } from '../const'
 import orm from '../models/orm'
 
-export const selectSport = state => state.sport
-export const selectPeriod = state => state.period
-export const selectRange = state => state.range
+export const selectSport = (state) => state.sport
+export const selectPeriod = (state) => state.period
+export const selectRange = (state) => state.range
+export const selectPeriods = createSelector(
+  selectSport,
+  (sport) => PERIODS[sport]
+)
+export const selectSportsDropdown = (state) => ({
+  title: "Sports",
+  links: SPORTS.map((sport, index) => ({
+    id: index,
+    text: sport,
+    data: sport,
+  })),
+})
 
 export const selectNbaDatabase = state => state.nbaDatabase
 export const selectMlbDatabase = state => state.mlbDatabase

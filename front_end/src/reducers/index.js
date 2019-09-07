@@ -18,7 +18,7 @@ const sport = handleActions({
 }, DEFAULT_SPORT)
 
 const period = handleActions({
-  [actions.selectPeriod]: (_, { payload: { period } }) => Number(period),
+  [actions.selectPeriod]: (_, { payload: { period } }) => period,
 }, 0)
 
 const range = handleActions({

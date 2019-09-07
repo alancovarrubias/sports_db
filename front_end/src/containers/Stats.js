@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { push } from 'connected-react-router'
+import navigate from '../actions/navigate'
 import withDatabase from '../hoc/withDatabase'
 import StatsComponent from '../components/Stats'
 import {
@@ -27,9 +27,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const { match: { params: { seasonId } } } = ownProps
   return {
-    backClick: () => dispatch(push(`/seasons/${seasonId}/games`))
+    backClick: () => dispatch(navigate.games(ownProps))
   }
 }
 

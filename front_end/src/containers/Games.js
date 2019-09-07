@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
-import { push } from 'connected-react-router'
 import withDatabase from '../hoc/withDatabase'
 import GamesComponent from '../components/Games'
 import actions from '../actions'
+import navigate from '../actions/navigate'
 import {
   selectGameHeaders,
   selectGameKeys,
@@ -24,12 +24,11 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const { match: { params: { seasonId } } } = ownProps
   return {
-    selectPeriod: event => dispatch(actions.selectPeriod(event.target.value)),
-    changeRange: event => dispatch(actions.selectRange(event.target.value)),
-    gameClick: game => dispatch(push(`/seasons/${seasonId}/games/${game.id}`)),
-    backClick: () => dispatch(push(`/seasons`)),
+    selectPeriod: event => dispatch(actions.selectPeriod(Number(event.target.value))),
+    changeRange: event => dispatch(actions.selectRange(Number(event.target.value))),
+    gameClick: game => dispatch(navigate.stats(ownProps, { gameId: game.id })),
+    backClick: () => dispatch(navigate.seasons(ownProps)),
   }
 }
 

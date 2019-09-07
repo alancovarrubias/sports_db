@@ -11,14 +11,14 @@ export default function withDatabase(WrappedComponent) {
     componentDidMount() {
       const { queryParams: { sport, period }, match } = this.props
       const initialSport = sport || DEFAULT_SPORT
-      // const initialPeriod = period || DEFAULT_PERIOD
-      this.props.fetchData(match)
+      const initialPeriod = Number(period) || DEFAULT_PERIOD
       this.props.dispatch(actions.selectSport(initialSport))
-      // this.props.dispatch(actions.selectPeriod(initialPeriod))
+      this.props.dispatch(actions.selectPeriod(initialPeriod))
+      this.props.fetchData(match)
     }
 
     componentDidUpdate(prevProps) {
-      if (prevProps.sport !== this.props.sport) {
+      if (prevProps.sport !== this.props.sport || prevProps.period !== this.props.period) {
         this.componentDidMount()
       }
     }

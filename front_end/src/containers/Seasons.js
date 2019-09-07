@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { push } from 'connected-react-router'
 import withDatabase from '../hoc/withDatabase'
 import SeasonsComponent from '../components/Seasons'
 import {
@@ -7,6 +6,7 @@ import {
   selectSeasonHeaders,
   selectSeasonKeys,
 } from '../selectors'
+import navigate from '../actions/navigate'
 
 const mapStateToProps = (state) => {
   return {
@@ -16,9 +16,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    rowClick: season => dispatch(push(`/seasons/${season.id}/games`)),
+    rowClick: season => dispatch(navigate.games(ownProps, { seasonId: season.id })),
   }
 }
 

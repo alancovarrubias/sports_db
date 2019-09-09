@@ -1,6 +1,6 @@
 import { Model, attr } from 'redux-orm'
 import { handleActions } from 'redux-actions'
-import actions from '../actions'
+import actions from '../actions/index'
 
 const { createSeason, createSeasons } = actions
 export default class Season extends Model {

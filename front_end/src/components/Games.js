@@ -1,6 +1,5 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 
 import './Games.css'
 import Table from './common/Table'
@@ -10,8 +9,8 @@ const GamesComponent = ({ headers, keys, season, games, period, range, sport, ga
   <div className="game-index">
     <Row>
       <Col lg={12}>
-        <div>
-          <Link onClick={backClick}>Seasons</Link>
+        <div onClick={backClick}>
+          Seasons
         </div>
         <h1>{season.year} {sport} Games </h1>
       </Col>

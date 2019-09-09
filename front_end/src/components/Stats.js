@@ -1,6 +1,5 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import Table from './common/Table'
 import './Stats.css'
 
@@ -8,8 +7,8 @@ const Stats = ({ headers, keys, sport, season, awayTeam, homeTeam, awayStats, ho
   <div className="game-show">
     <Row>
       <Col lg={12}>
-        <div>
-          <Link onClick={backClick}>{season.year} {sport} Games</Link>
+        <div onClick={backClick}>
+          {season.year} {sport} Games
         </div>
         <h1>{awayTeam.name} @ {homeTeam.name}</h1>
       </Col>

@@ -2,9 +2,9 @@ import React from 'react'
 import qs from 'query-string'
 import { connect } from 'react-redux'
 import { DEFAULT_SPORT, DEFAULT_PERIOD } from '../const'
-import actions from '../actions'
+import { data } from '../actions'
 import { selectSport, selectDatabase } from '../selectors'
-import { fetchData } from '../actions/async'
+import { fetchData } from '../api'
 
 export default function withDatabase(WrappedComponent) {
   class With extends React.Component {
@@ -12,9 +12,9 @@ export default function withDatabase(WrappedComponent) {
       const { queryParams: { sport, period }, match } = this.props
       const initialSport = sport || DEFAULT_SPORT
       const initialPeriod = Number(period) || DEFAULT_PERIOD
-      this.props.dispatch(actions.selectSport(initialSport))
-      this.props.dispatch(actions.selectPeriod(initialPeriod))
-      this.props.fetchData(match)
+      this.props.dispatch(data.selectSport(initialSport))
+      this.props.dispatch(data.selectPeriod(initialPeriod))
+      this.props.dispatch(fetchData(match))
     }
 
     componentDidUpdate(prevProps) {
@@ -36,12 +36,5 @@ export default function withDatabase(WrappedComponent) {
     }
   }
 
-  const mapDispatchToProps = dispatch => {
-    return {
-      dispatch,
-      fetchData: dataOptions => dispatch(fetchData(dataOptions)),
-    }
-  }
-
-  return connect(mapStateToProps, mapDispatchToProps)(With)
+  return connect(mapStateToProps)(With)
 }

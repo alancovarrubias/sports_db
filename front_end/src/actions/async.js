@@ -41,8 +41,8 @@ const fetchStats = (actions) => async (dispatch, getState) => {
   dispatch(actions.createStats(stats))
 }
 
-const fetchData = ({ match }) => async (dispatch, getState) => {
-  const { path, params: { seasonId, gameId } } = match
+const fetchData = (props) => async (dispatch, getState) => {
+  const { match: { path, params: { seasonId, gameId } } } = props
   const state = getState()
   const sport = selectSport(state)
   const nsActions = namespaceActions(sport)(actions)

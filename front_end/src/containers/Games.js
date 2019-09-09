@@ -2,12 +2,10 @@ import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import withDatabase from '../hoc/withDatabase'
 import GamesComponent from '../components/Games'
-import { metadata } from '../actions'
 import { statsRoute, seasonsRoute } from '../routes'
 import {
   selectGameHeaders,
   selectGameKeys,
-  selectSport,
   selectSeason,
   selectGames,
 } from '../selectors'

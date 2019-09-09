@@ -1,19 +1,15 @@
 import React from 'react'
 import qs from 'query-string'
 import { connect } from 'react-redux'
-import { DEFAULT_SPORT, DEFAULT_PERIOD } from '../const'
 import { data } from '../actions'
 import { selectSport, selectDatabase } from '../selectors'
 import { fetchData } from '../api'
 
-export default function withDatabase(WrappedComponent) {
+export default (WrappedComponent) => {
   class With extends React.Component {
     componentDidMount() {
-      const { queryParams: { sport, period }, match } = this.props
-      const initialSport = sport || DEFAULT_SPORT
-      const initialPeriod = Number(period) || DEFAULT_PERIOD
-      this.props.dispatch(data.selectSport(initialSport))
-      this.props.dispatch(data.selectPeriod(initialPeriod))
+      const { queryParams, match } = this.props
+      this.props.dispatch(data.defaultValues(queryParams))
       this.props.dispatch(fetchData(match))
     }
 

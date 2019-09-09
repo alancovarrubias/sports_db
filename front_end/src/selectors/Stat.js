@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { STAT_HEADERS, STAT_KEYS } from '../const'
-import { selectMeta, selectSport, selectPeriod } from './Data'
+import { selectMetadata, selectSport, selectPeriod } from './Metadata'
 import { selectGame } from './Game'
 import { selectAwayTeam, selectHomeTeam } from './Team'
 
@@ -36,6 +36,6 @@ export const selectStatKeys = createSelector(
 )
 
 export const selectStatsFetched = createSelector(
-  selectMeta,
-  meta => meta.statsFetched
+  selectMetadata,
+  metadata => metadata.statsFetched
 )

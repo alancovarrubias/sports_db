@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import qs from 'query-string'
 
-import { NBA, MLB, SPORTS, PERIODS } from '../const'
+import { NBA, MLB, PERIODS } from '../const'
 import orm from '../models/orm'
 
 export const selectQueryParams = ({ location: { search } }) => {
@@ -10,24 +10,15 @@ export const selectQueryParams = ({ location: { search } }) => {
 
 export const selectSport = (state) => state.sport
 export const selectPeriod = (state) => state.period
-export const selectRange = (state) => state.range
 export const selectPeriods = createSelector(
   selectSport,
   (sport) => PERIODS[sport]
 )
-export const selectSportsDropdown = (state) => ({
-  title: "Sports",
-  links: SPORTS.map((sport, index) => ({
-    id: index,
-    text: sport,
-    data: sport,
-  })),
-})
 
 export const selectNbaDatabase = state => state.nbaDatabase
 export const selectMlbDatabase = state => state.mlbDatabase
-export const selectNbaMeta = state => state.nbaMeta
-export const selectMlbMeta = state => state.mlbMeta
+export const selectNbaMetadata = state => state.nbaMetadata
+export const selectMlbMetadata = state => state.mlbMetadata
 export const selectDatabase = createSelector(
   selectSport,
   selectNbaDatabase,
@@ -48,16 +39,16 @@ export const selectDatabase = createSelector(
   }
 )
 
-export const selectMeta = createSelector(
+export const selectMetadata = createSelector(
   selectSport,
-  selectNbaMeta,
-  selectMlbMeta,
-  (sport, nbaMeta, mlbMeta) => {
+  selectNbaMetadata,
+  selectMlbMetadata,
+  (sport, nbaMetadata, mlbMetadata) => {
     switch (sport) {
       case NBA:
-        return nbaMeta
+        return nbaMetadata
       case MLB:
-        return mlbMeta
+        return mlbMetadata
       default:
         throw sport
     }

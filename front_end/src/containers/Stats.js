@@ -6,7 +6,6 @@ import StatsComponent from '../components/Stats'
 import {
   selectStatHeaders,
   selectStatKeys,
-  selectSport,
   selectSeason,
   selectAwayTeam,
   selectHomeTeam,
@@ -16,14 +15,13 @@ import {
 
 const mapStateToProps = (state) => {
   return {
-    headers: selectStatHeaders(state),
-    keys: selectStatKeys(state),
-    sport: selectSport(state),
     season: selectSeason(state),
     awayTeam: selectAwayTeam(state),
     homeTeam: selectHomeTeam(state),
     awayStats: selectAwayStats(state),
     homeStats: selectHomeStats(state),
+    headers: selectStatHeaders(state),
+    keys: selectStatKeys(state),
   }
 }
 

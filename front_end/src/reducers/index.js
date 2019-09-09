@@ -10,8 +10,8 @@ import metadataReducer from './metadataReducer'
 
 const nbaDatabase = namespaceReducerFactory(NBA)(createReducer(orm))
 const mlbDatabase = namespaceReducerFactory(MLB)(createReducer(orm))
-const nbaMeta = namespaceReducerFactory(NBA)(metadataReducer)
-const mlbMeta = namespaceReducerFactory(MLB)(metadataReducer)
+const nbaMetadata = namespaceReducerFactory(NBA)(metadataReducer)
+const mlbMetadata = namespaceReducerFactory(MLB)(metadataReducer)
 
 const sport = handleActions({
   [actions.selectSport]: (_, { payload: { sport, history } }) => sport,
@@ -26,8 +26,8 @@ const createRootReducer = history => combineReducers({
   period,
   nbaDatabase,
   mlbDatabase,
-  nbaMeta,
-  mlbMeta,
+  nbaMetadata,
+  mlbMetadata,
   router: connectRouter(history),
 })
 

@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect'
 import * as _ from 'lodash'
-import { selectDatabase, selectMeta } from './Data'
+import { selectDatabase, selectMetadata } from './Metadata'
 import { selectSeason } from './Season'
 import { GAME_HEADERS, GAME_KEYS } from '../const'
 
 export const selectGame = createSelector(
   selectDatabase,
-  selectMeta,
-  (database, meta) => database.Game.withId(meta.gameId) ? database.Game.withId(meta.gameId) : {}
+  selectMetadata,
+  (database, metadata) => database.Game.withId(metadata.gameId) ? database.Game.withId(metadata.gameId) : {}
 )
 
 export const selectGames = createSelector(
@@ -29,12 +29,12 @@ export const selectGameKeys = createSelector(
 )
 
 export const selectGamesFetched = createSelector(
-  selectMeta,
+  selectMetadata,
   meta => meta.gamesFetched
 )
 
 export const selectGameId = createSelector(
-  selectMeta,
+  selectMetadata,
   meta => meta.gameId
 )
 

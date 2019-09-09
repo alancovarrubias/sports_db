@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import * as _ from 'lodash'
 
 import { async, metadata } from '../actions'
-import { selectSport, selectDatabase, selectQueryParams } from '../selectors'
+import { selectSport, selectQueryParams } from '../selectors'
 
 export default WrappedComponent => {
   class With extends React.Component {
@@ -15,7 +15,7 @@ export default WrappedComponent => {
 
     componentDidUpdate(prevProps) {
       if (!_.isEqual(this.props.queryParams, prevProps.queryParams)) {
-        this.componentDidMount()
+        this.props.dispatch(async.fetchData(this.props))
       }
     }
 
@@ -27,7 +27,6 @@ export default WrappedComponent => {
   const mapStateToProps = (state, ownProps) => {
     return {
       sport: selectSport(state),
-      selectbase: selectDatabase(state),
       queryParams: selectQueryParams(state.router)
     }
   }

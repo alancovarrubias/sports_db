@@ -12,21 +12,18 @@ import {
   selectGames,
 } from '../selectors'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    sport: selectSport(state),
     headers: selectGameHeaders(state),
     keys: selectGameKeys(state),
     season: selectSeason(state),
     games: selectGames(state),
     period: 0,
-    range: 0,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    selectPeriod: (event) => dispatch(metadata.selectPeriod(Number(event.target.value))),
     statsClick: (game) => dispatch(push(statsRoute(ownProps, { gameId: game.id }))),
     seasonsClick: () => dispatch(push(seasonsRoute(ownProps))),
   }

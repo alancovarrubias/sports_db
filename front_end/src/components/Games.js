@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap'
 import './Games.css'
 import Table from './common/Table'
 
-const GamesComponent = ({ headers, keys, season, games, period, range, sport, statsClick, seasonsClick }) => (
+const GamesComponent = ({ headers, keys, season, games, period, sport, statsClick, seasonsClick }) => (
   <div className="game-index">
     <Row>
       <Col lg={12}>

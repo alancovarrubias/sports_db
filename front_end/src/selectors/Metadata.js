@@ -4,16 +4,15 @@ import qs from 'query-string'
 import { NBA, MLB, PERIODS } from '../const'
 import orm from '../models/orm'
 
-export const selectQueryParams = ({ location: { search } }) => {
-  return qs.parse(search)
-}
-
 export const selectSport = (state) => state.sport
 export const selectPeriod = (state) => state.period
 export const selectPeriods = createSelector(
   selectSport,
   (sport) => PERIODS[sport]
 )
+export const selectQueryParams = ({ location: { search } }) => {
+  return qs.parse(search)
+}
 
 export const selectNbaDatabase = state => state.nbaDatabase
 export const selectMlbDatabase = state => state.mlbDatabase
@@ -54,4 +53,30 @@ export const selectMetadata = createSelector(
     }
   }
 )
+
+export const selectSeasonId = createSelector(
+  selectMetadata,
+  (metadata) => metadata.seasonId
+)
+
+export const selectGameId = createSelector(
+  selectMetadata,
+  meta => meta.gameId
+)
+
+export const selectSeasonsFetched = createSelector(
+  selectMetadata,
+  (metadata) => metadata.seasonsFetched
+)
+
+export const selectGamesFetched = createSelector(
+  selectMetadata,
+  meta => meta.gamesFetched
+)
+
+export const selectStatsFetched = createSelector(
+  selectMetadata,
+  metadata => metadata.statsFetched
+)
+
 

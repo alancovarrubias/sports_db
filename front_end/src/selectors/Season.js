@@ -14,16 +14,6 @@ export const selectSeasons = createSelector(
   database => _.sortBy(database.Season.all().toModelArray(), ['year']).reverse()
 )
 
-export const selectSeasonsFetched = createSelector(
-  selectMetadata,
-  (metadata) => metadata.seasonsFetched
-)
-
-export const selectSeasonId = createSelector(
-  selectMetadata,
-  (metadata) => metadata.seasonId
-)
-
 export const selectSeasonHeaders = createSelector(
   () => SEASON_HEADERS
 )

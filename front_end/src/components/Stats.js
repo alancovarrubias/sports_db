@@ -3,11 +3,11 @@ import { Row, Col } from 'react-bootstrap'
 import Table from './common/Table'
 import './Stats.css'
 
-const Stats = ({ headers, keys, sport, season, awayTeam, homeTeam, awayStats, homeStats, backClick }) => (
+const Stats = ({ headers, keys, sport, season, awayTeam, homeTeam, awayStats, homeStats, gamesClick }) => (
   <div className="game-show">
     <Row>
       <Col lg={12}>
-        <div onClick={backClick}>
+        <div className="back-click" onClick={gamesClick}>
           {season.year} {sport} Games
         </div>
         <h1>{awayTeam.name} @ {homeTeam.name}</h1>

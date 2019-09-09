@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    rowClick: season => dispatch(push(gamesRoute(ownProps, { seasonId: season.id }))),
+    gamesClick: season => dispatch(push(gamesRoute(ownProps, { seasonId: season.id }))),
   }
 }
 

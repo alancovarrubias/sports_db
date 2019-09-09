@@ -2,9 +2,9 @@ import React from 'react'
 import Dropdown from './common/Dropdown'
 import './Navbar.css'
 
-const NavbarComponent = ({ sport, brandClick, sportsDropdown, selectSport, period, selectPeriod, periods }) => (
+const NavbarComponent = ({ sport, seasonsClick, sportsDropdown, selectSport, period, selectPeriod, periods }) => (
   <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    <button className="navbar-brand" onClick={brandClick}>{ sport } Database</button>
+    <button className="navbar-brand" onClick={seasonsClick}>{ sport } Database</button>
     <Dropdown dropdown={sportsDropdown} onClick={selectSport} />
     <form className="navbar-search ml-auto mr-5">
       <div>
@@ -18,15 +18,3 @@ const NavbarComponent = ({ sport, brandClick, sportsDropdown, selectSport, perio
 )
 
 export default NavbarComponent
-/*
-  const seasonGamesDropdown = {
-    title: "Seasons",
-    links: seasons.map(season => ({
-      id: season.id,
-      text: season.year,
-      data: season,
-    })),
-    onClick: seasonGamesClick,
-  }
-  <Dropdown dropdown={seasonGamesDropdown} onClick={seasonGamesClick} />
- */

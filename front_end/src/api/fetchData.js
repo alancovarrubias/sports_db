@@ -8,6 +8,30 @@ import {
 } from '../selectors'
 import { namespaceActions } from '../helpers/namespaceModule'
 
+const fetchSeasons = (actions) => async (dispatch, getState) => {
+  const response = await endpoints.fetchSeasons(actions, getState())
+  const json = await response.json()
+  dispatch(actions.createSeasons(json.seasons))
+}
+
+const fetchGames = (actions) => async (dispatch, getState) => {
+  const response = await endpoints.fetchGames(actions, getState())
+  const json = await response.json()
+  dispatch(actions.createSeason(json.season))
+  dispatch(actions.createTeams(json.teams))
+  dispatch(actions.createGames(json.games))
+}
+
+const fetchStats = (actions) => async (dispatch, getState) => {
+  const response = await endpoints.fetchStats(actions, getState())
+  const json = await response.json()
+  dispatch(actions.createSeason(json.season))
+  dispatch(actions.createGame(json.game))
+  dispatch(actions.createTeams(json.teams))
+  dispatch(actions.createPlayers(json.players))
+  dispatch(actions.createStats(json.stats))
+}
+
 export const fetchData = (match) => async (dispatch, getState) => {
   const { path, params: { seasonId, gameId } } = match
   const state = getState()
@@ -33,29 +57,5 @@ export const fetchData = (match) => async (dispatch, getState) => {
       dispatch(namespacedActions.statsFetched(gameId))
     }
   }
-}
-
-const fetchSeasons = (actions) => async (dispatch, getState) => {
-  const response = await endpoints.fetchSeasons(actions, getState())
-  const json = await response.json()
-  dispatch(actions.createSeasons(json.seasons))
-}
-
-const fetchGames = (actions) => async (dispatch, getState) => {
-  const response = await endpoints.fetchGames(actions, getState())
-  const json = await response.json()
-  dispatch(actions.createSeason(json.season))
-  dispatch(actions.createTeams(json.teams))
-  dispatch(actions.createGames(json.games))
-}
-
-const fetchStats = (actions) => async (dispatch, getState) => {
-  const response = await endpoints.fetchStats(actions, getState())
-  const json = await response.json()
-  dispatch(actions.createSeason(json.season))
-  dispatch(actions.createGame(json.game))
-  dispatch(actions.createTeams(json.teams))
-  dispatch(actions.createPlayers(json.players))
-  dispatch(actions.createStats(json.stats))
 }
 

@@ -28,8 +28,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     selectPeriod: (event) => dispatch(data.selectPeriod(Number(event.target.value))),
     changeRange: (event) => dispatch(data.selectRange(Number(event.target.value))),
-    gameClick: (game) => dispatch(push(statsRoute(ownProps, { gameId: game.id }))),
-    backClick: () => dispatch(push(seasonsRoute(ownProps))),
+    statsClick: (game) => dispatch(push(statsRoute(ownProps, { gameId: game.id }))),
+    seasonsClick: () => dispatch(push(seasonsRoute(ownProps))),
   }
 }
 

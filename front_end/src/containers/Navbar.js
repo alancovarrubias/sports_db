@@ -1,10 +1,12 @@
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
-import { data } from '../actions'
-import { seasonsRoute, changeQueryParams } from '../routes'
+
 import withDatabase from '../hoc/withDatabase'
 import NavbarComponent from '../components/Navbar'
+
 import { selectSeasons, selectPeriod, selectPeriods, selectSportsDropdown } from '../selectors'
+import { seasonsRoute, changeQueryParams } from '../routes'
+import { data } from '../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -19,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     selectPeriod: event => dispatch(data.selectPeriod(event.target.value)) && dispatch(push(changeQueryParams(ownProps, { period: event.target.value }))),
     selectSport: sport => dispatch(data.selectSport(sport)) && dispatch(push(seasonsRoute(ownProps, { sport }))),
-    brandClick: () => dispatch(push(seasonsRoute(ownProps))),
+    seasonsClick: () => dispatch(push(seasonsRoute(ownProps))),
   }
 }
 

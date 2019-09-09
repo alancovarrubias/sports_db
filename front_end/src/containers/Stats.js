@@ -29,7 +29,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    backClick: () => dispatch(push(gamesRoute(ownProps))),
+    gamesClick: () => dispatch(push(gamesRoute(ownProps))),
   }
 }
 

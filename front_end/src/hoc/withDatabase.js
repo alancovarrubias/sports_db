@@ -15,6 +15,7 @@ export default WrappedComponent => {
 
     componentDidUpdate(prevProps) {
       if (!_.isEqual(this.props.queryParams, prevProps.queryParams)) {
+        this.props.dispatch(metadata.defaultValues(this.props))
         this.props.dispatch(async.fetchData(this.props))
       }
     }

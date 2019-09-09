@@ -1,6 +1,7 @@
 import qs from 'query-string'
 import * as _ from 'lodash'
 import { QUERY_PARAMS } from '../const'
+import { selectQueryParams } from '../selectors'
 
 const getPathname = (route, props, overrides) => {
   const { location: { pathname }, match: { params } } = props
@@ -16,11 +17,10 @@ const getPathname = (route, props, overrides) => {
 }
 
 const overrideSearch = (props, overrides) => {
-  const { location: { search } } = props
-  const prevSearch = qs.parse(search)
-  const searchOverrides = _.pickBy(overrides, (value, key) => QUERY_PARAMS.includes(key))
-  const newSearch = { ...prevSearch, ...searchOverrides }
-  return qs.stringify(newSearch)
+  const prevQueryParams = selectQueryParams(props)
+  const queryParamOverrides = _.pickBy(overrides, (value, key) => QUERY_PARAMS.includes(key))
+  const newQueryParams = { ...prevQueryParams, ...queryParamOverrides }
+  return qs.stringify(newQueryParams)
 }
 
 export const changeQueryParams = (props, overrides={}) => {

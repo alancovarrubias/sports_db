@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import withDatabase from '../hoc/withDatabase'
 import GamesComponent from '../components/Games'
 import router from '../actions/router'
-import data from '../actions/data'
+import select from '../actions/data'
 import {
   selectGameHeaders,
   selectGameKeys,
@@ -18,7 +18,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    changeRange: event => dispatch(data.selectRange(Number(event.target.value))),
+    changeRange: event => dispatch(select.selectRange(Number(event.target.value))),
   }
 }
 

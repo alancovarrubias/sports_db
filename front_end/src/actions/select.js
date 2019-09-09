@@ -9,16 +9,14 @@ const dataActions = createActions({
   SELECT_SPORT: sport => ({ sport }),
 })
 
-const defaultValues = ({ sport, period }) => {
+const defaultValues = ({ queryParams: { sport, period } }) => {
   return (dispatch) => {
-    const initialSport = sport || DEFAULT_SPORT
-    const initialPeriod = Number(period) || DEFAULT_PERIOD
-    dispatch(dataActions.selectSport(initialSport))
-    dispatch(dataActions.selectPeriod(initialPeriod))
+    dispatch(dataActions.selectSport(sport || DEFAULT_SPORT))
+    dispatch(dataActions.selectPeriod(Number(period) || DEFAULT_PERIOD))
   }
 }
 
 export default {
-  defaultValues,
   ...dataActions,
+  defaultValues,
 }

@@ -1,13 +1,12 @@
 import { Model, attr, fk } from 'redux-orm'
 import { handleActions } from 'redux-actions'
-import actions from '../actions'
+import { model } from '../actions'
 
-const { createTeam, createTeams } = actions
 export default class Team extends Model {
   static reducer(action = {}, Team, session) {
     handleActions({
-      [createTeam]: (_, { payload: { team } }) => Team.upsert(team),
-      [createTeams]: (_, { payload: { teams } }) => teams.forEach(team => Team.upsert(team)),
+      [model.createTeam]: (_, { payload: { team } }) => Team.upsert(team),
+      [model.createTeams]: (_, { payload: { teams } }) => teams.forEach(team => Team.upsert(team)),
     }, {})(null, action)
   }
 }

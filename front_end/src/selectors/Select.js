@@ -1,12 +1,6 @@
 import { createSelector } from 'reselect'
-import qs from 'query-string'
-
 import { NBA, MLB, SPORTS, PERIODS } from '../const'
 import orm from '../models/orm'
-
-export const selectQueryParams = ({ location: { search } }) => {
-  return qs.parse(search)
-}
 
 export const selectSport = (state) => state.sport
 export const selectPeriod = (state) => state.period
@@ -23,6 +17,10 @@ export const selectSportsDropdown = (state) => ({
     data: sport,
   })),
 })
+export const selectQueryParams = (state) => {
+  console.log(state)
+  return {}
+}
 
 export const selectNbaDatabase = state => state.nbaDatabase
 export const selectMlbDatabase = state => state.mlbDatabase

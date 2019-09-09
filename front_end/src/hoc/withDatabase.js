@@ -1,25 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import qs from 'query-string'
+
 import * as _ from 'lodash'
 
-import { data } from '../actions'
-import { QUERY_PARAMS } from '../const'
-import { selectSport, selectDatabase } from '../selectors'
-import { fetchData } from '../api'
+import { async, select } from '../actions'
+import { selectSport, selectDatabase, selectQueryParams } from '../selectors'
 
-export default (WrappedComponent) => {
+export default WrappedComponent => {
   class With extends React.Component {
     componentDidMount() {
-      const { queryParams, match } = this.props
-      this.props.dispatch(data.defaultValues(queryParams))
-      this.props.dispatch(fetchData(match))
+      this.props.dispatch(select.defaultValues(this.props))
+      this.props.dispatch(async.fetchData(this.props))
     }
 
     componentDidUpdate(prevProps) {
-      const prevQueryParams = _.pickBy(prevProps, (value, key) => QUERY_PARAMS.includes(key))
-      const queryParams = _.pickBy(this.props, (value, key) => QUERY_PARAMS.includes(key))
-      if (_.isEqual(queryParams, prevQueryParams)) {
+      if (!_.isEqual(this.props.queryParams, prevProps.queryParams)) {
         this.componentDidMount()
       }
     }
@@ -32,8 +27,8 @@ export default (WrappedComponent) => {
   const mapStateToProps = (state, ownProps) => {
     return {
       sport: selectSport(state),
-      database: selectDatabase(state),
-      queryParams: qs.parse(state.router.location.search),
+      selectbase: selectDatabase(state),
+      queryParams: selectQueryParams(state.router)
     }
   }
 

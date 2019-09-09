@@ -1,13 +1,12 @@
 import { Model, attr, fk } from 'redux-orm'
 import { handleActions } from 'redux-actions'
-import actions from '../actions'
+import { model } from '../actions'
 
-const { createGame, createGames } = actions
 export default class Game extends Model {
   static reducer(action, Game, session) {
     handleActions({
-      [createGame]: (_, { payload: { game } }) => Game.upsert(game),
-      [createGames]: (_, { payload: { games } }) => games.forEach(game => Game.upsert(game)),
+      [model.createGame]: (_, { payload: { game } }) => Game.upsert(game),
+      [model.createGames]: (_, { payload: { games } }) => games.forEach(game => Game.upsert(game)),
     }, {})(null, action)
   }
 }

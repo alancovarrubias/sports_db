@@ -6,7 +6,7 @@ import NavbarComponent from '../components/Navbar'
 
 import { selectSeasons, selectPeriod, selectPeriods, selectSportsDropdown } from '../selectors'
 import { seasonsRoute, changeQueryParams } from '../routes'
-import { data } from '../actions'
+import { select } from '../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -19,8 +19,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    selectPeriod: event => dispatch(data.selectPeriod(event.target.value)) && dispatch(push(changeQueryParams(ownProps, { period: event.target.value }))),
-    selectSport: sport => dispatch(data.selectSport(sport)) && dispatch(push(seasonsRoute(ownProps, { sport }))),
+    selectPeriod: event => dispatch(select.selectPeriod(event.target.value)) && dispatch(push(changeQueryParams(ownProps, { period: event.target.value }))),
+    selectSport: sport => dispatch(select.selectSport(sport)) && dispatch(push(seasonsRoute(ownProps, { sport }))),
     seasonsClick: () => dispatch(push(seasonsRoute(ownProps))),
   }
 }

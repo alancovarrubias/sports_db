@@ -1,7 +1,7 @@
 import { createActions } from 'redux-actions'
 import { DEFAULT_SPORT, DEFAULT_PERIOD } from '../const'
 
-const dataActions = createActions({
+const metadataActions = createActions({
   SELECT_SEASON_ID: seasonId => ({ seasonId }),
   SELECT_GAME_ID: gameId => ({ gameId }),
   SELECT_PERIOD: period => ({ period }),
@@ -11,12 +11,12 @@ const dataActions = createActions({
 
 const defaultValues = ({ queryParams: { sport, period } }) => {
   return (dispatch) => {
-    dispatch(dataActions.selectSport(sport || DEFAULT_SPORT))
-    dispatch(dataActions.selectPeriod(Number(period) || DEFAULT_PERIOD))
+    dispatch(metadataActions.selectSport(sport || DEFAULT_SPORT))
+    dispatch(metadataActions.selectPeriod(Number(period) || DEFAULT_PERIOD))
   }
 }
 
 export default {
-  ...dataActions,
+  ...metadataActions,
   defaultValues,
 }

@@ -1,14 +1,14 @@
 import asyncActions from './async'
 import modelActions from './model'
-import selectActions from './select'
+import metadataActions from './metadata'
 
 export const async = asyncActions
 export const model = modelActions
-export const select = selectActions
+export const metadata = metadataActions
 
 export default {
   ...asyncActions,
   ...modelActions,
-  ...selectActions,
+  ...metadataActions,
 }
 

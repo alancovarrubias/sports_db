@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 
 import * as _ from 'lodash'
 
-import { async, select } from '../actions'
+import { async, metadata } from '../actions'
 import { selectSport, selectDatabase, selectQueryParams } from '../selectors'
 
 export default WrappedComponent => {
   class With extends React.Component {
     componentDidMount() {
-      this.props.dispatch(select.defaultValues(this.props))
+      this.props.dispatch(metadata.defaultValues(this.props))
       this.props.dispatch(async.fetchData(this.props))
     }
 

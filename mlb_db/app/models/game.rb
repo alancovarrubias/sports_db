@@ -36,4 +36,8 @@ class Game < ApplicationRecord
   def batter_stats
     stats.where(stat_type: 'BATTER')
   end
+
+  def url
+    "%d%02d%02d0#{home_team.abbr}" % [date.year, date.month, date.day]
+  end
 end

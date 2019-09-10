@@ -10,6 +10,7 @@
     "history": "^4.9.0",
     "http-proxy-middleware": "^0.19.1",
     "lodash": "^4.17.15",
+    "lodash.template": ">=4.5.0",
     "normalizr": "^3.4.0",
     "query-string": "^6.8.2",
     "react": "^16.8.6",

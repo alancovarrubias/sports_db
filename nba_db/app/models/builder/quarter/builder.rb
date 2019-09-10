@@ -22,12 +22,16 @@ module Builder
 
       def save_quarter_stats(season, game, quarter_stats)
         quarter_stats.each do |stats|
-          [:away_stats, :home_stats].each do |stat_type|
-            stats.send(stat_type).each do |idstr, player_stat|
+          [:away, :home].each do |side|
+            stat.send("#{side}_player_stats").each do |idstr, player_stat|
               player = season.players.find_by_idstr(idstr)
               stat = Stat.game_find_or_create_by(season: season, game: game, model: player, period: stats.quarter)
               stat.update(player_stat.attributes)
             end
+            team = game.send("#{side}_team")
+            team_stat = stat.send("#{side}_team_stat")
+            stat = Stat.game_find_or_create_by(season: season, game: game, model: team, period: stats.quarter)
+            stat.update(team_stat)
           end
         end
       end

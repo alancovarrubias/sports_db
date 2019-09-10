@@ -1,16 +1,23 @@
 module Builder
   module Quarter
-    class PlayerStats
-      attr_reader :quarter, :away_stats, :home_stats
+    class QuarterStats
+      include StatHelper
+      attr_reader :quarter, :away_player_stats, :home_player_stats
       def initialize(quarter, rows)
         @quarter = quarter
         lineups = init_lineups(rows)
-        @away_stats = init_stats(lineups[:away_starters], lineups[:away_roster])
-        @home_stats = init_stats(lineups[:home_starters], lineups[:home_roster])
-        sum_stats(rows, lineups[:away_on_floor], lineups[:home_on_floor])
+        @away_player_stats = init_player_stats(lineups[:away_starters], lineups[:away_roster])
+        @home_player_stats = init_player_stats(lineups[:home_starters], lineups[:home_roster])
+        populate_player_stats(rows, lineups[:away_on_floor], lineups[:home_on_floor])
+        @away_team_stat = build_team_stats(@away_player_stats)
+        @home_team_stat = build_team_stats(@home_player_stats)
       end
 
       private
+        def build_team_stats(player_stats)
+          return sum_stats(player_stats)
+        end
+
         def init_lineups(rows)
           away_roster = Set.new
           away_starters = Set.new
@@ -54,10 +61,10 @@ module Builder
           }
         end
 
-        def sum_stats(rows, away_on_floor, home_on_floor)
+        def populate_player_stats(rows, away_on_floor, home_on_floor)
           rows.each do |row|
-            stats = row.is_away ? @away_stats : @home_stats
-            opp_stats = row.is_away ? @home_stats : @away_stats
+            stats = row.is_away ? @away_player_stats : @home_player_stats
+            opp_stats = row.is_away ? @home_player_stats : @away_player_stats
             on_floor = row.is_away ? away_on_floor : home_on_floor
             if row.play_type == :score
               stats[row.player1].add(row.stat1) if row.player1 # player1 should always have a stat so we only check for player
@@ -86,7 +93,7 @@ module Builder
           end
         end
 
-        def init_stats(starters, roster)
+        def init_player_stats(starters, roster)
           stat_hash = Hash[roster.map do |player|
             stat = PlayerStat.new(player)
             stat.time = 12*60 if starters.include?(player)

@@ -1,55 +1,49 @@
 class Stat < ApplicationRecord
-  STATS = [:id, :sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts, :ortg, :drtg]
-  STAT_CONTAINER = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
   belongs_to :season
   belongs_to :game
   belongs_to :model, polymorphic: true
   belongs_to :team, -> { includes(:stats).where(stats: { model_type: 'Team' }) }, foreign_key: :model_id, optional: true
   belongs_to :player, -> { includes(:stats).where(stats: { model_type: 'Player' }) }, foreign_key: :model_id, optional: true
+
+  REFERENCE_STATS = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
+  TOTAL_STATS = [:id, :sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts, :ortg, :drtg]
+
   def player
     return if model_type == 'Team'
     super
   end
+
   def team
     return player.team if model_type == 'Player'
     super
   end
 
-  def self.stat_hash
-    return Hash[STAT_CONTAINER.map {|stat| [stat, 0]}]
-  end
-
-  def self.build_model(stats)
+  def build_model(stats)
     model_type = stats.first.model_type
     return self.new(sum_stats(stats.map(&:stat_container)).merge({ model_type: model_type }))
   end
-
-  def self.sum_stats(stats)
-    return stats.inject(self.stat_hash) { |mem, hash| mem.merge(hash) { |key, old, new| old + new } }
-  end
-
   def self.game_stats(query={})
-    return self.where(season_stat: false, games_back: nil).where(query)
+    return Stat.where(season_stat: false, games_back: nil).where(query)
   end
 
   def self.season_stats(query={})
-    return self.where(season_stat: true).where(query)
+    return Stat.where(season_stat: true).where(query)
   end
 
   def self.prev_stats(games_back, query={})
-    return self.where(season_stat: false, games_back: games_back).where(query)
+    return Stat.where(season_stat: false, games_back: games_back).where(query)
   end
 
   def self.game_find_or_create_by(attributes)
-    self.find_or_create_by(attributes.merge(season_stat: false))
+    return Stat.find_or_create_by(attributes.merge(season_stat: false))
   end
 
   def self.season_find_or_create_by(attributes)
-    self.find_or_create_by(attributes.merge(season_stat: true))
+    return Stat.find_or_create_by(attributes.merge(season_stat: true))
   end
 
   def self.prev_find_or_create_by(games_back, attributes)
-    self.find_or_create_by(attributes.merge(season_stat: false, games_back: games_back))
+    return Stat.find_or_create_by(attributes.merge(season_stat: false, games_back: games_back))
   end
 
   def stats
@@ -92,17 +86,17 @@ class Stat < ApplicationRecord
     return @opp_stat
   end
 
-  def stat_container
-    return Hash[self.attributes.map{|key, value| [key.to_sym, value]}.select{|key, value| STAT_CONTAINER.include?(key)}]
-  end
-
-  def stat_hash
-    hash = Hash[self.attributes.map{|key, value| [key.to_sym, value]}.select{|key, value| STATS.include?(key)}]
+  def total_hash
+    hash = Hash[self.attributes.map{|key, value| [key.to_sym, value]}.select{|key, value| TOTAL_STATS.include?(key)}]
     hash[:name] = self.name
     hash[:mp] = (self.sp / 60.0).round(2)
     hash[:ortg] = hash[:ortg].round(2)
     hash[:drtg] = hash[:drtg].round(2)
     return hash
+  end
+
+  def reference_hash
+    return Hash[self.attributes.map{|key, value| [key.to_sym, value]}.select{|key, value| REFERENCE_STATS.include?(key)}]
   end
 
   def mp

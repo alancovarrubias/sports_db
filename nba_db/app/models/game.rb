@@ -44,10 +44,10 @@ class Game < ApplicationRecord
     end]
   end
 
-  def latest_team_prev_stats(games_back)
+  def latest_team_games_back_stats(games_back)
     teams = season.teams
     return Hash[teams.map do |team|
-      stat = Stat.prev_stats(games_back).where('game_id < ?', game.id).order('game_id DESC').first
+      stat = Stat.games_back_stats(games_back).where('game_id < ?', game.id).order('game_id DESC').first
       [team, stat]
     end]
   end
@@ -64,7 +64,7 @@ class Game < ApplicationRecord
     period_stats(period).where(season_stat: true)
   end
 
-  def prev_stats(num, period=nil)
+  def games_back_stats(num, period=nil)
     period_stats(period).where(season_stat: false, games_back: num)
   end
 
@@ -74,8 +74,8 @@ class Game < ApplicationRecord
       define_method("#{type}_#{model}_stats") do |period=nil|
         return self.send("#{type}_stats", period).where(query)
       end
-      define_method("prev_#{model}_stats") do |num, period=nil|
-        return self.send('prev_stats', num, period).where(query)
+      define_method("games_back_#{model}_stats") do |num, period=nil|
+        return self.send('games_back_stats', num, period).where(query)
       end
       FIELDS.each do |field|
         stat = model == 'player' ? 'stats' : 'stat'
@@ -84,8 +84,8 @@ class Game < ApplicationRecord
           team = self.send("#{field}_team_id")
           return model == 'player' ? stats.where(players: { team: team }) : stats.find_by(team: team)
         end
-        define_method("prev_#{field}_#{model}_#{stat}") do |num, period=nil|
-          stats = self.send("prev_#{model}_stats", num, period)
+        define_method("games_back_#{field}_#{model}_#{stat}") do |num, period=nil|
+          stats = self.send("games_back_#{model}_stats", num, period)
           team = self.send("#{field}_team")
           return model == 'player' ? stats.where(players: { team: team }) : stats.find_by(team: team)
         end

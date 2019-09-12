@@ -15,7 +15,7 @@ module Builder
 
       private
         def build_team_stats(player_stats)
-          return sum_stats(Stat.reference_hash, player_stats.values.map(&:attributes))
+          return add_stats(Stat.data_hash, player_stats.values.map(&:attributes))
         end
 
         def init_lineups(rows)
@@ -96,7 +96,10 @@ module Builder
         def init_player_stats(starters, roster)
           stat_hash = Hash[roster.map do |player|
             stat = PlayerStat.new(player)
-            stat.time = 12*60 if starters.include?(player)
+            if starters.include?(player)
+              stat.time = 12*60 
+              stat.starter = true
+            end
             [player, stat]
           end]
           return stat_hash

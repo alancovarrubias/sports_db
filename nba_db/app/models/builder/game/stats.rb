@@ -18,11 +18,11 @@ module Builder
             abbr = team.abbr.downcase
             data = doc.css("#box_#{abbr}_basic tbody .right , #box_#{abbr}_basic tbody .left").to_a
             rows = create_rows(data)
-            stats = create_stats(season, team, game, rows)
+            create_stats(season, team, game, rows)
           end
-          team_player_stats.each do |player_stats|
-            team_stat = sum_stats(Stat.reference_hash, player_stats.map(&:reference_hash))
-            pp team_stat
+          team_player_stats.zip(game.teams).each do |player_stats, team|
+            team_stat = add_stats(Stat.data_hash, player_stats.map(&:data_hash))
+            ::Stat.game_find_or_create_by(season: season, game: game, model: team, period: @period)
           end
         end
 
@@ -35,7 +35,7 @@ module Builder
               puts "#{player.id} #{player.name} Created"
             end
             starter = index <= 6
-            stat = ::Stat.find_or_create_by(season: season, game: game, model: player, starter: starter, period: @period)
+            stat = ::Stat.game_find_or_create_by(season: season, game: game, model: player, starter: starter, period: @period)
             next if row.size == 1
             stat_data = ROW_INDICES.map do |stat, index|
               text = row[index].text
@@ -45,7 +45,7 @@ module Builder
             stat.update(Hash[stat_data])
             stat
           end
-          return rows
+          return rows.compact
         end
 
         def create_rows(data)

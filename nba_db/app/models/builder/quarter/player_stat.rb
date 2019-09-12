@@ -1,13 +1,14 @@
 module Builder
   module Quarter
     class PlayerStat
-      UPDATE_ATTR = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
-      attr_accessor :sp, :time
+      UPDATE_ATTR = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts, :starter]
+      attr_accessor :sp, :time, :starter
       def initialize(player)
-        @player = player
         @time = 0
+        @player = player
         UPDATE_ATTR.each do |attr|
-          set_property(attr, 0)
+          value = attr == :starter ? false : 0
+          set_property(attr, value)
         end
       end
 

@@ -5,7 +5,7 @@ class Stat < ApplicationRecord
   belongs_to :team, -> { includes(:stats).where(stats: { model_type: 'Team' }) }, foreign_key: :model_id, optional: true
   belongs_to :player, -> { includes(:stats).where(stats: { model_type: 'Player' }) }, foreign_key: :model_id, optional: true
 
-  REFERENCE_STATS = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
+  DATA_STATS = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
   TOTAL_STATS = [:id, :sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts, :ortg, :drtg]
   extend StatHelper
   def player
@@ -16,11 +16,6 @@ class Stat < ApplicationRecord
   def team
     return player.team if model_type == 'Player'
     super
-  end
-
-  def build_model(stats)
-    model_type = stats.first.model_type
-    return self.new(sum_stats(stats.map(&:stat_container)).merge({ model_type: model_type }))
   end
 
   def self.game_stats(query={})
@@ -43,7 +38,7 @@ class Stat < ApplicationRecord
     return Stat.find_or_create_by(attributes.merge(season_stat: true))
   end
 
-  def self.prev_find_or_create_by(games_back, attributes)
+  def self.games_back_find_or_create_by(games_back, attributes)
     return Stat.find_or_create_by(attributes.merge(season_stat: false, games_back: games_back))
   end
 
@@ -61,12 +56,12 @@ class Stat < ApplicationRecord
     return stats.where(model: model)
   end
 
-  def prev_stats
+  def games_back_stats
     return model_stats.where("game_id < #{game_id}").order(game_id: :desc)
   end
 
-  def prev_ranged_stats(poss_percent, range)
-    return prev_stats.where("poss_percent < #{poss_percent + range} AND poss_percent > #{poss_percent - range}")
+  def games_back_ranged_stats(poss_percent, range)
+    return games_back_stats.where("poss_percent < #{poss_percent + range} AND poss_percent > #{poss_percent - range}")
   end
 
   def name
@@ -96,8 +91,8 @@ class Stat < ApplicationRecord
     return hash
   end
 
-  def reference_hash
-    return Hash[self.attributes.map{|key, value| [key.to_sym, value]}.select{|key, value| REFERENCE_STATS.include?(key)}]
+  def data_hash
+    return Hash[self.attributes.map{|key, value| [key.to_sym, value]}.select{|key, value| DATA_STATS.include?(key)}]
   end
 
   def mp

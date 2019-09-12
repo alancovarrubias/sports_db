@@ -2,8 +2,9 @@ module Builder
   class Database
     attr_reader :year, :season, :teams, :players, :games
     include BasketballReference
-    def initialize(year)
+    def initialize(year, games_back=10)
       @year = year
+      @games_back = games_back
       @season = ::Season.find_by_year(year)
       if @season
         @teams = @season.teams
@@ -13,12 +14,15 @@ module Builder
     end
 
     def build
+=begin
       build_seasons
       build_teams
       build_players
       build_games
+=end
       build_game_stats
       build_quarter_stats
+      build_games_back_stats(@games_back)
 =begin
       build_ratings
       build_bets
@@ -63,6 +67,10 @@ module Builder
     def build_quarter_stats(games=nil)
       games = games ? games : @games
       Builder::Quarter::Builder.build(@season, games)
+    end
+
+    def build_games_back_stats(games_back)
+      Builder::Stats::Builder.build(@season, games_back)
     end
 
     def build_ratings

@@ -22,7 +22,7 @@ module Builder
               build_stat(team, player_stats, field, type)
             end
 =end
-            player_stats = @game.send("game_#{field}_player_stats", @period).map(&:stat_container)
+            player_stats = @game.send("game_#{field}_player_stats", @period).map(&:reference_hash)
             build_stat(team, player_stats)
           end
         # end

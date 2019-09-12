@@ -7,7 +7,7 @@ class Stat < ApplicationRecord
 
   REFERENCE_STATS = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
   TOTAL_STATS = [:id, :sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts, :ortg, :drtg]
-
+  extend StatHelper
   def player
     return if model_type == 'Team'
     super
@@ -22,6 +22,7 @@ class Stat < ApplicationRecord
     model_type = stats.first.model_type
     return self.new(sum_stats(stats.map(&:stat_container)).merge({ model_type: model_type }))
   end
+
   def self.game_stats(query={})
     return Stat.where(season_stat: false, games_back: nil).where(query)
   end
@@ -30,7 +31,7 @@ class Stat < ApplicationRecord
     return Stat.where(season_stat: true).where(query)
   end
 
-  def self.prev_stats(games_back, query={})
+  def self.games_back_stats(games_back, query={})
     return Stat.where(season_stat: false, games_back: games_back).where(query)
   end
 
@@ -47,8 +48,8 @@ class Stat < ApplicationRecord
   end
 
   def stats
-    query_hash = { season: season, season_stat: season_stat, period: period }
-    query_hash.merge!({ games_back: games_back }) unless season_stat
+    query_hash = { season: self.season, season_stat: self.season_stat, period: self.period }
+    query_hash.merge!(games_back: self.games_back) unless self.season_stat
     return Stat.where(query_hash)
   end
 

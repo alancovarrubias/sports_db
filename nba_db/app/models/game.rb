@@ -53,7 +53,7 @@ class Game < ApplicationRecord
   end
 
   def period_stats(period=nil)
-    period != nil ? stats.where(period: period) : stats
+    period == nil ? stats : stats.where(period: period)
   end
 
   def game_stats(period=nil)

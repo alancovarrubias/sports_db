@@ -2,7 +2,7 @@ module Builder
   module Quarter
     class QuarterStats
       include StatHelper
-      attr_reader :quarter, :away_player_stats, :home_player_stats
+      attr_reader :quarter, :away_player_stats, :home_player_stats, :away_team_stat, :home_team_stat
       def initialize(quarter, rows)
         @quarter = quarter
         lineups = init_lineups(rows)
@@ -15,7 +15,7 @@ module Builder
 
       private
         def build_team_stats(player_stats)
-          return sum_stats(player_stats)
+          return sum_stats(Stat.reference_hash, player_stats.values.map(&:attributes))
         end
 
         def init_lineups(rows)
@@ -82,8 +82,8 @@ module Builder
               on_floor << row.player1
             end
           end
-          add_sp_to_remaining(away_on_floor, @away_stats)
-          add_sp_to_remaining(home_on_floor, @home_stats)
+          add_sp_to_remaining(away_on_floor, @away_player_stats)
+          add_sp_to_remaining(home_on_floor, @home_player_stats)
         end
 
         def add_sp_to_remaining(on_floor, stats)

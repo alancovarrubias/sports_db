@@ -16,20 +16,20 @@ module Builder
         rows = parse_rows(data)
         return (1..4).map do |quarter|
           quarter_rows, rows = split_rows_to_quarter(rows)
-          PlayerStats.new(quarter, quarter_rows)
+          QuarterStats.new(quarter, quarter_rows)
         end
       end
 
       def save_quarter_stats(season, game, quarter_stats)
         quarter_stats.each do |stats|
           [:away, :home].each do |side|
-            stat.send("#{side}_player_stats").each do |idstr, player_stat|
+            stats.send("#{side}_player_stats").each do |idstr, player_stat|
               player = season.players.find_by_idstr(idstr)
               stat = Stat.game_find_or_create_by(season: season, game: game, model: player, period: stats.quarter)
               stat.update(player_stat.attributes)
             end
             team = game.send("#{side}_team")
-            team_stat = stat.send("#{side}_team_stat")
+            team_stat = stats.send("#{side}_team_stat")
             stat = Stat.game_find_or_create_by(season: season, game: game, model: team, period: stats.quarter)
             stat.update(team_stat)
           end

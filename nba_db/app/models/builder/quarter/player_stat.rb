@@ -1,25 +1,21 @@
 module Builder
   module Quarter
     class PlayerStat
-      UPDATE_ATTR = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts, :starter]
+      DATA_ATTR = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
       attr_accessor :sp, :time, :starter
       def initialize(player)
         @time = 0
         @player = player
-        UPDATE_ATTR.each do |attr|
-          value = attr == :starter ? false : 0
-          set_property(attr, value)
-        end
+        @starter = false
+        DATA_ATTR.each { |attr| set_property(attr, 0) }
       end
 
-      def attributes
-        return Hash[UPDATE_ATTR.map { |attr| [attr, self.get_property(attr)] }]
+      def data_hash
+        return Hash[ DATA_ATTR.map { |attr| [attr, self.get_property(attr)] } ]
       end
 
       def add(stat)
-        stat.each do |key, value|
-          set_property(key, get_property(key) + value)
-        end
+        stat.each { |key, value| { set_property(key, get_property(key) + value) }
       end
 
       def get_property(name)

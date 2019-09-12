@@ -9,15 +9,11 @@ module Builder
         @away_player_stats = init_player_stats(lineups[:away_starters], lineups[:away_roster])
         @home_player_stats = init_player_stats(lineups[:home_starters], lineups[:home_roster])
         populate_player_stats(rows, lineups[:away_on_floor], lineups[:home_on_floor])
-        @away_team_stat = build_team_stats(@away_player_stats)
-        @home_team_stat = build_team_stats(@home_player_stats)
+        @away_team_stat = TeamStat.new(@away_player_stats)
+        @home_team_stat = TeamStat.new(@home_player_stats)
       end
 
       private
-        def build_team_stats(player_stats)
-          return add_stats(Stat.data_hash, player_stats.values.map(&:attributes))
-        end
-
         def init_lineups(rows)
           away_roster = Set.new
           away_starters = Set.new

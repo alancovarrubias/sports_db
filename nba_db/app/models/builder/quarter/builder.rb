@@ -25,7 +25,7 @@ module Builder
           [:away, :home].each do |side|
             stats.send("#{side}_player_stats").each do |idstr, player_stat|
               player = season.players.find_by_idstr(idstr)
-              stat = Stat.game_find_or_create_by(season: season, game: game, model: player, period: stats.quarter)
+              stat = Stat.game_find_or_create_by(season: season, game: game, model: player, period: stats.quarter, starter: player_stat.starter)
               stat.update(player_stat.attributes)
             end
             team = game.send("#{side}_team")

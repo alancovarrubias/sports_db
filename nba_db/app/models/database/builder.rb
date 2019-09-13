@@ -12,7 +12,7 @@ module Database
     end
 
     def run(games_back=10)
-      games_back_stats(games_back)
+      ratings
 =begin
       seasons
       teams
@@ -20,7 +20,7 @@ module Database
       games
       game_stats
       quarter_stats
-      ratings
+      games_back_stats(games_back)
       bets
       lines
 =end

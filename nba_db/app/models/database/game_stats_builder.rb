@@ -23,6 +23,7 @@ module Database
         stat = Stat.game_find_or_create_by(season: season, game: game, model: team, period: @period)
         stat.update(team_stat.data_hash)
       end
+      RatingsBuilder.run(game.game_stats(stats.quarter))
     end
 
     def create_stats(season, team, game, rows)

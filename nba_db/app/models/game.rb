@@ -8,7 +8,6 @@ class Game < ApplicationRecord
 
   FIELDS = ['away', 'home']
   MODELS = ['player', 'team']
-  PERIODS = [0, 1, 2, 3, 4]
   TYPES = ['game', 'season']
 
   def teams
@@ -16,7 +15,7 @@ class Game < ApplicationRecord
   end
   
   def prev_games
-    return Game.where(season: season).where('date < ?', self.date).order(date: :desc)
+    return Game.where(season: self.season).where('date < ?', self.date).order(date: :desc)
   end
 
   FIELDS.each do |field|

@@ -69,7 +69,7 @@ class Stat < ApplicationRecord
   end
 
   def opp
-    return opp ||= (team == game.away_team) ? game.home_team : game.away_team if self.game
+    return opp ||= (self.team == self.game.away_team) ? self.game.home_team : self.game.away_team if self.game
   end
 
   def team_stat

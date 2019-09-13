@@ -11,7 +11,6 @@ module Database
       12 => "1st-half/",
       34 => "2nd-half/"
     }
-    PERIODS = [0, 1, 2, 3, 4]
     def run(season, games, dates)
       @season = season
       dates.each do |date|
@@ -32,7 +31,7 @@ module Database
       games.each_with_index do |game, index|
         spread = spreads[index]
         total = totals[index]
-        line = ::Line.find_or_create_by(game: game, period: period, desc: "opener")
+        line = Line.find_or_create_by(game: game, period: period, desc: "opener")
         line.update(total: total, spread: spread)
       end
     end

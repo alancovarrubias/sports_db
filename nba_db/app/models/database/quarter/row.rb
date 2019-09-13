@@ -1,4 +1,4 @@
-module Builder
+module Database
   module Quarter
     class Row
       attr_reader :time, :text, :play_type, :player1, :player2, :stat1, :stat2, :is_home, :is_away, :same_team

@@ -34,8 +34,8 @@ class Stat < ApplicationRecord
     return Stat.find_or_create_by(attributes.merge(season_stat: false))
   end
 
-  def self.season_find_or_create_by(attributes)
-    return Stat.find_or_create_by(attributes.merge(season_stat: true))
+  def self.season_find_or_create_by(games_back, attributes)
+    return Stat.find_or_create_by(attributes.merge(season_stat: true, games_back: games_back))
   end
 
   def self.games_back_find_or_create_by(games_back, attributes)

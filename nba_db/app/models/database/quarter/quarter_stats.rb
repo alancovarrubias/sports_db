@@ -1,4 +1,4 @@
-module Builder
+module Database
   module Quarter
     class QuarterStats
       include StatHelper
@@ -9,8 +9,8 @@ module Builder
         @away_player_stats = init_player_stats(lineups[:away_starters], lineups[:away_roster])
         @home_player_stats = init_player_stats(lineups[:home_starters], lineups[:home_roster])
         populate_player_stats(rows, lineups[:away_on_floor], lineups[:home_on_floor])
-        @away_team_stat = TeamStat.new(@away_player_stats)
-        @home_team_stat = TeamStat.new(@home_player_stats)
+        @away_team_stat = Stats::TeamStat.new(@away_player_stats.values)
+        @home_team_stat = Stats::TeamStat.new(@home_player_stats.values)
       end
 
       private
@@ -91,7 +91,7 @@ module Builder
 
         def init_player_stats(starters, roster)
           stat_hash = Hash[roster.map do |player|
-            stat = PlayerStat.new(player)
+            stat = Stats::PlayerStat.new(player)
             if starters.include?(player)
               stat.time = 12*60 
               stat.starter = true

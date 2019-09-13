@@ -1,5 +1,5 @@
-module Builder
-  module Quarter
+module Database
+  module Stats
     class PlayerStat
       DATA_ATTR = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
       attr_accessor :sp, :time, :starter
@@ -15,7 +15,7 @@ module Builder
       end
 
       def add(stat)
-        stat.each { |key, value| { set_property(key, get_property(key) + value) }
+        stat.each { |key, value| set_property(key, get_property(key) + value) }
       end
 
       def get_property(name)

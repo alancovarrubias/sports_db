@@ -1,6 +1,4 @@
 module Database
-  def basketball_reference(endpoint)
-    url = "http://www.basketball-reference.com/#{endpoint}"
-    return Nokogiri::HTML(open(url))
-  end
+  PERIODS = [0, 1, 2, 3, 4]
+  QUARTERS = [1, 2, 3, 4]
 end

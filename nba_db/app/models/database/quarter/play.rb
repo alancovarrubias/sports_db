@@ -1,4 +1,4 @@
-module Builder
+module Database
   module Quarter
     class Play
       attr_reader :type, :stat1, :stat2, :same_team

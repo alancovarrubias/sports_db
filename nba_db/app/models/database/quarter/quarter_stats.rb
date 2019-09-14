@@ -88,6 +88,7 @@ module Database
         def init_player_stats(starters, roster)
           stat_hash = Hash[roster.map do |idstr|
             stat = Stat.new
+            stat.time = 0
             if starters.include?(idstr)
               stat.time = 12*60 
               stat.starter = true

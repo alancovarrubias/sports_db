@@ -3,7 +3,7 @@ module Database
     LIMIT = nil
     def initialize(year)
       @year = year
-      @season = ::Season.find_by_year(year)
+      @season = Season.find_by_year(year)
       if @season
         @teams = @season.teams
         @players = @season.players
@@ -12,14 +12,14 @@ module Database
     end
 
     def run(games_back=10)
+      quarter_stats
+      games_back_stats(games_back)
+=begin
       seasons
       teams
       players
       games
       game_stats
-      quarter_stats
-      games_back_stats(games_back)
-=begin
       bets
       lines
 =end

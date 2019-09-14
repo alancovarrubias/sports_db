@@ -2,7 +2,7 @@ module Database
   module GamesBackStatsBuilder
     extend self
     def run(season, games, games_back)
-      period_stores = Hash[PERIODS.map { |period| [period, Stats::Store.new(Stat.data_hash, games_back)] }]
+      period_stores = Hash[PERIODS.map { |period| [period, Stats::Store.new(games_back)] }]
       games.each do |game|
         puts "Build Games Back Stats Game: #{game.id}"
         PERIODS.each do |period|
@@ -17,7 +17,7 @@ module Database
               season_stat = Stat.season_find_or_create_by(season_count, season: season, game: game, model: team_stat.model, period: period)
               season_stat.update(store.season_stat(key))
             end
-            if store.games_back_list(key).size == games_back
+            if store.games_back_list_size(key) == games_back
               games_back_stat = Stat.games_back_find_or_create_by(games_back, season: season, game: game, model: team_stat.model, period: period)
               games_back_stat.update(store.games_back_stat(key))
             end
@@ -31,7 +31,7 @@ module Database
               season_stat = Stat.season_find_or_create_by(season_count, season: season, game: game, model: player_stat.model, period: period)
               season_stat.update(store.season_stat(key).merge(starter: player_stat.starter))
             end
-            if store.games_back_list(key).size == games_back
+            if store.games_back_list_size(key) == games_back
               games_back_stat = Stat.games_back_find_or_create_by(games_back, season: season, game: game, model: player_stat.model, period: period)
               games_back_stat.update(store.games_back_stat(key).merge(starter: player_stat.starter))
             end

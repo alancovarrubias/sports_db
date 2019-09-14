@@ -1,27 +1,25 @@
 module Database
   module Stats
     class Store
-      include StatHelper
-      def initialize(initial_stat, games_back_length)
+      def initialize(games_back)
         @store = {}
-        @initial_stat = initial_stat
-        @games_back_length = games_back_length
+        @games_back = games_back
       end
 
       def init_key(key)
-        @store[key] = { season_stat: @initial_stat, games_back_stat: @initial_stat, games_back_list: [], season_stat_count: 0 } unless @store[key]
+        @store[key] = { season_stat: Stat.new, games_back_stat: Stat.new, games_back_list: [], season_stat_count: 0 } unless @store[key]
       end
 
       def season_stat(key)
-        return @store[key][:season_stat]
+        return @store[key][:season_stat].data_hash
       end
 
       def games_back_stat(key)
-        return @store[key][:games_back_stat]
+        return @store[key][:games_back_stat].data_hash
       end
 
-      def games_back_list(key)
-        return @store[key][:games_back_list]
+      def games_back_list_size(key)
+        return @store[key][:games_back_list].size
       end
 
       def season_stat_count(key)
@@ -31,13 +29,12 @@ module Database
       def add(key, stat)
         key_data = @store[key]
         key_data[:games_back_list] << stat
-        key_data[:season_stat] = add_stat(key_data[:season_stat], stat)
-        games_back_stat = add_stat(key_data[:games_back_stat], stat)
-        if key_data[:games_back_list].length > @games_back_length
-          games_back_stat = subtract_stat(games_back_stat, key_data[:games_back_list].first)
+        key_data[:season_stat].add(stat)
+        key_data[:games_back_stat].add(stat)
+        if key_data[:games_back_list].length > @games_back
+          key_data[:games_back_stat].subtract(key_data[:games_back_list].first)
           key_data[:games_back_list].shift
         end
-        key_data[:games_back_stat] = games_back_stat
         key_data[:season_stat_count] += 1
       end
     end

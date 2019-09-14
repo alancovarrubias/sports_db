@@ -22,12 +22,12 @@ module Database
     def save_quarter_stats(season, game, quarter_stats)
       quarter_stats.each do |stats|
         [:away, :home].each do |side|
+          team = game.send("#{side}_team")
           stats.send("#{side}_player_stats").each do |idstr, player_stat|
-            player = season.players.find_by_idstr(idstr)
+            player = season.players.find_by(idstr: idstr, team: team)
             stat = Stat.game_find_or_create_by(season: season, game: game, model: player, period: stats.quarter, starter: player_stat.starter)
             stat.update(player_stat.data_hash)
           end
-          team = game.send("#{side}_team")
           team_stat = stats.send("#{side}_team_stat")
           stat = Stat.game_find_or_create_by(season: season, game: game, model: team, period: stats.quarter)
           stat.update(team_stat.data_hash)

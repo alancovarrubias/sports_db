@@ -120,7 +120,6 @@ ActiveRecord::Schema.define(version: 20181115042324) do
     t.float "ortg", default: 0.0
     t.float "drtg", default: 0.0
     t.float "drtg_diff", default: 0.0
-    t.boolean "calc", default: false
     t.index ["game_id"], name: "index_stats_on_game_id"
     t.index ["model_type", "model_id"], name: "index_stats_on_model_type_and_model_id"
     t.index ["season_id"], name: "index_stats_on_season_id"

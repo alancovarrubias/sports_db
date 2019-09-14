@@ -3,7 +3,6 @@ module Database
     extend self
     def run(stats)
       stats.each do |stat|
-        puts "Stat Update #{stat.id}"
         ortg = stat.calc_ortg
         drtg = stat.calc_drtg
         poss_percent = stat.calc_poss_percent

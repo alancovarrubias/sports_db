@@ -1,7 +1,6 @@
 module Database
   module Quarter
     class QuarterStats
-      include StatHelper
       attr_reader :quarter, :away_player_stats, :home_player_stats, :away_team_stat, :home_team_stat
       def initialize(quarter, rows)
         @quarter = quarter
@@ -9,18 +8,15 @@ module Database
         @away_player_stats = init_player_stats(lineups[:away_starters], lineups[:away_roster])
         @home_player_stats = init_player_stats(lineups[:home_starters], lineups[:home_roster])
         populate_player_stats(rows, lineups[:away_on_floor], lineups[:home_on_floor])
-        @away_team_stat = Stats::TeamStat.new(@away_player_stats.values)
-        @home_team_stat = Stats::TeamStat.new(@home_player_stats.values)
+        @away_team_stat = Stat.new
+        @home_team_stat = Stat.new
+        @away_team_stat.add(@away_player_stats.values.map(&:data_hash))
+        @home_team_stat.add(@home_player_stats.values.map(&:data_hash))
       end
 
       private
         def init_lineups(rows)
-          away_roster = Set.new
-          away_starters = Set.new
-          away_bench = Set.new
-          home_roster = Set.new
-          home_starters = Set.new
-          home_bench = Set.new
+          away_roster, away_starters, away_bench, home_roster, home_starters, home_bench = [Set.new, Set.new, Set.new, Set.new, Set.new, Set.new]
           rows.each do |row|
             roster = row.is_away ? away_roster : home_roster
             opp_roster = row.is_away ? home_roster : away_roster
@@ -90,13 +86,13 @@ module Database
         end
 
         def init_player_stats(starters, roster)
-          stat_hash = Hash[roster.map do |player|
-            stat = Stats::PlayerStat.new(player)
-            if starters.include?(player)
+          stat_hash = Hash[roster.map do |idstr|
+            stat = Stat.new
+            if starters.include?(idstr)
               stat.time = 12*60 
               stat.starter = true
             end
-            [player, stat]
+            [idstr, stat]
           end]
           return stat_hash
         end

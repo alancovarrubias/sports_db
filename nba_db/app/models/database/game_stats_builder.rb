@@ -2,7 +2,6 @@ module Database
   module GameStatsBuilder
     extend self
     extend BasketballReference
-    extend StatHelper
     ROW_INDICES = { sp: 1, fgm: 2, fga: 3, thpm: 5, thpa: 6, ftm: 8, fta: 9, orb: 11, drb: 12, ast: 14, stl: 15, blk: 16, tov: 17, pf: 18, pts: 19 }
     def run(season, games)
       @period = 0
@@ -19,11 +18,11 @@ module Database
         create_stats(season, team, game, rows)
       end
       team_player_stats.zip(game.teams).each do |player_stats, team|
-        team_stat = Stats::TeamStat.new(player_stats)
-        stat = Stat.game_find_or_create_by(season: season, game: game, model: team, period: @period)
-        stat.update(team_stat.data_hash)
+        team_stat = Stat.game_find_or_create_by(season: season, game: game, model: team, period: @period)
+        team_stat.add(player_stats)
+        team_stat.save
       end
-      RatingsBuilder.run(game.game_stats(stats.quarter))
+      RatingsBuilder.run(game.game_stats(@period))
     end
 
     def create_stats(season, team, game, rows)
@@ -43,7 +42,7 @@ module Database
           [stat, data]
         end
         stat.update(Hash[stat_data])
-        stat
+        stat.data_hash
       end
       return rows.compact
     end

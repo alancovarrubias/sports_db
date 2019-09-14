@@ -1,6 +1,6 @@
 module Database
   class Builder
-    LIMIT = 500
+    LIMIT = nil
     def initialize(year)
       @year = year
       @season = ::Season.find_by_year(year)
@@ -12,8 +12,6 @@ module Database
     end
 
     def run(games_back=10)
-      ratings
-=begin
       seasons
       teams
       players
@@ -21,6 +19,7 @@ module Database
       game_stats
       quarter_stats
       games_back_stats(games_back)
+=begin
       bets
       lines
 =end
@@ -67,20 +66,6 @@ module Database
     def games_back_stats(games_back, games=nil)
       games = games ? games : @games
       GamesBackStatsBuilder.run(@season, games.limit(LIMIT), games_back)
-    end
-
-    def ratings
-      loop do
-        stats = Stat.where(season: @season, calc: false).limit(LIMIT)
-        break if stats.empty?
-        RatingsBuilder.run(stats)
-      end
-=begin
-      loop do
-        team_stats = ::Stat.where("season_id = #{@season.id} AND model_type = 'Team' AND drtg_diff = 0.0").limit(100)
-        StatsDrtgDiff.run(team_stats, 0)
-      end
-=end
     end
 
     def bets(games=nil)

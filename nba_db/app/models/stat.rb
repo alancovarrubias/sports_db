@@ -1,13 +1,13 @@
 class Stat < ApplicationRecord
+  extend StatQueryHelper
+  DATA_STATS = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
+  attr_accessor :time
   belongs_to :season
   belongs_to :game
   belongs_to :model, polymorphic: true
   belongs_to :team, -> { includes(:stats).where(stats: { model_type: 'Team' }) }, foreign_key: :model_id, optional: true
   belongs_to :player, -> { includes(:stats).where(stats: { model_type: 'Player' }) }, foreign_key: :model_id, optional: true
 
-  DATA_STATS = [:sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts]
-  TOTAL_STATS = [:id, :sp, :fgm, :fga, :thpm, :thpa, :ftm, :fta, :orb, :drb, :ast, :stl, :blk, :tov, :pf, :pts, :ortg, :drtg]
-  extend StatHelper
   def player
     return if model_type == 'Team'
     super
@@ -16,30 +16,6 @@ class Stat < ApplicationRecord
   def team
     return player.team if model_type == 'Player'
     super
-  end
-
-  def self.game_stats(query={})
-    return Stat.where(season_stat: false, games_back: nil).where(query)
-  end
-
-  def self.season_stats(query={})
-    return Stat.where(season_stat: true).where(query)
-  end
-
-  def self.games_back_stats(games_back, query={})
-    return Stat.where(season_stat: false, games_back: games_back).where(query)
-  end
-
-  def self.game_find_or_create_by(attributes)
-    return Stat.find_or_create_by(attributes.merge(season_stat: false))
-  end
-
-  def self.season_find_or_create_by(games_back, attributes)
-    return Stat.find_or_create_by(attributes.merge(season_stat: true, games_back: games_back))
-  end
-
-  def self.games_back_find_or_create_by(games_back, attributes)
-    return Stat.find_or_create_by(attributes.merge(season_stat: false, games_back: games_back))
   end
 
   def stats
@@ -82,17 +58,18 @@ class Stat < ApplicationRecord
     return @opp_stat
   end
 
-  def total_hash
-    hash = Hash[self.attributes.map{|key, value| [key.to_sym, value]}.select{|key, value| TOTAL_STATS.include?(key)}]
-    hash[:name] = self.name
-    hash[:mp] = (self.sp / 60.0).round(2)
-    hash[:ortg] = hash[:ortg].round(2)
-    hash[:drtg] = hash[:drtg].round(2)
-    return hash
+  def add(stats)
+    stats = stats.class == Array ? stats : [stats]
+    stats.each { |stat| stat.each { |key, value| self.send("#{key}=", self.send(key) + value) } }
+  end
+
+  def subtract(stats)
+    stats = stats.class == Array ? stats : [stats]
+    stats.each { |stat| stat.each { |key, value| self.send("#{key}=", self.send(key) - value) } }
   end
 
   def data_hash
-    return Hash[self.attributes.map{|key, value| [key.to_sym, value]}.select{|key, value| DATA_STATS.include?(key)}]
+    return Hash[DATA_STATS.map {|stat| [stat, self.send(stat)]}]
   end
 
   def mp

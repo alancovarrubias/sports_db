@@ -14,11 +14,11 @@ module Database
             store.init_key(key)
             season_count = store.season_stat_count(key)
             if season_count > 0
-              season_stat = Stat.season_find_or_create_by(season_count, season: season, game: game, model: stat.model, period: period)
+              season_stat = Stat.season_find_or_create_by(season: season, game: game, model: stat.model, period: period, games_back: season_count)
               season_stat.update(store.season_stat(key))
             end
             if store.games_back_list_size(key) == games_back
-              games_back_stat = Stat.games_back_find_or_create_by(games_back, season: season, game: game, model: stat.model, period: period)
+              games_back_stat = Stat.games_back_find_or_create_by(season: season, game: game, model: stat.model, period: period, games_back: games_back)
               games_back_stat.update(store.games_back_stat(key))
             end
             store.add(key, stat.data_hash)

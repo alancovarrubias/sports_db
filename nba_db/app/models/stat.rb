@@ -18,18 +18,18 @@ class Stat < ApplicationRecord
     super
   end
 
-  def stats
+  def self_stats
     query_hash = { season: self.season, season_stat: self.season_stat, period: self.period }
     query_hash.merge!(games_back: self.games_back) unless self.season_stat
     return Stat.where(query_hash)
   end
 
   def game_stats
-    return stats.where(game: game)
+    return self_stats.where(game: game)
   end
 
   def model_stats
-    return stats.where(model: model)
+    return self_stats.where(model: model)
   end
 
   def prev_stats
@@ -40,12 +40,9 @@ class Stat < ApplicationRecord
     return prev_stats.where("poss_percent < #{poss_percent + range} AND poss_percent > #{poss_percent - range}")
   end
 
-  def name
-    return model.name
-  end
-
-  def opp
-    return opp ||= (self.team == self.game.away_team) ? self.game.home_team : self.game.away_team if self.game
+  def opp_team
+    @opp_team ||= (self.team == self.game.away_team) ? self.game.home_team : self.game.away_team if self.game
+    return @opp_team
   end
 
   def team_stat
@@ -53,9 +50,9 @@ class Stat < ApplicationRecord
     return @team_stat
   end
 
-  def opp_stat
-    @opp_stat ||= game_stats.find_by(model: self.opp) if self.game
-    return @opp_stat
+  def opp_team_stat
+    @opp_team_stat ||= game_stats.find_by(model: self.opp_team) if self.game
+    return @opp_team_stat
   end
 
   def add(stats)
@@ -83,8 +80,8 @@ class Stat < ApplicationRecord
   end
 
   def method_missing(method, *args, &block)
-    @stat_proxy ||= Stats::Player.new(self, team_stat, opp_stat) if model_type == 'Player'
-    @stat_proxy ||= Stats::Team.new(self, opp_stat) if model_type == 'Team'
+    @stat_proxy ||= Stats::Player.new(self, self.team_stat, self.opp_team_stat) if model_type == 'Player'
+    @stat_proxy ||= Stats::Team.new(self, self.opp_team_stat) if model_type == 'Team'
     return @stat_proxy.send(method, *args)
   end
 end

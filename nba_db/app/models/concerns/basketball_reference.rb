@@ -24,7 +24,7 @@ module BasketballReference
   def player_attr(element)
     name, abbr = parse_name(element)
     idstr = parse_idstr(element)
-    return {name: name, abbr: abbr, idstr: idstr}
+    return { name: name, abbr: abbr, idstr: idstr }
   end
 
   def parse_name(element)

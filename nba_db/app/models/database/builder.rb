@@ -63,19 +63,18 @@ module Database
       QuarterStatsBuilder.run(@season, games)
     end
 
-    def games_back_stats(games_back, games=nil)
-      games = games ? games : @games
-      GamesBackStatsBuilder.run(@season, games, games_back)
+    def games_back_stats(games_back)
+      GamesBackStatsBuilder.run(@season, games_back)
     end
 
     def bets(games=nil)
-      @games = games ? games : @games
-      BetBuilder.run(@games.where("id > 300").order(id: :asc))
+      games = games ? games : @games
+      BetBuilder.run(games)
     end
     
     def lines(games=nil)
-      dates = games ? games.map(&:date).uniq : @games.map(&:date).uniq
-      LineBuilder.run(season, @games, dates)
+      games = games ? games : @games
+      LineBuilder.run(@season, games)
     end
   end
 end

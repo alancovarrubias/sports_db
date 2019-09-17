@@ -11,8 +11,9 @@ module Database
       12 => "1st-half/",
       34 => "2nd-half/"
     }
-    def run(season, games, dates)
+    def run(season, games)
       @season = season
+      dates = games.map(&:date).uniq
       dates.each do |date|
         PERIODS.each do |period|
           build_line(date, period, games)

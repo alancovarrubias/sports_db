@@ -2,7 +2,7 @@ module Database
   module GamesBackStatsBuilder
     extend self
     def run(season, games, games_back)
-      period_stores = Hash[PERIODS.map { |period| [period, Stats::Store.new(games_back)] }]
+      period_stores = Hash[PERIODS.map { |period| [period, GamesBack::Store.new(games_back)] }]
       games.each do |game|
         puts "Build Games Back Stats Game: #{game.id}"
         PERIODS.each do |period|
@@ -22,6 +22,8 @@ module Database
             end
             store.add(key, stat.data_hash)
           end
+          RatingsBuilder.run(game.season_stats(period))
+          RatingsBuilder.run(game.games_back_stats(games_back, period))
         end
       end
     end

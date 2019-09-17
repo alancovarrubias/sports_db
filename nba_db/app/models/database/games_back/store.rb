@@ -1,5 +1,5 @@
 module Database
-  module Stats
+  module GamesBack
     class Store
       def initialize(games_back)
         @store = {}

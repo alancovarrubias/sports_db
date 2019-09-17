@@ -32,12 +32,12 @@ class Stat < ApplicationRecord
     return stats.where(model: model)
   end
 
-  def games_back_stats
+  def prev_stats
     return model_stats.where("game_id < #{game_id}").order(game_id: :desc)
   end
 
-  def games_back_ranged_stats(poss_percent, range)
-    return games_back_stats.where("poss_percent < #{poss_percent + range} AND poss_percent > #{poss_percent - range}")
+  def prev_ranged_stats(poss_percent, range)
+    return prev_stats.where("poss_percent < #{poss_percent + range} AND poss_percent > #{poss_percent - range}")
   end
 
   def name

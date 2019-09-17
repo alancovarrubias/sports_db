@@ -12,16 +12,16 @@ module Database
     end
 
     def run(games_back=10)
-      quarter_stats
-      games_back_stats(games_back)
+      bets
+      lines
 =begin
       seasons
       teams
       players
       games
       game_stats
-      bets
-      lines
+      quarter_stats
+      games_back_stats(games_back)
 =end
     end
 
@@ -55,27 +55,27 @@ module Database
 
     def game_stats(games=nil)
       games = games ? games : @games
-      GameStatsBuilder.run(@season, games.limit(LIMIT))
+      GameStatsBuilder.run(@season, games)
     end
 
     def quarter_stats(games=nil)
       games = games ? games : @games
-      QuarterStatsBuilder.run(@season, games.limit(LIMIT))
+      QuarterStatsBuilder.run(@season, games)
     end
 
     def games_back_stats(games_back, games=nil)
       games = games ? games : @games
-      GamesBackStatsBuilder.run(@season, games.limit(LIMIT), games_back)
+      GamesBackStatsBuilder.run(@season, games, games_back)
     end
 
     def bets(games=nil)
       @games = games ? games : @games
-      BetBuilder.run(@games.select { |game| game.bets.size != 5 })
+      BetBuilder.run(@games.where("id > 300").order(id: :asc))
     end
     
     def lines(games=nil)
       dates = games ? games.map(&:date).uniq : @games.map(&:date).uniq
-      LinesBuilder.run(season, @games, dates)
+      LineBuilder.run(season, @games, dates)
     end
   end
 end

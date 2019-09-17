@@ -8,6 +8,7 @@ module Database
     end
 
     def build_bet(game, period)
+      puts "Bet #{game.url} #{game.id} Period #{period}"
       algorithm = Algorithm::Old.new(game, period)
       away_prediction, home_prediction = algorithm.predict_score(10)
       away_score = game.game_away_team_stat(period).pts

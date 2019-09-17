@@ -8,7 +8,7 @@ module BasketballReference
     return false
   rescue Net::ReadTimeout => e
     retry
-  rescue Errno::ETimeout => e
+  rescue Errno::ETIMEDOUT => e
     sleep 5
     retry
   rescue Net::OpenTimeout => e

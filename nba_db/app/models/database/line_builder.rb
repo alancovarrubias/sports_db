@@ -1,5 +1,5 @@
 module Database
-  module LinesBuilder
+  module LineBuilder
     extend self
     extend SportsBookReview
     URL_PATH = {

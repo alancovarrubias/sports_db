@@ -16,15 +16,13 @@ class Game < ApplicationRecord
       return self.game_away_team_stat(period)
     elsif self.home_team == team
       return self.game_home_team_stat(period)
-    else
-      return nil
     end
   end
 
   def latest_team_season_stats
     teams = season.teams
     return Hash[teams.map do |team|
-      stat = Stat.season_stats().where('game_id < ?', game.id).order('game_id DESC').first
+      stat = Stat.season_stats().where('game_id < ?', game.id).order(game_id: :desc).first
       [team, stat]
     end]
   end

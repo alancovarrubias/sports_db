@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20181115042324) do
   end
 
   create_table "bets", id: :serial, force: :cascade do |t|
+    t.integer "season_id"
     t.integer "game_id"
     t.string "desc"
     t.integer "period"
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(version: 20181115042324) do
     t.float "away_score"
     t.float "home_score"
     t.index ["game_id"], name: "index_bets_on_game_id"
+    t.index ["season_id"], name: "index_bets_on_season_id"
   end
 
   create_table "games", id: :serial, force: :cascade do |t|

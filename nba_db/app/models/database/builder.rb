@@ -12,7 +12,6 @@ module Database
     end
 
     def run(games_back=10)
-      bets
       lines
 =begin
       seasons
@@ -22,6 +21,7 @@ module Database
       game_stats
       quarter_stats
       games_back_stats(games_back)
+      bets
 =end
     end
 
@@ -69,7 +69,7 @@ module Database
 
     def bets(games=nil)
       games = games ? games : @games
-      BetBuilder.run(games)
+      BetBuilder.run(@season, games)
     end
     
     def lines(games=nil)

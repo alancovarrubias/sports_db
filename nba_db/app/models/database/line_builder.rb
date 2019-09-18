@@ -39,7 +39,7 @@ module Database
 
     def get_line_data(type, path, css, date_games)
       doc = sports_book_review(path)
-      team_css = ".3O1Gx"
+      team_css = "._3O1Gx"
       team_data = doc.css(team_css).map do |element|
         get_team(element.text)
       end

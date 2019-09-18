@@ -8,7 +8,7 @@ module Database
         puts "Build Games Back Stats Game: #{game.id}"
         PERIODS.each do |period|
           store = period_stores[period]
-          stats = game.game_team_stats(period) + game.game_player_stats(period)
+          stats = game.game_team_stats(period: period) + game.game_player_stats(period: period)
           stats.each do |stat| 
             key = stat.model_type == "Team" ? stat.model.abbr : stat.model.idstr
             store.init_key(key)
@@ -23,9 +23,9 @@ module Database
             end
             store.add(key, stat.data_hash)
           end
-          RatingsBuilder.run(game.season_stats(period))
-          RatingsBuilder.run(game.games_back_stats(games_back, period))
         end
+        RatingsBuilder.run(game.season_stats())
+        RatingsBuilder.run(game.games_back_stats(games_back: games_back))
       end
     end
   end

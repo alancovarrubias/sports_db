@@ -12,8 +12,8 @@ module Database
       PERIODS.each do |period|
         algorithm = Algorithm::Old.new(game, period)
         away_prediction, home_prediction = algorithm.predict_score(10)
-        away_score = game.game_away_team_stat(period).pts
-        home_score = game.game_home_team_stat(period).pts
+        away_score = game.game_away_team_stat(period: period).pts
+        home_score = game.game_home_team_stat(period: period).pts
         bet = Bet.find_or_create_by(season: season, game: game, period: period, desc: "old")
         bet.update(
           away_score: away_score, home_score: home_score,

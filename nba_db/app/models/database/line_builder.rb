@@ -32,7 +32,7 @@ module Database
       games.each_with_index do |game, index|
         spread = spreads[index]
         total = totals[index]
-        line = Line.find_or_create_by(game: game, period: period, desc: "opener")
+        line = Line.find_or_create_by(season: @season, game: game, period: period, desc: "opener")
         line.update(total: total, spread: spread)
       end
     end

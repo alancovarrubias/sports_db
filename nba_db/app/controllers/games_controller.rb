@@ -6,7 +6,13 @@ class GamesController < ApiController
   def index
     @games = @season.games.where("date < ?", Date.today)
     @teams = @season.teams
-    render json: { season: @season, teams: @teams, games: @games }
+    @lines  = @season.lines
+    @bets = @season.bets.map do |bet|
+      away_prediction = bet.away_prediction ? bet.away_prediction.round(2) : "N/A"
+      home_prediction = bet.home_prediction ? bet.home_prediction.round(2) : "N/A"
+      bet.attributes.merge(away_prediction: away_prediction, home_prediction: home_prediction)
+    end
+    render json: { season: @season, teams: @teams, games: @games, lines: @lines, bets: @bets }
   end
 
   # GET /games/1

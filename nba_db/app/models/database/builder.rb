@@ -12,8 +12,6 @@ module Database
     end
 
     def run(games_back=10)
-      lines
-=begin
       seasons
       teams
       players
@@ -22,7 +20,7 @@ module Database
       quarter_stats
       games_back_stats(games_back)
       bets
-=end
+      lines
     end
 
     def daily_update

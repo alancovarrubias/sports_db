@@ -70,12 +70,14 @@ ActiveRecord::Schema.define(version: 20181115042324) do
   end
 
   create_table "lines", id: :serial, force: :cascade do |t|
+    t.integer "season_id"
     t.integer "game_id"
     t.string "desc"
     t.integer "period"
     t.float "spread"
     t.float "total"
     t.index ["game_id"], name: "index_lines_on_game_id"
+    t.index ["season_id"], name: "index_lines_on_season_id"
   end
 
   create_table "players", id: :serial, force: :cascade do |t|

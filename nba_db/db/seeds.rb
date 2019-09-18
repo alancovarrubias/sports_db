@@ -1,3 +1,3 @@
-year = 2019
+year = 2017
 builder = Database::Builder.new(year)
-builder.run
+builder.lines

@@ -8,8 +8,8 @@ module Algorithm
     def predict_score(games_back)
       return if @game.prev_away_games.size < games_back || @game.prev_home_games.size < games_back
       possessions = predict_possessions(games_back) / 100
-      away_player_stats = @game.game_away_player_stats(@period)
-      home_player_stats = @game.game_home_player_stats(@period)
+      away_player_stats = @game.game_away_player_stats(period: @period)
+      home_player_stats = @game.game_home_player_stats(period: @period)
       away_team_ortg = predict_team_ortg(away_player_stats)
       home_team_ortg = predict_team_ortg(home_player_stats)
       away_score = away_team_ortg * possessions
@@ -18,13 +18,13 @@ module Algorithm
     end
 
     def predict_possessions(games_back)
-      away_team_season = @game.season_away_team_stat(@period)
-      home_team_season = @game.season_home_team_stat(@period)
+      away_team_season = @game.season_away_team_stat(period: @period)
+      home_team_season = @game.season_home_team_stat(period: @period)
       away_team_season_poss = away_team_season.tot_poss/away_team_season.games_back
       home_team_season_poss = home_team_season.tot_poss/home_team_season.games_back
 
-      away_team_games_back = @game.games_back_away_team_stat(games_back, @period)
-      home_team_games_back = @game.games_back_home_team_stat(games_back, @period)
+      away_team_games_back = @game.games_back_away_team_stat(games_back: games_back, period: @period)
+      home_team_games_back = @game.games_back_home_team_stat(games_back: games_back, period: @period)
       away_team_games_back_poss = away_team_games_back.tot_poss/games_back
       home_team_games_back_poss = home_team_games_back.tot_poss/games_back
 

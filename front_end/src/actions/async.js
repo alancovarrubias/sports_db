@@ -25,10 +25,12 @@ const fetchSeasons = (actions) => async (dispatch, getState) => {
 
 const fetchGames = (actions) => async (dispatch, getState) => {
   const response = await api.fetchGames(getState())
-  const { season, teams, games } = await response.json()
+  const { season, teams, games, bets, lines } = await response.json()
   dispatch(actions.createSeason(season))
   dispatch(actions.createTeams(teams))
   dispatch(actions.createGames(games))
+  dispatch(actions.createBets(bets))
+  dispatch(actions.createLines(lines))
 }
 
 const fetchStats = (actions) => async (dispatch, getState) => {

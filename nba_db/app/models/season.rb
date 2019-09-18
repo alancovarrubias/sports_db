@@ -4,4 +4,5 @@ class Season < ApplicationRecord
   has_many :players, -> { includes(:team).order(:name) }, dependent: :destroy
   has_many :stats, dependent: :destroy
   has_many :bets, dependent: :destroy
+  has_many :lines, dependent: :destroy
 end

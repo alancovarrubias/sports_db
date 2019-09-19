@@ -1,5 +1,5 @@
 export const GAME_HEADERS = [
-  { text: 'Date', width: '16%' },
+  'Date',
   'Away Team',
   'Home Team',
   'Total',

@@ -1,3 +1,3 @@
 year = 2017
 builder = Database::Builder.new(year)
-builder.lines
+builder.bets(builder.games.where("id > 3360"))

@@ -11,12 +11,14 @@ import {
 } from '../selectors'
 
 const mapStateToProps = (state) => {
+  const games = selectGames(state)
+  const bets = games.map(game => ({ ...game.bet, ...game.line }))
   return {
     headers: selectGameHeaders(state),
     keys: selectGameKeys(state),
     season: selectSeason(state),
-    games: selectGames(state),
-    period: 0,
+    games,
+    bets,
   }
 }
 

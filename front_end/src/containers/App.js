@@ -4,6 +4,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { Provider } from 'react-redux'
 
 import configureStore, { history } from '../configureStore'
+import Login from '../containers/Login'
 import Navbar from '../containers/Navbar'
 import Seasons from '../containers/Seasons'
 import Games from '../containers/Games'
@@ -13,7 +14,10 @@ const store = configureStore()
 const App = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <Route path="/" component={Navbar} />
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/" component={Navbar} />
+      </Switch>
       <Switch>
         <Redirect from="/" to="/seasons" exact />
         <Route path="/seasons" component={Seasons} exact />

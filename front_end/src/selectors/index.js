@@ -1,3 +1,4 @@
+export * from './User'
 export * from './Metadata'
 export * from './Season'
 export * from './Game'

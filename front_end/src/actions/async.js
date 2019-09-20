@@ -29,10 +29,8 @@ const fetchGames = (actions) => async (dispatch, getState) => {
   dispatch(actions.createSeason(season))
   dispatch(actions.createTeams(teams))
   dispatch(actions.createGames(games))
-  if (bets && lines) {
-    dispatch(actions.createBets(bets))
-    dispatch(actions.createLines(lines))
-  }
+  dispatch(actions.createBets(bets))
+  dispatch(actions.createLines(lines))
 }
 
 const fetchStats = (actions) => async (dispatch, getState) => {
@@ -71,6 +69,7 @@ const fetchData = (props) => async (dispatch, getState) => {
     }
   }
 }
+
 
 export default {
   ...asyncActions,

@@ -14,14 +14,22 @@ const nbaMetadata = namespaceReducerFactory(NBA)(metadataReducer)
 const mlbMetadata = namespaceReducerFactory(MLB)(metadataReducer)
 
 const sport = handleActions({
-  [actions.selectSport]: (_, { payload: { sport, history } }) => sport,
+  [actions.selectSport]: (_, { payload: { sport } }) => sport,
 }, DEFAULT_SPORT)
 
 const period = handleActions({
   [actions.selectPeriod]: (_, { payload: { period } }) => period,
 }, 0)
 
+const DEFAULT_USER = { username: "", password: "", valid: false }
+const user = handleActions({
+  [actions.changePassword]: (user, { payload: { password } }) => ({ ...user, password }),
+  [actions.changeUsername]: (user, { payload: { username } }) => ({ ...user, username }),
+  [actions.selectUser]: (_, { payload: { user } }) => ({ ...user, valid: true }),
+}, DEFAULT_USER)
+
 const createRootReducer = history => combineReducers({
+  user,
   sport,
   period,
   nbaDatabase,

@@ -88,7 +88,7 @@ class Bets extends Component {
   }
 
   rangeChange = (event) => {
-    const range = event.target.value
+    const range = event.target.value < 0 ? 0 : event.target.value
     this.setState({ range })
   }
 
@@ -140,7 +140,7 @@ class Bets extends Component {
   }
 
   render() {
-    return <BetComponent bet_counts={this.state.bet_counts} range={this.props.range} rangeChange={this.rangeChange} calculate={this.calculate}/>
+    return <BetComponent bet_counts={this.state.bet_counts} range={this.state.range} rangeChange={this.rangeChange} calculate={this.calculate}/>
   }
 }
 

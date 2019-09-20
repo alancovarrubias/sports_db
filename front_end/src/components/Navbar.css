@@ -4,3 +4,7 @@
 select.form-control {
   width: 140px;
 }
+.text-large {
+  font-size: 24px;
+  padding-left: 18px;
+}

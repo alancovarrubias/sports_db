@@ -7,7 +7,9 @@ class GamesController < ApiController
   def index
     @games = @season.games.where("date < ?", Date.today)
     @teams = @season.teams
-    render json: { season: @season, teams: @teams, games: @games }
+    @lines = []
+    @bets = []
+    render json: { season: @season, teams: @teams, games: @games, lines: @lines, bets: @bets }
   end
 
   # GET /games/1

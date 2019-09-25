@@ -12,8 +12,8 @@ module Database
       puts "Game Stat #{game.url} #{game.id}"
       doc = basketball_reference("/boxscores/#{game.url}.html")
       team_player_stats = game.teams.map do |team|
-        abbr = team.abbr.downcase
-        data = doc.css("#box_#{abbr}_basic tbody .right , #box_#{abbr}_basic tbody .left").to_a
+        abbr = team.abbr
+        data = doc.css("#box-#{abbr}-game-basic tbody .right , #box-#{abbr}-game-basic tbody .left").to_a
         rows = create_rows(data)
         create_stats(season, team, game, rows)
       end

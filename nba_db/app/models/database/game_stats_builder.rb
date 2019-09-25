@@ -22,7 +22,7 @@ module Database
         team_stat.add(player_stats)
         team_stat.save
       end
-      RatingsBuilder.run(game.game_stats(@period))
+      RatingsBuilder.run(game.game_stats(period: @period))
     end
 
     def create_stats(season, team, game, rows)

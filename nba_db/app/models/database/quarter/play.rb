@@ -28,7 +28,7 @@ module Database
           turnover
         when /double personal/i
           double_foul
-        when /personal|shooting|charge|loose ball|offensive|away from play|flagrant|clear path|inbound/i
+        when /personal|shooting|charge|loose ball|offensive|away from play|flagrant|clear path|inbound|punching/i
           personal_foul
         when /enters the game/
           sub

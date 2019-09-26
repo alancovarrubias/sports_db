@@ -37,6 +37,7 @@ module Database
     end
 
     def parse_rows(data)
+      prev_time = 720
       rows = []
       until data.empty?
         text = data[1].text.scrub('')
@@ -44,7 +45,13 @@ module Database
         size = data[2].nil? || data[2].text.include?(":") ? 2 : 6
         row = data.shift(size)
         row_data = Quarter::Row.new(row)
-        rows << row_data
+        if row_data.time > prev_time
+          quarter_end = Quarter::Row.new(nil)
+          quarter_end.play_type = :qe
+          rows << quarter_end
+        end
+        prev_time = row_data.time
+        rows << row_data unless row_data.play_type == :qe
       end
       return rows
     end

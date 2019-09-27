@@ -22,16 +22,14 @@ class Game < ApplicationRecord
   def latest_team_season_stats
     teams = season.teams
     return Hash[teams.map do |team|
-      stat = Stat.season_stats().where('game_id < ?', game.id).order(game_id: :desc).first
-      [team, stat]
+      [team, Stat.season_stats(team: team).where("game_id < ?", game.id).order(game_id: :desc).first]
     end]
   end
 
   def latest_team_games_back_stats(games_back)
     teams = season.teams
     return Hash[teams.map do |team|
-      stat = Stat.games_back_stats(games_back: games_back).where('game_id < ?', game.id).order(game_id: :desc).first
-      [team, stat]
+      [team, Stat.games_back_stats(games_back: games_back, team: team).where("game_id < ?", game.id).order(game_id: :desc).first]
     end]
   end
 

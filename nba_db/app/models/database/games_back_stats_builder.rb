@@ -26,6 +26,7 @@ module Database
         end
         RatingsBuilder.run(game.season_stats())
         RatingsBuilder.run(game.games_back_stats(games_back: games_back))
+        OrtgDiffBuilder.new(season, games_back)
       end
     end
   end

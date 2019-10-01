@@ -2,6 +2,8 @@ module Database
   module LineBuilder
     extend self
     extend SportsBookReview
+    TOTAL = "TOTAL"
+    SPREAD = "SPREAD"
     URL_PATH = {
       0 => "",
       1 => "1st-quarter/",
@@ -27,8 +29,8 @@ module Database
       spread_path = "/betting-odds/nba-basketball/pointspread/#{url_path}?date=#{date_str}"; spread_css = "._2cc9d ._3Nv_7"
       total_path = "/betting-odds/nba-basketball/totals/#{url_path}?date=#{date_str}"; total_css = "._2cc9d span"
       date_games = games.where(date: date)
-      games, spreads = get_line_data("spread", spread_path, spread_css, date_games)
-      games, totals = get_line_data("total", total_path, total_css, date_games)
+      games, spreads = get_line_data(SPREAD, spread_path, spread_css, date_games)
+      games, totals = get_line_data(TOTAL, total_path, total_css, date_games)
       games.each_with_index do |game, index|
         spread = spreads[index]
         total = totals[index]
@@ -48,7 +50,7 @@ module Database
         home_team = teams[1]
         date_games.find_by(away_team: away_team, home_team: home_team)
       end
-      slice_size = type == "total" ? 6 : 2
+      slice_size = type == TOTAL ? 6 : 2
       line_data = doc.css(css).each_slice(slice_size)
       missing_indices = game_data.map.with_index do |game, index|
         index unless game
@@ -58,7 +60,8 @@ module Database
         missing_indices.include?(index)
       end
       line_data = line_data.map do |slice|
-        element = slice[1]
+        line_index = type == TOTAL ? 1 : 0
+        element = slice[line_index]
         text = element.text
         get_line_number(type, text) unless text.length == 0
       end
@@ -78,17 +81,19 @@ module Database
     end
 
     def get_line_number(type, text)
-      if type == "total"
-        if text[-1].ord == 189
+      if type == TOTAL
+        if text == "-"
+          return nil
+        elsif text[-1].ord == 189
           return text[0...-1].to_i + 0.5
         else
           return text[0..-1].to_i
         end
-      elsif type == "spread"
+      elsif type == SPREAD
         if text[-1].ord == 189
-          return text[0...-1].to_i.send(text[0], 0.5)
+          return text[0...-1].to_i.send(text[0], 0.5) * -1
         else
-          return text.to_i
+          return text.to_i * -1
         end
       end
     end

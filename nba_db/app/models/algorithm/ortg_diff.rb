@@ -1,0 +1,96 @@
+module Algorithm
+  class OrtgDiff
+    def initialize(game, period)
+      @game = game
+      @period = period
+    end
+
+    def predict_score(games_back)
+      return if @game.prev_away_games.size < games_back || @game.prev_home_games.size < games_back
+      possessions = predict_possessions(games_back) / 100
+      away_player_stats = @game.game_away_player_stats(period: @period)
+      home_player_stats = @game.game_home_player_stats(period: @period)
+      away_team_ortg = predict_team_ortg(away_player_stats)
+      home_team_ortg = predict_team_ortg(home_player_stats)
+      away_team_ortg_diff = predict_team_ortg_diff(@game.away_team, games_back)
+      home_team_ortg_diff = predict_team_ortg_diff(@game.home_team, games_back)
+      away_score = (away_team_ortg - home_team_ortg_diff) * possessions
+      home_score = (home_team_ortg - away_team_ortg_diff) * possessions
+      return away_score, home_score
+    end
+
+    def predict_possessions(games_back)
+      away_team_season = @game.season_away_team_stat(period: @period)
+      home_team_season = @game.season_home_team_stat(period: @period)
+      away_team_season_poss = away_team_season.tot_poss/away_team_season.games_back
+      home_team_season_poss = home_team_season.tot_poss/home_team_season.games_back
+
+      away_team_games_back = @game.games_back_away_team_stat(games_back: games_back, period: @period)
+      home_team_games_back = @game.games_back_home_team_stat(games_back: games_back, period: @period)
+      away_team_games_back_poss = away_team_games_back.tot_poss/games_back
+      home_team_games_back_poss = home_team_games_back.tot_poss/games_back
+
+      away_poss = (away_team_season_poss + away_team_games_back_poss) / 2
+      home_poss = (home_team_season_poss + home_team_games_back_poss) / 2
+      return (away_poss + home_poss) / 2
+    end
+
+    def predict_team_ortg(stats)
+      poss_percent_sum = 0
+      predictions = stats.map do |stat|
+        poss_percent = predict_player_poss_percent(stat)
+        poss_percent_sum += poss_percent
+        ortg = predict_player_ortg(stat, poss_percent)
+        ortg * poss_percent
+      end
+      return predictions.sum / poss_percent_sum
+    end
+
+    def predict_player_poss_percent(stat)
+      prev_stats = stat.prev_stats.limit(10)
+      poss_percent = prev_stats.map(&:poss_percent).sum
+      return prev_stats.size > 0 ? poss_percent/prev_stats.size : 0
+    end
+
+    def predict_player_ortg(stat, predicted_poss_percent)
+      prev_stats = stat.prev_ranged_stats(predicted_poss_percent, 0.05).includes(:player => :team)
+      return 90 if prev_stats.size == 0
+      stats, game_ids, team_ids = previous_stats_data(prev_stats)
+      all_team_stats = Stat.game_stats(period: stat.period, model_type: "Team", game_id: game_ids).order(game_id: :desc)
+      team_stats, opp_stats = split_team_stats(all_team_stats, team_ids)
+      stat = Stats::AggregateStat.new(stats, team_stats, opp_stats)
+      ortg = stat.stat.calc_ortg
+      return ortg
+    end
+
+    def previous_stats_data(prev_stats)
+      minutes = prev_stats.map(&:mp)
+      games_back = 0
+      time_played = 0
+      minutes.each do |minute|
+        games_back += 1
+        time_played += minute
+        break if time_played > 240.0
+      end
+      stats = prev_stats.limit(games_back)
+      game_ids = stats.map(&:game_id)
+      team_ids = stats.map(&:team).map(&:id)
+      return stats, game_ids, team_ids
+    end
+
+    def split_team_stats(all_team_stats, team_ids)
+      team_stats = []
+      opp_stats = []
+      all_team_stats.each_with_index do |stat, index|
+        stat.model_id == team_ids[index/2] ? team_stats << stat : opp_stats << stat
+      end
+      return team_stats, opp_stats
+    end
+
+    def predict_team_ortg_diff(team, games_back)
+      team_season = @game.season_team_stats(period: @period, team: team).first
+      team_games_back = @game.games_back_team_stats(games_back: games_back, period: @period, team: team).first
+      return team_season.ortg_diff * team_games_back.ortg_diff / 2
+    end
+  end
+end

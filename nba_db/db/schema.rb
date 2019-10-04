@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190930213221) do
+ActiveRecord::Schema.define(version: 20191004131209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20190930213221) do
     t.float "ortg", default: 0.0
     t.float "drtg", default: 0.0
     t.float "ortg_diff", default: 0.0
+    t.integer "rest"
     t.index ["game_id"], name: "index_stats_on_game_id"
     t.index ["model_type", "model_id"], name: "index_stats_on_model_type_and_model_id"
     t.index ["season_id"], name: "index_stats_on_season_id"

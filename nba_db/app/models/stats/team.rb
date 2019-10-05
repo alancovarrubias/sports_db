@@ -59,8 +59,5 @@ module Stats
     def calc_drtg
       100 * (opp.pts / team.tot_poss)
     end
-
-    def calc_drtg_diff
-    end
   end
 end

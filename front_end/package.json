@@ -4,7 +4,7 @@
   "proxy": "https://localhost:2000",
   "private": true,
   "dependencies": {
-    "ajv": "^6.10.0",
+    "ajv": "^6.12.3",
     "connected-react-router": "^6.5.2",
     "cross-fetch": "^3.0.2",
     "history": "^4.9.0",
